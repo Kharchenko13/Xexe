@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Статусы группы</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0f0f11;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    h2 {
+      margin: 1.8em 0 0.8em;
+      color: #a0a0ff;
+    }
+    #myInfo {
+      background: #1a1a2e;
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+    .status-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 16px 0;
+    }
+    .status-btn {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .status-btn:hover { opacity: 0.92; transform: translateY(-1px); }
+
+    .green  { background: #22c55e; color: black; }
+    .amber  { background: #f59e0b; color: black; }
+    .blue   { background: #3b82f6; color: white; }
+    .gray   { background: #6b7280; color: white; }
+
+    #groupList {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .user-item {
+      background: #1a1a2e;
+      padding: 14px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .username {
+      font-weight: 600;
+      color: #ddd;
+    }
+    .status-text {
+      color: #94a3b8;
+      font-size: 0.95em;
+    }
+    .error {
+      color: #f87171;
+      font-size: 0.9em;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Мой профиль</h2>
+  <div id="myInfo">Загрузка...</div>
+
+  <div class="status-buttons">
+    <button class="status-btn green"  data-status="Учусь"  data-color="#22c55e">📚 Учусь</button>
+    <button class="status-btn amber"  data-status="Кофе"  data-color="#f59e0b">☕ Кофе</button>
+    <button class="status-btn blue"   data-status="В игре" data-color="#3b82f6">🎮 В игре</button>
+    <button class="status-btn gray"   data-status="Дома"   data-color="#6b7280">🏠 Дома</button>
+  </div>
+
+  <h2>Монитор группы</h2>
+  <div id="groupList">Загрузка участников...</div>
+</div>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const URL = 'https://pxqmvgmicxxbkxcrthqz.supabase.co';
+  const KEY = 'sb_publishable_B7yD6pvugtqb9g9EZWNo8A_qsWbkpQY'; 
+
+  const supabase = createClient(URL, KEY);
+  const MY_ID = '0daffd62-b732-412d-acbb-13e0cb1e549f';  
+
+  async function changeStatus(text, color) {
+    const { error } = await supabase
+      .from('profiles')
+      .update({ status: text, color })
+      .eq('id', MY_ID);
+
+    if (error) {
+      console.error('Ошибка обновления статуса:', error);
+      alert('Не удалось обновить статус.\n\nПроверьте RLS-политики в Supabase.');
+      return false;
+    }
+    return true;
+  }
+
+  async function fetchGroup() {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .order('username', { ascending: true });
+
+    if (error) {
+      console.error('Ошибка загрузки группы:', error);
+      document.getElementById('groupList').innerHTML = 
+        '<div class="error">Не удалось загрузить участников</div>';
+      return;
+    }
+
+    // Мой профиль
+    const me = data.find(u => u.id === MY_ID);
+    if (me) {
+      document.getElementById('myInfo').textContent = 
+        `Вы зашли как: ${me.username}`;
+    }
+
+    // Список всех
+    const list = document.getElementById('groupList');
+    list.innerHTML = data
+      .map(user => {
+        const dotColor = user.color || '#6b7280';
+        const statusText = user.status || 'Статус не задан';
+
+        return `
+          <div class="user-item">
+            <div class="status-dot" style="background: ${dotColor}"></div>
+            <div>
+              <div class="username">${user.username}</div>
+              <div class="status-text">${statusText}</div>
+            </div>
+          </div>
+        `;
+      })
+      .join('');
+  }
+
+  document.querySelectorAll('.status-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const text  = btn.dataset.status;
+      const color = btn.dataset.color;
+
+      const success = await changeStatus(text, color);
+      if (success) {
+        fetchGroup(); // сразу обновляем список
+      }
+    });
+  });
+
+  fetchGroup();
+  setInterval(fetchGroup, 5000);
+
+</script>
+</body>
+</html>
