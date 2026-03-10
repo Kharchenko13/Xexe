@@ -6,50 +6,58 @@
   <title>Статусы группы</title>
   <style>
     body {
-      font-family: system-ui, sans-serif;
-      background: #0f0f11;
-      color: #e0e0e0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #f8f9fc;
+      color: #2d3748;
       margin: 0;
-      padding: 20px;
-      line-height: 1.5;
+      padding: 24px 16px;
+      line-height: 1.6;
     }
     .container {
-      max-width: 640px;
+      max-width: 680px;
       margin: 0 auto;
     }
     h2 {
-      margin: 1.8em 0 0.8em;
-      color: #a0a0ff;
+      margin: 2em 0 1em;
+      color: #5a67d8;
+      font-weight: 600;
     }
     #myInfo {
-      background: #1a1a2e;
-      padding: 16px;
-      border-radius: 12px;
-      margin-bottom: 24px;
+      background: white;
+      padding: 18px 20px;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      margin-bottom: 28px;
+      font-size: 1.05em;
     }
     .status-buttons {
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
-      margin: 16px 0;
+      margin: 20px 0 32px;
     }
     .status-btn {
-      padding: 10px 18px;
+      padding: 10px 20px;
       border: none;
       border-radius: 999px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all 0.18s ease;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
     }
-    .status-btn:hover { opacity: 0.92; transform: translateY(-1px); }
+    .status-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .status-btn:active { transform: translateY(0); }
 
-    .green  { background: #22c55e; color: black; }
-    .amber  { background: #f59e0b; color: black; }
-    .blue   { background: #3b82f6; color: white; }
-    .gray   { background: #6b7280; color: white; }
+    .green  { background: #c6f6d5; color: #2f855a; }
+    .amber  { background: #fefcbf; color: #b7791f; }
+    .blue   { background: #bee3f8; color: #2b6cb0; }
+    .gray   { background: #e2e8f0; color: #4a5568; }
 
     #groupList {
       display: flex;
@@ -57,31 +65,41 @@
       gap: 12px;
     }
     .user-item {
-      background: #1a1a2e;
-      padding: 14px;
-      border-radius: 10px;
+      background: white;
+      padding: 16px 18px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      transition: transform 0.15s ease;
+    }
+    .user-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
     }
     .status-dot {
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
       flex-shrink: 0;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.15);
     }
     .username {
       font-weight: 600;
-      color: #ddd;
+      color: #2d3748;
     }
     .status-text {
-      color: #94a3b8;
-      font-size: 0.95em;
+      color: #718096;
+      font-size: 0.96em;
     }
     .error {
-      color: #f87171;
-      font-size: 0.9em;
-      margin-top: 8px;
+      color: #e53e3e;
+      font-size: 0.95em;
+      margin-top: 12px;
+      padding: 12px;
+      background: #fff5f5;
+      border-radius: 8px;
     }
   </style>
 </head>
@@ -92,10 +110,10 @@
   <div id="myInfo">Загрузка...</div>
 
   <div class="status-buttons">
-    <button class="status-btn green"  data-status="Учусь"  data-color="#22c55e">📚 Учусь</button>
-    <button class="status-btn amber"  data-status="Кофе"  data-color="#f59e0b">☕ Кофе</button>
-    <button class="status-btn blue"   data-status="В игре" data-color="#3b82f6">🎮 В игре</button>
-    <button class="status-btn gray"   data-status="Дома"   data-color="#6b7280">🏠 Дома</button>
+    <button class="status-btn green"  data-status="Учусь"  data-color="#9ae6b4">📚 Учусь</button>
+    <button class="status-btn amber"  data-status="Кофе"  data-color="#f6e05e">☕ Кофе</button>
+    <button class="status-btn blue"   data-status="В игре" data-color="#90cdf4">🎮 В игре</button>
+    <button class="status-btn gray"   data-status="Дома"   data-color="#cbd5e0">🏠 Дома</button>
   </div>
 
   <h2>Монитор группы</h2>
@@ -105,11 +123,10 @@
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-  const URL = 'https://pxqmvgmicxxbkxcrthqz.supabase.co';
-  const KEY = 'sb_publishable_B7yD6pvugtqb9g9EZWNo8A_qsWbkpQY'; 
-
+  const URL  = 'https://pxqmvgmicxxbkxcrthqz.supabase.co';
+  const KEY  = 'sb_publishable_B7yD6pvugtqb9g9EZWNo8A_qsWbkpQY';
   const supabase = createClient(URL, KEY);
-  const MY_ID = '0daffd62-b732-412d-acbb-13e0cb1e549f';  
+  const MY_ID = '0daffd62-b732-412d-acbb-13e0cb1e549f';
 
   async function changeStatus(text, color) {
     const { error } = await supabase
@@ -118,8 +135,8 @@
       .eq('id', MY_ID);
 
     if (error) {
-      console.error('Ошибка обновления статуса:', error);
-      alert('Не удалось обновить статус.\n\nПроверьте RLS-политики в Supabase.');
+      console.error('Ошибка обновления:', error);
+      alert('Не удалось обновить статус.\nПроверь RLS в Supabase.');
       return false;
     }
     return true;
@@ -132,24 +149,21 @@
       .order('username', { ascending: true });
 
     if (error) {
-      console.error('Ошибка загрузки группы:', error);
-      document.getElementById('groupList').innerHTML = 
+      console.error('Ошибка загрузки:', error);
+      document.getElementById('groupList').innerHTML =
         '<div class="error">Не удалось загрузить участников</div>';
       return;
     }
 
-    // Мой профиль
     const me = data.find(u => u.id === MY_ID);
     if (me) {
-      document.getElementById('myInfo').textContent = 
+      document.getElementById('myInfo').textContent =
         `Вы зашли как: ${me.username}`;
     }
 
-    // Список всех
-    const list = document.getElementById('groupList');
-    list.innerHTML = data
+    document.getElementById('groupList').innerHTML = data
       .map(user => {
-        const dotColor = user.color || '#6b7280';
+        const dotColor = user.color || '#cbd5e0';
         const statusText = user.status || 'Статус не задан';
 
         return `
@@ -169,17 +183,14 @@
     btn.addEventListener('click', async () => {
       const text  = btn.dataset.status;
       const color = btn.dataset.color;
-
-      const success = await changeStatus(text, color);
-      if (success) {
-        fetchGroup(); // сразу обновляем список
+      if (await changeStatus(text, color)) {
+        fetchGroup();
       }
     });
   });
 
   fetchGroup();
   setInterval(fetchGroup, 5000);
-
 </script>
 </body>
 </html>
