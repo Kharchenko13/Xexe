@@ -167,7 +167,7 @@
   async function changeStatus(text, color) {
     const { error } = await supabase
       .from('profiles')
-      .update({ status: text, color })
+      .update({ status: text })
       .eq('id', MY_ID);
 
     if (error) {
