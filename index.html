@@ -52,6 +52,7 @@
       font-weight: 500;
       margin-bottom: 32px;
       border: 1px solid rgba(200, 180, 255, 0.18);
+      position: relative;
     }
     .status-buttons {
       display: flex;
@@ -95,6 +96,14 @@
     #googleLoginBtn svg {
       width: 22px;
       height: 22px;
+    }
+    #logoutBtn {
+      background: linear-gradient(135deg, #ff6b6b, #ee5253) !important;
+      color: white !important;
+      font-size: 0.95rem;
+      padding: 10px 20px;
+      margin: 12px auto 4px;
+      box-shadow: 0 4px 16px rgba(255, 107, 107, 0.25);
     }
     #groupList {
       display: flex;
@@ -188,13 +197,13 @@
     'sb_publishable_B7yD6pvugtqb9g9EZWNo8A_qsWbkpQY'
   );
 
-  // ─── Авторизация через Google ───
+  // ─── Вход через Google ───
   document.getElementById('googleLoginBtn')?.addEventListener('click', async () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: window.location.href.split('?')[0]  // возвращаемся на чистую страницу
+          redirectTo: window.location.href.split('?')[0]
         }
       });
       if (error) throw error;
@@ -204,7 +213,31 @@
     }
   });
 
-  // ─── Загрузка информации о пользователе и интерфейса ───
+  // ─── Выход из аккаунта ───
+  function setupLogoutButton() {
+    const existingBtn = document.getElementById('logoutBtn');
+    if (existingBtn) existingBtn.remove();
+
+    const logoutBtn = document.createElement('button');
+    logoutBtn.id = 'logoutBtn';
+    logoutBtn.className = 'status-btn';
+    logoutBtn.textContent = 'Выйти';
+    logoutBtn.addEventListener('click', async () => {
+      try {
+        const { error } = await supabase.auth.signOut();
+        if (error) throw error;
+        // после signOut состояние обновится через onAuthStateChange
+      } catch (err) {
+        console.error('Ошибка выхода:', err);
+        alert('Не получилось выйти 😔\n' + err.message);
+      }
+    });
+
+    // Добавляем кнопку выхода в блок myInfo
+    document.getElementById('myInfo').appendChild(logoutBtn);
+  }
+
+  // ─── Обновление интерфейса в зависимости от авторизации ───
   async function loadUserAndUI() {
     const { data: { user } } = await supabase.auth.getUser();
 
@@ -213,24 +246,33 @@
       document.getElementById('myInfo').innerHTML = 'Войди через Google, чтобы выбрать настроение 🌸';
       document.getElementById('statusButtons').style.display = 'none';
       document.getElementById('authBlock').style.display = 'block';
+      // убираем кнопку выхода если была
+      const logoutBtn = document.getElementById('logoutBtn');
+      if (logoutBtn) logoutBtn.remove();
       return;
     }
 
     const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0];
     const avatar = user.user_metadata?.avatar_url || '';
 
+    let infoHtml = avatar 
+      ? `<img src="${avatar}" class="avatar" alt="Аватар"> `
+      : '';
+    infoHtml += `Привет, ${name} ✨<br>Ты здесь как:`;
+
     document.getElementById('userStatus').innerHTML = `Привет, ${name} ✨`;
-    document.getElementById('myInfo').innerHTML = avatar 
-      ? `<img src="${avatar}" class="avatar" alt="Аватар"> Ты здесь как: ${name} 🌷`
-      : `Ты здесь как: ${name} 🌷`;
+    document.getElementById('myInfo').innerHTML = infoHtml;
 
     document.getElementById('authBlock').style.display = 'none';
     document.getElementById('statusButtons').style.display = 'flex';
 
+    // Добавляем кнопку «Выйти»
+    setupLogoutButton();
+
     fetchGroup(user.id);
   }
 
-  // ─── Обновление статуса текущего пользователя ───
+  // ─── Обновление статуса ───
   async function changeStatus(text, color) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
@@ -249,14 +291,14 @@
       .eq('id', user.id);
 
     if (error) {
-      console.error('Ошибка обновления:', error);
+      console.error('Ошибка:', error);
       alert('Не получилось обновить статус 😔\n' + error.message);
       return false;
     }
     return true;
   }
 
-  // ─── Загрузка списка всех участников ───
+  // ─── Загрузка списка участников ───
   async function fetchGroup(currentUserId = null) {
     const { data, error } = await supabase
       .from('profiles')
@@ -297,11 +339,13 @@
       .join('');
   }
 
+  // ─── Слушаем изменения авторизации ───
   supabase.auth.onAuthStateChange((event, session) => {
     console.log('Auth event:', event);
     loadUserAndUI();
   });
 
+  // ─── Инициализация ───
   document.querySelectorAll('.status-btn:not(#googleLoginBtn)').forEach(btn => {
     btn.addEventListener('click', async () => {
       const text = btn.dataset.status;
@@ -315,10 +359,11 @@
   // Первая загрузка
   loadUserAndUI();
 
-  // Автообновление списка каждые 6 секунд
+  // Автообновление списка
   setInterval(() => {
-    const isLoggedIn = !!supabase.auth.getUser();
-    if (isLoggedIn) fetchGroup();
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) fetchGroup();
+    });
   }, 6000);
 
 </script>
