@@ -132,12 +132,7 @@
     .user-item .info { flex: 1; min-width: 0; }
     .user-item .username { font-weight: 800; font-size: 1.02rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .user-item .status-text { font-size: 0.9rem; color: var(--text-light); font-weight: 600; margin-top: 2px; }
-    .status-dot {
-      width: 14px; height: 14px; border-radius: 50%;
-      background: var(--dot-color,#d0c0f0);
-      box-shadow: 0 0 0 3px rgba(255,255,255,0.9);
-      flex-shrink: 0;
-    }
+    .status-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--dot-color,#d0c0f0); box-shadow: 0 0 0 3px rgba(255,255,255,0.9); flex-shrink: 0; }
     .empty-state { text-align: center; color: var(--text-light); padding: 20px; font-size: 1rem; font-weight: 600; }
     .error-state { color: #c0304a; background: #fff0f3; padding: 14px 18px; border-radius: 16px; font-size: 0.95rem; text-align: center; font-weight: 600; }
     #toast {
@@ -222,26 +217,20 @@
     setTimeout(() => t.classList.remove('show'), 2600);
   }
 
-  // ─── Google Login ───
   document.getElementById('googleLoginBtn').addEventListener('click', async () => {
-    try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: 'https://kharchenko13.github.io/Xexe'
-        }
-      });
-      if (error) {
-        console.error('OAuth error:', error);
-        showToast('Ошибка входа: ' + error.message);
+    showToast('Открываем Google... 🌸');
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: 'https://kharchenko13.github.io/Xexe'
       }
-    } catch (err) {
-      console.error('Ошибка:', err);
-      showToast('Не получилось войти 😔');
+    });
+    if (error) {
+      console.error('OAuth error:', error);
+      showToast('Ошибка: ' + error.message);
     }
   });
 
-  // ─── Logout ───
   function setupLogoutButton(container) {
     const old = document.getElementById('logoutBtn');
     if (old) old.remove();
@@ -269,7 +258,6 @@
 
   async function loadUserAndUI() {
     const { data: { user } } = await supabase.auth.getUser();
-
     const authBlock   = document.getElementById('authBlock');
     const profileCard = document.getElementById('profileCard');
     const statusCard  = document.getElementById('statusCard');
@@ -293,7 +281,6 @@
     const name   = user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0];
     const avatar = user.user_metadata?.avatar_url || '';
 
-    // Без .single() чтобы не было 406 ошибки
     const { data: profiles } = await supabase
       .from('profiles')
       .select('status')
@@ -309,7 +296,7 @@
     myInfo.innerHTML = `
       ${avatarEl}
       <div class="info" style="flex:1">
-        <div class="greeting" style="font-size:1.12rem;font-weight:700;color:var(--text)">${name} ✨</div>
+        <div style="font-size:1.12rem;font-weight:700;color:var(--text)">${name} ✨</div>
         <div id="statusDisplay" style="font-size:0.9rem;color:var(--text-light);font-weight:600;margin-top:4px">
           ${currentStatus ? `Сейчас: ${currentStatus}` : 'Статус не выбран'}
         </div>
@@ -370,7 +357,6 @@
       .order('username', { ascending: true });
 
     if (error) {
-      console.error('Fetch error:', JSON.stringify(error));
       document.getElementById('groupList').innerHTML =
         '<div class="error-state">Не удалось загрузить участников 💔</div>';
       return;
