@@ -13,7 +13,6 @@
       --accent: #d7c0ff;
       --shadow: 0 8px 32px rgba(180, 160, 255, 0.12);
     }
-
     body {
       font-family: system-ui, -apple-system, sans-serif;
       background: linear-gradient(135deg, #fdfaff 0%, #f8f0ff 100%);
@@ -22,12 +21,10 @@
       padding: 32px 16px;
       min-height: 100vh;
     }
-
     .container {
       max-width: 720px;
       margin: 0 auto;
     }
-
     h2 {
       margin: 2.2em 0 1.2em;
       font-size: 1.8rem;
@@ -37,7 +34,15 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-
+    #authBlock {
+      background: var(--card);
+      padding: 24px;
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      margin-bottom: 32px;
+      border: 1px solid rgba(200, 180, 255, 0.18);
+    }
     #myInfo {
       background: var(--card);
       padding: 20px 24px;
@@ -48,14 +53,13 @@
       margin-bottom: 32px;
       border: 1px solid rgba(200, 180, 255, 0.18);
     }
-
     .status-buttons {
       display: flex;
       flex-wrap: wrap;
       gap: 14px;
       margin: 24px 0 40px;
+      justify-content: center;
     }
-
     .status-btn {
       padding: 12px 24px;
       border: none;
@@ -71,25 +75,32 @@
       color: var(--btn-text);
       box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     }
-
     .status-btn:hover {
       transform: translateY(-3px) scale(1.04);
       box-shadow: 0 12px 32px rgba(180, 160, 255, 0.22);
     }
-
     .status-btn:active { transform: translateY(-1px) scale(1.01); }
-
-    .study   { --btn-bg-start: #e0f7fa; --btn-bg-end: #b2ebf2; --btn-text: #006064; }
-    .coffee  { --btn-bg-start: #fff3e0; --btn-bg-end: #ffe0b2; --btn-text: #ef6c00; }
-    .game    { --btn-bg-start: #e8f5e9; --btn-bg-end: #c8e6c9; --btn-text: #2e7d32; }
-    .home    { --btn-bg-start: #f3e5f5; --btn-bg-end: #e1bee7; --btn-text: #6a1b9a; }
-
+    .study { --btn-bg-start: #e0f7fa; --btn-bg-end: #b2ebf2; --btn-text: #006064; }
+    .coffee { --btn-bg-start: #fff3e0; --btn-bg-end: #ffe0b2; --btn-text: #ef6c00; }
+    .game  { --btn-bg-start: #e8f5e9; --btn-bg-end: #c8e6c9; --btn-text: #2e7d32; }
+    .home  { --btn-bg-start: #f3e5f5; --btn-bg-end: #e1bee7; --btn-text: #6a1b9a; }
+    #googleLoginBtn {
+      background: linear-gradient(135deg, #4285f4, #357ae8) !important;
+      color: white !important;
+      font-size: 1.1rem;
+      padding: 14px 32px;
+      margin: 16px auto 8px;
+      box-shadow: 0 4px 16px rgba(66, 133, 244, 0.3);
+    }
+    #googleLoginBtn svg {
+      width: 22px;
+      height: 22px;
+    }
     #groupList {
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
-
     .user-item {
       background: var(--card);
       padding: 18px 22px;
@@ -101,87 +112,155 @@
       border: 1px solid rgba(200, 180, 255, 0.12);
       transition: all 0.25s ease;
     }
-
     .user-item:hover {
       transform: translateY(-4px);
       box-shadow: 0 16px 40px rgba(180, 160, 255, 0.18);
     }
-
     .status-dot {
       width: 16px;
       height: 16px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--dot-color), color-mix(in srgb, var(--dot-color) 70%, white));
-      box-shadow: 
-        inset 0 2px 4px rgba(0,0,0,0.08),
-        0 0 0 3px rgba(255,255,255,0.7);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.08), 0 0 0 3px rgba(255,255,255,0.7);
       flex-shrink: 0;
     }
-
     .username {
       font-weight: 650;
       color: var(--text);
       font-size: 1.1rem;
     }
-
     .status-text {
       color: var(--text-light);
       font-size: 0.98rem;
       margin-top: 3px;
     }
-
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+    }
     .error {
       color: #d32f2f;
       background: #ffebee;
       padding: 14px;
       border-radius: 16px;
       font-size: 0.98rem;
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>Мой профиль</h2>
-  <div id="myInfo">Загрузка нежного вайба...</div>
 
-  <div class="status-buttons">
-    <button class="status-btn study"   data-status="Учусь"  data-color="#80deea">📚 Учусь</button>
-    <button class="status-btn coffee"  data-status="Кофе"  data-color="#ffcc80">☕ Кофе</button>
-    <button class="status-btn game"    data-status="В игре" data-color="#a5d6a7">🎮 В игре</button>
-    <button class="status-btn home"    data-status="Дома"   data-color="#ce93d8">🏠 Дома</button>
+  <div id="authBlock">
+    <h3>Нежный вайб 🌸</h3>
+    <p id="userStatus" style="color: var(--text-light); margin: 8px 0 16px;">Войди, чтобы менять статус и видеть всех</p>
+    
+    <button id="googleLoginBtn" class="status-btn">
+      <svg viewBox="0 0 24 24"><path fill="white" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.51h5.84c-.25 1.31-.98 2.42-2.07 3.16v2.63h3.35c1.96-1.81 3.09-4.47 3.09-7.25z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.35-2.63c-1.01.68-2.29 1.08-3.93 1.08-3.02 0-5.58-2.04-6.49-4.79H.96v2.67C2.77 20.39 6.62 23 12 23z"/><path fill="#FBBC05" d="M5.51 14.21c-.23-.68-.36-1.41-.36-2.21s.13-1.53.36-2.21V7.34H.96C.35 8.85 0 10.39 0 12s.35 3.15.96 4.66l4.55-2.45z"/><path fill="#EA4335" d="M12 4.98c1.64 0 3.11.56 4.27 1.66l3.19-3.19C17.46 1.01 14.97 0 12 0 6.62 0 2.77 2.61.96 6.34l4.55 2.45C6.42 6.02 8.98 4.98 12 4.98z"/></svg>
+      Войти через Google
+    </button>
+  </div>
+
+  <h2>Мой профиль</h2>
+  <div id="myInfo">Загрузка нежного вайба... 🌷</div>
+
+  <div class="status-buttons" id="statusButtons">
+    <button class="status-btn study"  data-status="Учусь" data-color="#80deea">📚 Учусь</button>
+    <button class="status-btn coffee" data-status="Кофе"  data-color="#ffcc80">☕ Кофе</button>
+    <button class="status-btn game"  data-status="В игре" data-color="#a5d6a7">🎮 В игре</button>
+    <button class="status-btn home"  data-status="Дома"  data-color="#ce93d8">🏠 Дома</button>
   </div>
 
   <h2>Монитор группы</h2>
   <div id="groupList">Собираем облачко участников...</div>
+
 </div>
 
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-  const URL  = 'https://pxqmvgmicxxbkxcrthqz.supabase.co';
-  const KEY  = 'sb_publishable_B7yD6pvugtqb9g9EZWNo8A_qsWbkpQY';
-  const supabase = createClient(URL, KEY);
-  const MY_ID = '0daffd62-b732-412d-acbb-13e0cb1e549f';
+  const supabase = createClient(
+    'https://pxqmvgmicxxbkxcrthqz.supabase.co',
+    'sb_publishable_B7yD6pvugtqb9g9EZWNo8A_qsWbkpQY'
+  );
 
+  // ─── Авторизация через Google ───
+  document.getElementById('googleLoginBtn')?.addEventListener('click', async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: window.location.href.split('?')[0]  // возвращаемся на чистую страницу
+        }
+      });
+      if (error) throw error;
+    } catch (err) {
+      console.error('Ошибка входа:', err);
+      alert('Не получилось войти 😔\n' + (err.message || 'Попробуй позже'));
+    }
+  });
+
+  // ─── Загрузка информации о пользователе и интерфейса ───
+  async function loadUserAndUI() {
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      document.getElementById('userStatus').textContent = 'Не авторизован';
+      document.getElementById('myInfo').innerHTML = 'Войди через Google, чтобы выбрать настроение 🌸';
+      document.getElementById('statusButtons').style.display = 'none';
+      document.getElementById('authBlock').style.display = 'block';
+      return;
+    }
+
+    const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0];
+    const avatar = user.user_metadata?.avatar_url || '';
+
+    document.getElementById('userStatus').innerHTML = `Привет, ${name} ✨`;
+    document.getElementById('myInfo').innerHTML = avatar 
+      ? `<img src="${avatar}" class="avatar" alt="Аватар"> Ты здесь как: ${name} 🌷`
+      : `Ты здесь как: ${name} 🌷`;
+
+    document.getElementById('authBlock').style.display = 'none';
+    document.getElementById('statusButtons').style.display = 'flex';
+
+    fetchGroup(user.id);
+  }
+
+  // ─── Обновление статуса текущего пользователя ───
   async function changeStatus(text, color) {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      alert('Сначала войди через Google 🌼');
+      return false;
+    }
+
     const { error } = await supabase
       .from('profiles')
-      .update({ status: text })
-      .eq('id', MY_ID);
+      .update({ 
+        status: text,
+        color: color,
+        username: user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0],
+        avatar_url: user.user_metadata?.avatar_url || null
+      })
+      .eq('id', user.id);
 
     if (error) {
-      console.error('Ошибка:', error);
-      alert('Не получилось обновить статус 😔\nПроверь RLS в Supabase');
+      console.error('Ошибка обновления:', error);
+      alert('Не получилось обновить статус 😔\n' + error.message);
       return false;
     }
     return true;
   }
 
-  async function fetchGroup() {
+  // ─── Загрузка списка всех участников ───
+  async function fetchGroup(currentUserId = null) {
     const { data, error } = await supabase
       .from('profiles')
-      .select('*')
+      .select('id, username, status, color, avatar_url')
       .order('username', { ascending: true });
 
     if (error) {
@@ -191,33 +270,41 @@
       return;
     }
 
-    const me = data.find(u => u.id === MY_ID);
-    if (me) {
-      document.getElementById('myInfo').textContent =
-        `Ты здесь как: ${me.username} 🌸`;
+    if (data.length === 0) {
+      document.getElementById('groupList').innerHTML = '<div style="text-align:center; color:var(--text-light);">Пока здесь тихо... ☁️</div>';
+      return;
     }
 
     document.getElementById('groupList').innerHTML = data
       .map(user => {
         const dotColor = user.color || '#e1bee7';
         const statusText = user.status || 'Пока без настроения';
+        const avatarHtml = user.avatar_url 
+          ? `<img src="${user.avatar_url}" class="avatar" alt="${user.username}">`
+          : `<div class="avatar" style="background:#e0e0e0;display:flex;align-items:center;justify-content:center;font-size:1.4rem;">${user.username?.[0]?.toUpperCase() || '?'}</div>`;
 
         return `
           <div class="user-item">
-            <div class="status-dot" style="--dot-color: ${dotColor}"></div>
+            ${avatarHtml}
             <div>
               <div class="username">${user.username}</div>
               <div class="status-text">${statusText}</div>
             </div>
+            <div class="status-dot" style="--dot-color: ${dotColor}"></div>
           </div>
         `;
       })
       .join('');
   }
 
-  document.querySelectorAll('.status-btn').forEach(btn => {
+  supabase.auth.onAuthStateChange((event, session) => {
+    console.log('Auth event:', event);
+    loadUserAndUI();
+  });
+
+  document.querySelectorAll('.status-btn:not(#googleLoginBtn)').forEach(btn => {
     btn.addEventListener('click', async () => {
-      const text  = btn.dataset.status;
+      const text = btn.dataset.status;
       const color = btn.dataset.color;
       if (await changeStatus(text, color)) {
         fetchGroup();
@@ -225,8 +312,15 @@
     });
   });
 
-  fetchGroup();
-  setInterval(fetchGroup, 6000); // чуть реже, чтобы не нагружать
+  // Первая загрузка
+  loadUserAndUI();
+
+  // Автообновление списка каждые 6 секунд
+  setInterval(() => {
+    const isLoggedIn = !!supabase.auth.getUser();
+    if (isLoggedIn) fetchGroup();
+  }, 6000);
+
 </script>
 </body>
 </html>
