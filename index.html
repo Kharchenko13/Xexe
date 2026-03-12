@@ -18,9 +18,7 @@
       --shadow-md: 0 8px 32px rgba(160, 130, 220, 0.16);
       --shadow-lg: 0 16px 48px rgba(160, 130, 220, 0.20);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: 'Nunito', sans-serif;
       background: var(--bg);
@@ -31,17 +29,8 @@
       min-height: 100vh;
       padding: 40px 16px 80px;
     }
-
-    .container {
-      max-width: 680px;
-      margin: 0 auto;
-    }
-
-    .header {
-      text-align: center;
-      margin-bottom: 40px;
-      animation: fadeDown 0.6s ease both;
-    }
+    .container { max-width: 680px; margin: 0 auto; }
+    .header { text-align: center; margin-bottom: 40px; animation: fadeDown 0.6s ease both; }
     .header-title {
       font-family: 'Playfair Display', serif;
       font-style: italic;
@@ -53,13 +42,7 @@
       line-height: 1.2;
       margin-bottom: 6px;
     }
-    .header-sub {
-      color: var(--text-light);
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-    }
-
+    .header-sub { color: var(--text-light); font-size: 0.95rem; font-weight: 600; letter-spacing: 0.04em; }
     .card {
       background: var(--card);
       border-radius: 28px;
@@ -72,7 +55,6 @@
     .card:nth-child(2) { animation-delay: 0.08s; }
     .card:nth-child(3) { animation-delay: 0.16s; }
     .card:nth-child(4) { animation-delay: 0.24s; }
-
     .section-label {
       font-family: 'Playfair Display', serif;
       font-size: 1.3rem;
@@ -83,42 +65,12 @@
       align-items: center;
       gap: 8px;
     }
-    .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, var(--border), transparent);
-    }
-
-    #authBlock {
-      text-align: center;
-    }
-    #authBlock p {
-      color: var(--text-light);
-      font-size: 0.97rem;
-      margin-bottom: 20px;
-    }
-
-    /* ─── My Info ─── */
-    #myInfo {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      min-height: 56px;
-    }
-    #myInfo .greeting {
-      font-size: 1.12rem;
-      font-weight: 700;
-      color: var(--text);
-      flex: 1;
-    }
-    #myInfo .current-status {
-      font-size: 0.9rem;
-      color: var(--text-light);
-      font-weight: 600;
-      margin-top: 4px;
-    }
-
+    .section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+    #authBlock { text-align: center; }
+    #authBlock p { color: var(--text-light); font-size: 0.97rem; margin-bottom: 20px; }
+    #myInfo { display: flex; align-items: center; gap: 16px; min-height: 56px; }
+    #myInfo .greeting { font-size: 1.12rem; font-weight: 700; color: var(--text); flex: 1; }
+    #myInfo .current-status { font-size: 0.9rem; color: var(--text-light); font-weight: 600; margin-top: 4px; }
     .btn {
       display: inline-flex;
       align-items: center;
@@ -134,7 +86,6 @@
     }
     .btn:hover { transform: translateY(-2px); }
     .btn:active { transform: translateY(0) scale(0.98); }
-
     #googleLoginBtn {
       background: linear-gradient(135deg, #5b8dee, #4070e0);
       color: #fff;
@@ -144,23 +95,7 @@
       margin: 0 auto;
     }
     #googleLoginBtn svg { width: 20px; height: 20px; flex-shrink: 0; }
-
-    #logoutBtn {
-      background: linear-gradient(135deg, #ffd0e4, #ffb3ce);
-      color: #b5446e;
-      font-size: 0.88rem;
-      padding: 8px 16px;
-      margin-left: auto;
-      box-shadow: 0 2px 10px rgba(255, 100, 150, 0.15);
-    }
-
-    .status-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-    }
-
+    .status-buttons { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
     .status-btn {
       padding: 11px 20px;
       border: 2px solid transparent;
@@ -174,175 +109,67 @@
       color: var(--btn-text);
       box-shadow: 0 3px 12px rgba(0,0,0,0.06);
     }
-    .status-btn:hover {
-      transform: translateY(-3px) scale(1.04);
-      box-shadow: 0 10px 28px rgba(0,0,0,0.10);
-      border-color: var(--btn-border);
-    }
-    .status-btn.active {
-      border-color: var(--btn-border);
-      box-shadow: 0 0 0 3px rgba(var(--btn-glow), 0.25);
-    }
+    .status-btn:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 10px 28px rgba(0,0,0,0.10); border-color: var(--btn-border); }
+    .status-btn.active { border-color: var(--btn-border); box-shadow: 0 0 0 3px rgba(var(--btn-glow), 0.25); }
     .status-btn:active { transform: scale(0.97); }
-
     .btn-study  { --btn-bg: #e0f7fb; --btn-text: #00808a; --btn-border: #7dd8e0; --btn-glow: 125,216,224; }
     .btn-coffee { --btn-bg: #fff4e2; --btn-text: #c06200; --btn-border: #ffcc80; --btn-glow: 255,180,80; }
     .btn-game   { --btn-bg: #edf7ed; --btn-text: #2a7a2e; --btn-border: #90d494; --btn-glow: 100,200,100; }
     .btn-home   { --btn-bg: #f5eeff; --btn-text: #7040b0; --btn-border: #c9a8f0; --btn-glow: 180,140,240; }
     .btn-walk   { --btn-bg: #fff0f5; --btn-text: #b03070; --btn-border: #f0a0c0; --btn-glow: 240,130,170; }
     .btn-sleep  { --btn-bg: #eef0ff; --btn-text: #3040a0; --btn-border: #9098e8; --btn-glow: 120,140,230; }
-
-    .avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2.5px solid var(--accent);
-      flex-shrink: 0;
-    }
+    .avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2.5px solid var(--accent); flex-shrink: 0; }
     .avatar-placeholder {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: 2.5px solid var(--accent);
+      width: 48px; height: 48px; border-radius: 50%; border: 2.5px solid var(--accent);
       background: linear-gradient(135deg, #e8d5ff, #ffd5ec);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      font-weight: 800;
-      color: #9060c0;
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; font-weight: 800; color: #9060c0; flex-shrink: 0;
     }
-
-    #groupList {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+    #groupList { display: flex; flex-direction: column; gap: 12px; }
     .user-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
+      display: flex; align-items: center; gap: 14px;
       padding: 16px 18px;
       background: linear-gradient(135deg, #fdfaff, #faf5ff);
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-sm);
-      transition: all 0.22s ease;
+      border-radius: 20px; border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm); transition: all 0.22s ease;
     }
-    .user-item:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-md);
-    }
+    .user-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
     .user-item .info { flex: 1; min-width: 0; }
-    .user-item .username {
-      font-weight: 800;
-      font-size: 1.02rem;
-      color: var(--text);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .user-item .status-text {
-      font-size: 0.9rem;
-      color: var(--text-light);
-      font-weight: 600;
-      margin-top: 2px;
-    }
+    .user-item .username { font-weight: 800; font-size: 1.02rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .user-item .status-text { font-size: 0.9rem; color: var(--text-light); font-weight: 600; margin-top: 2px; }
     .status-dot {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
+      width: 14px; height: 14px; border-radius: 50%;
       background: var(--dot-color, #d0c0f0);
       box-shadow: 0 0 0 3px rgba(255,255,255,0.9), 0 0 0 5px color-mix(in srgb, var(--dot-color, #d0c0f0) 30%, transparent);
       flex-shrink: 0;
     }
-
-    .empty-state {
-      text-align: center;
-      color: var(--text-light);
-      padding: 20px;
-      font-size: 1rem;
-      font-weight: 600;
-    }
-    .error-state {
-      color: #c0304a;
-      background: #fff0f3;
-      padding: 14px 18px;
-      border-radius: 16px;
-      font-size: 0.95rem;
-      text-align: center;
-      font-weight: 600;
-    }
-
+    .empty-state { text-align: center; color: var(--text-light); padding: 20px; font-size: 1rem; font-weight: 600; }
+    .error-state { color: #c0304a; background: #fff0f3; padding: 14px 18px; border-radius: 16px; font-size: 0.95rem; text-align: center; font-weight: 600; }
     #toast {
-      position: fixed;
-      bottom: 32px;
-      left: 50%;
+      position: fixed; bottom: 32px; left: 50%;
       transform: translateX(-50%) translateY(20px);
       background: linear-gradient(135deg, #6d3fcc, #c04090);
-      color: white;
-      padding: 12px 24px;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 0.95rem;
+      color: white; padding: 12px 24px; border-radius: 999px;
+      font-weight: 700; font-size: 0.95rem;
       box-shadow: 0 8px 28px rgba(130, 60, 180, 0.35);
-      opacity: 0;
-      pointer-events: none;
+      opacity: 0; pointer-events: none;
       transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      white-space: nowrap;
-      z-index: 1000;
+      white-space: nowrap; z-index: 1000;
     }
-    #toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .loading {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--text-light);
-      font-weight: 600;
-      font-size: 0.97rem;
-    }
-    .loading-dots span {
-      display: inline-block;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--accent);
-      animation: bounce 1.1s infinite ease;
-      margin: 0 2px;
-    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .loading { display: flex; align-items: center; gap: 10px; color: var(--text-light); font-weight: 600; font-size: 0.97rem; }
+    .loading-dots span { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: bounce 1.1s infinite ease; margin: 0 2px; }
     .loading-dots span:nth-child(2) { animation-delay: 0.18s; }
     .loading-dots span:nth-child(3) { animation-delay: 0.36s; }
-
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes bounce {
-      0%, 80%, 100% { transform: scale(0.7); opacity: 0.5; }
-      40% { transform: scale(1.1); opacity: 1; }
-    }
-    @keyframes pop {
-      0%   { transform: scale(1); }
-      40%  { transform: scale(1.18); }
-      100% { transform: scale(1); }
-    }
+    @keyframes fadeDown { from { opacity: 0; transform: translateY(-18px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes bounce { 0%, 80%, 100% { transform: scale(0.7); opacity: 0.5; } 40% { transform: scale(1.1); opacity: 1; } }
+    @keyframes pop { 0% { transform: scale(1); } 40% { transform: scale(1.18); } 100% { transform: scale(1); } }
     .pop { animation: pop 0.35s ease; }
   </style>
 </head>
 <body>
-
 <div class="container">
-
   <div class="header">
     <div class="header-title">нежный вайб 🌸</div>
     <div class="header-sub">монитор настроения группы</div>
@@ -359,35 +186,28 @@
   <div class="card" id="profileCard" style="display:none">
     <div class="section-label">Мой профиль</div>
     <div id="myInfo">
-      <div class="loading">
-        <div class="loading-dots"><span></span><span></span><span></span></div>
-        Загрузка...
-      </div>
+      <div class="loading"><div class="loading-dots"><span></span><span></span><span></span></div>Загрузка...</div>
     </div>
   </div>
 
   <div class="card" id="statusCard" style="display:none">
     <div class="section-label">Моё настроение</div>
     <div class="status-buttons">
-      <button class="status-btn btn-study"  data-status="Учусь"    data-color="#7dd8e0" data-emoji="📚">📚 Учусь</button>
-      <button class="status-btn btn-coffee" data-status="Кофе"     data-color="#ffcc80" data-emoji="☕">☕ Кофе</button>
-      <button class="status-btn btn-game"   data-status="В игре"   data-color="#90d494" data-emoji="🎮">🎮 В игре</button>
-      <button class="status-btn btn-home"   data-status="Дома"     data-color="#c9a8f0" data-emoji="🏠">🏠 Дома</button>
-      <button class="status-btn btn-walk"   data-status="Гуляю"    data-color="#f0a0c0" data-emoji="🌿">🌿 Гуляю</button>
-      <button class="status-btn btn-sleep"  data-status="Сплю"     data-color="#9098e8" data-emoji="💤">💤 Сплю</button>
+      <button class="status-btn btn-study"  data-status="Учусь"  data-color="#7dd8e0" data-emoji="📚">📚 Учусь</button>
+      <button class="status-btn btn-coffee" data-status="Кофе"   data-color="#ffcc80" data-emoji="☕">☕ Кофе</button>
+      <button class="status-btn btn-game"   data-status="В игре" data-color="#90d494" data-emoji="🎮">🎮 В игре</button>
+      <button class="status-btn btn-home"   data-status="Дома"   data-color="#c9a8f0" data-emoji="🏠">🏠 Дома</button>
+      <button class="status-btn btn-walk"   data-status="Гуляю"  data-color="#f0a0c0" data-emoji="🌿">🌿 Гуляю</button>
+      <button class="status-btn btn-sleep"  data-status="Сплю"   data-color="#9098e8" data-emoji="💤">💤 Сплю</button>
     </div>
   </div>
 
   <div class="card">
     <div class="section-label">Монитор группы</div>
     <div id="groupList">
-      <div class="loading">
-        <div class="loading-dots"><span></span><span></span><span></span></div>
-        Собираем облачко участников...
-      </div>
+      <div class="loading"><div class="loading-dots"><span></span><span></span><span></span></div>Собираем облачко участников...</div>
     </div>
   </div>
-
 </div>
 
 <div id="toast"></div>
@@ -395,11 +215,11 @@
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-  const supabase = createClient(
-    'https://pxqmvgmicxxbkxcrthqz.supabase.co',
-    'sb_publishable_B7yD6pvugtqb9g9EZWNo8A_qsWbkpQY'
-  );
+  const SUPABASE_URL = 'https://pxqmvgmicxxbkxcrthqz.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_B7yD6pvugtqb9g9EZWNo8A_qsWbkpQY';
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+  // ─── Toast ───
   function showToast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
@@ -407,11 +227,14 @@
     setTimeout(() => t.classList.remove('show'), 2600);
   }
 
+  // ─── Google Login — ИСПРАВЛЕНО: убрали лишние split ───
   document.getElementById('googleLoginBtn')?.addEventListener('click', async () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
-        options: { redirectTo: window.location.href.split('?')[0].split('#')[0] }
+        options: {
+          redirectTo: window.location.origin + window.location.pathname
+        }
       });
       if (error) throw error;
     } catch (err) {
@@ -420,6 +243,7 @@
     }
   });
 
+  // ─── Logout ───
   function setupLogoutButton(container) {
     const old = document.getElementById('logoutBtn');
     if (old) old.remove();
@@ -437,6 +261,7 @@
     });
     btn.addEventListener('click', async () => {
       await supabase.auth.signOut();
+      showToast('Пока! 👋');
     });
     container.appendChild(btn);
   }
@@ -470,13 +295,14 @@
     const name   = user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0];
     const avatar = user.user_metadata?.avatar_url || '';
 
-    const { data: profile } = await supabase
+    // ИСПРАВЛЕНО: убрали .single() — используем массив чтобы не было 406
+    const { data: profiles } = await supabase
       .from('profiles')
       .select('status')
       .eq('id', user.id)
-      .single();
+      .limit(1);
 
-    currentStatus = profile?.status || null;
+    currentStatus = profiles?.[0]?.status || null;
 
     const avatarEl = avatar
       ? `<img src="${avatar}" class="avatar" alt="Аватар">`
@@ -501,6 +327,7 @@
     });
   }
 
+  // ИСПРАВЛЕНО: upsert с правильными параметрами
   async function changeStatus(text, color) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) { showToast('Сначала войди через Google 🌼'); return false; }
@@ -517,10 +344,13 @@
         status: text,
         color: color,
         updated_at: new Date().toISOString()
-      }, { onConflict: 'id' });
+      }, {
+        onConflict: 'id',
+        ignoreDuplicates: false
+      });
 
     if (error) {
-      console.error('Ошибка upsert:', error);
+      console.error('Ошибка upsert:', JSON.stringify(error));
       showToast('Не получилось обновить статус 😔');
       return false;
     }
@@ -537,7 +367,7 @@
     return true;
   }
 
-  async function fetchGroup(currentUserId = null) {
+  async function fetchGroup(userId = null) {
     const { data, error } = await supabase
       .from('profiles')
       .select('id, username, status, color, avatar_url')
@@ -556,21 +386,21 @@
     }
 
     document.getElementById('groupList').innerHTML = data.map(u => {
-      const dotColor  = u.color || '#c9a8f0';
-      const statusTxt = u.status || 'Без настроения';
+      const dotColor   = u.color || '#c9a8f0';
+      const statusTxt  = u.status || 'Без настроения';
       const avatarHtml = u.avatar_url
         ? `<img src="${u.avatar_url}" class="avatar" alt="${u.username}">`
         : `<div class="avatar-placeholder">${u.username?.[0]?.toUpperCase() || '?'}</div>`;
-      const isMe = u.id === currentUserId;
+      const isMe = u.id === userId;
 
       return `
-        <div class="user-item" style="${isMe ? 'border-color: rgba(200,160,255,0.5); background: linear-gradient(135deg,#fdf5ff,#fff0fa);' : ''}">
+        <div class="user-item" style="${isMe ? 'border-color:rgba(200,160,255,0.5);background:linear-gradient(135deg,#fdf5ff,#fff0fa);' : ''}">
           ${avatarHtml}
           <div class="info">
             <div class="username">${u.username}${isMe ? ' <span style="font-size:0.8em;color:#b070e0">это ты</span>' : ''}</div>
             <div class="status-text">${statusTxt}</div>
           </div>
-          <div class="status-dot" style="--dot-color: ${dotColor}"></div>
+          <div class="status-dot" style="--dot-color:${dotColor}"></div>
         </div>
       `;
     }).join('');
