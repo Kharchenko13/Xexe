@@ -37,7 +37,6 @@
       margin: 0 auto;
     }
 
-    /* ─── Header ─── */
     .header {
       text-align: center;
       margin-bottom: 40px;
@@ -61,7 +60,6 @@
       letter-spacing: 0.04em;
     }
 
-    /* ─── Cards ─── */
     .card {
       background: var(--card);
       border-radius: 28px;
@@ -92,7 +90,6 @@
       background: linear-gradient(90deg, var(--border), transparent);
     }
 
-    /* ─── Auth Block ─── */
     #authBlock {
       text-align: center;
     }
@@ -122,7 +119,6 @@
       margin-top: 4px;
     }
 
-    /* ─── Buttons ─── */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -158,7 +154,6 @@
       box-shadow: 0 2px 10px rgba(255, 100, 150, 0.15);
     }
 
-    /* ─── Status Buttons ─── */
     .status-buttons {
       display: flex;
       flex-wrap: wrap;
@@ -197,7 +192,6 @@
     .btn-walk   { --btn-bg: #fff0f5; --btn-text: #b03070; --btn-border: #f0a0c0; --btn-glow: 240,130,170; }
     .btn-sleep  { --btn-bg: #eef0ff; --btn-text: #3040a0; --btn-border: #9098e8; --btn-glow: 120,140,230; }
 
-    /* ─── Avatar ─── */
     .avatar {
       width: 48px;
       height: 48px;
@@ -221,7 +215,6 @@
       flex-shrink: 0;
     }
 
-    /* ─── Group list ─── */
     #groupList {
       display: flex;
       flex-direction: column;
@@ -266,7 +259,6 @@
       flex-shrink: 0;
     }
 
-    /* ─── Empty / Error ─── */
     .empty-state {
       text-align: center;
       color: var(--text-light);
@@ -284,7 +276,6 @@
       font-weight: 600;
     }
 
-    /* ─── Toast ─── */
     #toast {
       position: fixed;
       bottom: 32px;
@@ -308,7 +299,6 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* ─── Loading ─── */
     .loading {
       display: flex;
       align-items: center;
@@ -329,7 +319,6 @@
     .loading-dots span:nth-child(2) { animation-delay: 0.18s; }
     .loading-dots span:nth-child(3) { animation-delay: 0.36s; }
 
-    /* ─── Animations ─── */
     @keyframes fadeDown {
       from { opacity: 0; transform: translateY(-18px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -354,13 +343,11 @@
 
 <div class="container">
 
-  <!-- Header -->
   <div class="header">
     <div class="header-title">нежный вайб 🌸</div>
     <div class="header-sub">монитор настроения группы</div>
   </div>
 
-  <!-- Auth Block -->
   <div class="card" id="authBlock">
     <p>Войди, чтобы выбирать настроение и видеть всех ✨</p>
     <button id="googleLoginBtn" class="btn">
@@ -369,7 +356,6 @@
     </button>
   </div>
 
-  <!-- My Profile -->
   <div class="card" id="profileCard" style="display:none">
     <div class="section-label">Мой профиль</div>
     <div id="myInfo">
@@ -380,7 +366,6 @@
     </div>
   </div>
 
-  <!-- Status Buttons -->
   <div class="card" id="statusCard" style="display:none">
     <div class="section-label">Моё настроение</div>
     <div class="status-buttons">
@@ -393,7 +378,6 @@
     </div>
   </div>
 
-  <!-- Group Monitor -->
   <div class="card">
     <div class="section-label">Монитор группы</div>
     <div id="groupList">
@@ -416,7 +400,6 @@
     'sb_publishable_B7yD6pvugtqb9g9EZWNo8A_qsWbkpQY'
   );
 
-  // ─── Toast ───
   function showToast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
@@ -424,7 +407,6 @@
     setTimeout(() => t.classList.remove('show'), 2600);
   }
 
-  // ─── Google Login ───
   document.getElementById('googleLoginBtn')?.addEventListener('click', async () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
@@ -438,7 +420,6 @@
     }
   });
 
-  // ─── Logout ───
   function setupLogoutButton(container) {
     const old = document.getElementById('logoutBtn');
     if (old) old.remove();
@@ -460,7 +441,6 @@
     container.appendChild(btn);
   }
 
-  // ─── Load UI ───
   let currentUserId = null;
   let currentStatus = null;
 
@@ -490,7 +470,6 @@
     const name   = user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0];
     const avatar = user.user_metadata?.avatar_url || '';
 
-    // Fetch current status from DB
     const { data: profile } = await supabase
       .from('profiles')
       .select('status')
@@ -516,14 +495,12 @@
     fetchGroup(user.id);
   }
 
-  // ─── Highlight active status btn ───
   function highlightActiveBtn(status) {
     document.querySelectorAll('.status-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.status === status);
     });
   }
 
-  // ─── Change Status — FIXED with upsert ───
   async function changeStatus(text, color) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) { showToast('Сначала войди через Google 🌼'); return false; }
@@ -531,7 +508,6 @@
     const name   = user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0];
     const avatar = user.user_metadata?.avatar_url || null;
 
-    // upsert — создаёт запись если нет, обновляет если есть
     const { error } = await supabase
       .from('profiles')
       .upsert({
@@ -561,7 +537,6 @@
     return true;
   }
 
-  // ─── Fetch group ───
   async function fetchGroup(currentUserId = null) {
     const { data, error } = await supabase
       .from('profiles')
@@ -601,7 +576,6 @@
     }).join('');
   }
 
-  // ─── Status button clicks ───
   document.querySelectorAll('.status-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
       const text  = btn.dataset.status;
@@ -614,15 +588,12 @@
     });
   });
 
-  // ─── Auth state changes ───
   supabase.auth.onAuthStateChange((event, session) => {
     loadUserAndUI();
   });
 
-  // ─── Init ───
   loadUserAndUI();
 
-  // ─── Auto-refresh ───
   setInterval(async () => {
     const { data: { user } } = await supabase.auth.getUser();
     fetchGroup(user?.id || null);
