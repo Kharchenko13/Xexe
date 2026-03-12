@@ -3,191 +3,410 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Статусы · Нежный вайб</title>
+  <title>Нежный вайб 🌸</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #fdfaff;
+      --bg: #fdf6ff;
       --card: #ffffff;
-      --text: #4a4a6a;
-      --text-light: #7a7a9a;
-      --accent: #d7c0ff;
-      --shadow: 0 8px 32px rgba(180, 160, 255, 0.12);
+      --text: #3d3558;
+      --text-light: #8e84aa;
+      --accent: #c9aff5;
+      --accent2: #f9a8d4;
+      --border: rgba(201, 175, 245, 0.25);
+      --shadow-sm: 0 2px 12px rgba(160, 130, 220, 0.10);
+      --shadow-md: 0 8px 32px rgba(160, 130, 220, 0.16);
+      --shadow-lg: 0 16px 48px rgba(160, 130, 220, 0.20);
     }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      font-family: system-ui, -apple-system, sans-serif;
-      background: linear-gradient(135deg, #fdfaff 0%, #f8f0ff 100%);
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse 80% 50% at 20% 0%, rgba(220, 190, 255, 0.25) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(249, 168, 212, 0.18) 0%, transparent 55%);
       color: var(--text);
-      margin: 0;
-      padding: 32px 16px;
       min-height: 100vh;
+      padding: 40px 16px 80px;
     }
+
     .container {
-      max-width: 720px;
+      max-width: 680px;
       margin: 0 auto;
     }
-    h2 {
-      margin: 2.2em 0 1.2em;
-      font-size: 1.8rem;
-      font-weight: 700;
-      background: linear-gradient(90deg, #b794f4, #9f7aea);
+
+    /* ─── Header ─── */
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      animation: fadeDown 0.6s ease both;
+    }
+    .header-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 2.6rem;
+      background: linear-gradient(135deg, #b87fff, #f06bba);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      line-height: 1.2;
+      margin-bottom: 6px;
     }
-    #authBlock {
-      background: var(--card);
-      padding: 24px;
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      text-align: center;
-      margin-bottom: 32px;
-      border: 1px solid rgba(200, 180, 255, 0.18);
-    }
-    #myInfo {
-      background: var(--card);
-      padding: 20px 24px;
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      font-size: 1.15rem;
-      font-weight: 500;
-      margin-bottom: 32px;
-      border: 1px solid rgba(200, 180, 255, 0.18);
-      position: relative;
-    }
-    .status-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin: 24px 0 40px;
-      justify-content: center;
-    }
-    .status-btn {
-      padding: 12px 24px;
-      border: none;
-      border-radius: 999px;
+    .header-sub {
+      color: var(--text-light);
+      font-size: 0.95rem;
       font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.28s ease;
+      letter-spacing: 0.04em;
+    }
+
+    /* ─── Cards ─── */
+    .card {
+      background: var(--card);
+      border-radius: 28px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+      padding: 28px;
+      margin-bottom: 24px;
+      animation: fadeUp 0.5s ease both;
+    }
+    .card:nth-child(2) { animation-delay: 0.08s; }
+    .card:nth-child(3) { animation-delay: 0.16s; }
+    .card:nth-child(4) { animation-delay: 0.24s; }
+
+    .section-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 18px;
       display: flex;
       align-items: center;
       gap: 8px;
-      background: linear-gradient(135deg, var(--btn-bg-start), var(--btn-bg-end));
-      color: var(--btn-text);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     }
-    .status-btn:hover {
-      transform: translateY(-3px) scale(1.04);
-      box-shadow: 0 12px 32px rgba(180, 160, 255, 0.22);
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border), transparent);
     }
-    .status-btn:active { transform: translateY(-1px) scale(1.01); }
-    .study { --btn-bg-start: #e0f7fa; --btn-bg-end: #b2ebf2; --btn-text: #006064; }
-    .coffee { --btn-bg-start: #fff3e0; --btn-bg-end: #ffe0b2; --btn-text: #ef6c00; }
-    .game  { --btn-bg-start: #e8f5e9; --btn-bg-end: #c8e6c9; --btn-text: #2e7d32; }
-    .home  { --btn-bg-start: #f3e5f5; --btn-bg-end: #e1bee7; --btn-text: #6a1b9a; }
-    #googleLoginBtn {
-      background: linear-gradient(135deg, #4285f4, #357ae8) !important;
-      color: white !important;
-      font-size: 1.1rem;
-      padding: 14px 32px;
-      margin: 16px auto 8px;
-      box-shadow: 0 4px 16px rgba(66, 133, 244, 0.3);
+
+    /* ─── Auth Block ─── */
+    #authBlock {
+      text-align: center;
     }
-    #googleLoginBtn svg {
-      width: 22px;
-      height: 22px;
+    #authBlock p {
+      color: var(--text-light);
+      font-size: 0.97rem;
+      margin-bottom: 20px;
     }
-    #logoutBtn {
-      background: linear-gradient(135deg, #ff6b6b, #ee5253) !important;
-      color: white !important;
-      font-size: 0.95rem;
-      padding: 10px 20px;
-      margin: 12px auto 4px;
-      box-shadow: 0 4px 16px rgba(255, 107, 107, 0.25);
-    }
-    #groupList {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .user-item {
-      background: var(--card);
-      padding: 18px 22px;
-      border-radius: 20px;
+
+    /* ─── My Info ─── */
+    #myInfo {
       display: flex;
       align-items: center;
       gap: 16px;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(200, 180, 255, 0.12);
-      transition: all 0.25s ease;
+      min-height: 56px;
     }
-    .user-item:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 40px rgba(180, 160, 255, 0.18);
-    }
-    .status-dot {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--dot-color), color-mix(in srgb, var(--dot-color) 70%, white));
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.08), 0 0 0 3px rgba(255,255,255,0.7);
-      flex-shrink: 0;
-    }
-    .username {
-      font-weight: 650;
+    #myInfo .greeting {
+      font-size: 1.12rem;
+      font-weight: 700;
       color: var(--text);
-      font-size: 1.1rem;
+      flex: 1;
     }
-    .status-text {
+    #myInfo .current-status {
+      font-size: 0.9rem;
       color: var(--text-light);
-      font-size: 0.98rem;
-      margin-top: 3px;
+      font-weight: 600;
+      margin-top: 4px;
     }
+
+    /* ─── Buttons ─── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 999px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.97rem;
+      cursor: pointer;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: translateY(0) scale(0.98); }
+
+    #googleLoginBtn {
+      background: linear-gradient(135deg, #5b8dee, #4070e0);
+      color: #fff;
+      font-size: 1.05rem;
+      padding: 14px 28px;
+      box-shadow: 0 6px 20px rgba(91, 141, 238, 0.35);
+      margin: 0 auto;
+    }
+    #googleLoginBtn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+    #logoutBtn {
+      background: linear-gradient(135deg, #ffd0e4, #ffb3ce);
+      color: #b5446e;
+      font-size: 0.88rem;
+      padding: 8px 16px;
+      margin-left: auto;
+      box-shadow: 0 2px 10px rgba(255, 100, 150, 0.15);
+    }
+
+    /* ─── Status Buttons ─── */
+    .status-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .status-btn {
+      padding: 11px 20px;
+      border: 2px solid transparent;
+      border-radius: 999px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+    }
+    .status-btn:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.10);
+      border-color: var(--btn-border);
+    }
+    .status-btn.active {
+      border-color: var(--btn-border);
+      box-shadow: 0 0 0 3px rgba(var(--btn-glow), 0.25);
+    }
+    .status-btn:active { transform: scale(0.97); }
+
+    .btn-study  { --btn-bg: #e0f7fb; --btn-text: #00808a; --btn-border: #7dd8e0; --btn-glow: 125,216,224; }
+    .btn-coffee { --btn-bg: #fff4e2; --btn-text: #c06200; --btn-border: #ffcc80; --btn-glow: 255,180,80; }
+    .btn-game   { --btn-bg: #edf7ed; --btn-text: #2a7a2e; --btn-border: #90d494; --btn-glow: 100,200,100; }
+    .btn-home   { --btn-bg: #f5eeff; --btn-text: #7040b0; --btn-border: #c9a8f0; --btn-glow: 180,140,240; }
+    .btn-walk   { --btn-bg: #fff0f5; --btn-text: #b03070; --btn-border: #f0a0c0; --btn-glow: 240,130,170; }
+    .btn-sleep  { --btn-bg: #eef0ff; --btn-text: #3040a0; --btn-border: #9098e8; --btn-glow: 120,140,230; }
+
+    /* ─── Avatar ─── */
     .avatar {
       width: 48px;
       height: 48px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid var(--accent);
+      border: 2.5px solid var(--accent);
+      flex-shrink: 0;
     }
-    .error {
-      color: #d32f2f;
-      background: #ffebee;
-      padding: 14px;
-      border-radius: 16px;
-      font-size: 0.98rem;
+    .avatar-placeholder {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2.5px solid var(--accent);
+      background: linear-gradient(135deg, #e8d5ff, #ffd5ec);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #9060c0;
+      flex-shrink: 0;
+    }
+
+    /* ─── Group list ─── */
+    #groupList {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .user-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      background: linear-gradient(135deg, #fdfaff, #faf5ff);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.22s ease;
+    }
+    .user-item:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .user-item .info { flex: 1; min-width: 0; }
+    .user-item .username {
+      font-weight: 800;
+      font-size: 1.02rem;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .user-item .status-text {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    .status-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--dot-color, #d0c0f0);
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.9), 0 0 0 5px color-mix(in srgb, var(--dot-color, #d0c0f0) 30%, transparent);
+      flex-shrink: 0;
+    }
+
+    /* ─── Empty / Error ─── */
+    .empty-state {
       text-align: center;
+      color: var(--text-light);
+      padding: 20px;
+      font-size: 1rem;
+      font-weight: 600;
     }
+    .error-state {
+      color: #c0304a;
+      background: #fff0f3;
+      padding: 14px 18px;
+      border-radius: 16px;
+      font-size: 0.95rem;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    /* ─── Toast ─── */
+    #toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: linear-gradient(135deg, #6d3fcc, #c04090);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 8px 28px rgba(130, 60, 180, 0.35);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      white-space: nowrap;
+      z-index: 1000;
+    }
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ─── Loading ─── */
+    .loading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-light);
+      font-weight: 600;
+      font-size: 0.97rem;
+    }
+    .loading-dots span {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: bounce 1.1s infinite ease;
+      margin: 0 2px;
+    }
+    .loading-dots span:nth-child(2) { animation-delay: 0.18s; }
+    .loading-dots span:nth-child(3) { animation-delay: 0.36s; }
+
+    /* ─── Animations ─── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0.7); opacity: 0.5; }
+      40% { transform: scale(1.1); opacity: 1; }
+    }
+    @keyframes pop {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.18); }
+      100% { transform: scale(1); }
+    }
+    .pop { animation: pop 0.35s ease; }
   </style>
 </head>
 <body>
 
 <div class="container">
 
-  <div id="authBlock">
-    <h3>Нежный вайб 🌸</h3>
-    <p id="userStatus" style="color: var(--text-light); margin: 8px 0 16px;">Войди, чтобы менять статус и видеть всех</p>
-    
-    <button id="googleLoginBtn" class="status-btn">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-title">нежный вайб 🌸</div>
+    <div class="header-sub">монитор настроения группы</div>
+  </div>
+
+  <!-- Auth Block -->
+  <div class="card" id="authBlock">
+    <p>Войди, чтобы выбирать настроение и видеть всех ✨</p>
+    <button id="googleLoginBtn" class="btn">
       <svg viewBox="0 0 24 24"><path fill="white" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.51h5.84c-.25 1.31-.98 2.42-2.07 3.16v2.63h3.35c1.96-1.81 3.09-4.47 3.09-7.25z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.35-2.63c-1.01.68-2.29 1.08-3.93 1.08-3.02 0-5.58-2.04-6.49-4.79H.96v2.67C2.77 20.39 6.62 23 12 23z"/><path fill="#FBBC05" d="M5.51 14.21c-.23-.68-.36-1.41-.36-2.21s.13-1.53.36-2.21V7.34H.96C.35 8.85 0 10.39 0 12s.35 3.15.96 4.66l4.55-2.45z"/><path fill="#EA4335" d="M12 4.98c1.64 0 3.11.56 4.27 1.66l3.19-3.19C17.46 1.01 14.97 0 12 0 6.62 0 2.77 2.61.96 6.34l4.55 2.45C6.42 6.02 8.98 4.98 12 4.98z"/></svg>
       Войти через Google
     </button>
   </div>
 
-  <h2>Мой профиль</h2>
-  <div id="myInfo">Загрузка нежного вайба... 🌷</div>
-
-  <div class="status-buttons" id="statusButtons">
-    <button class="status-btn study"  data-status="Учусь" data-color="#80deea">📚 Учусь</button>
-    <button class="status-btn coffee" data-status="Кофе"  data-color="#ffcc80">☕ Кофе</button>
-    <button class="status-btn game"  data-status="В игре" data-color="#a5d6a7">🎮 В игре</button>
-    <button class="status-btn home"  data-status="Дома"  data-color="#ce93d8">🏠 Дома</button>
+  <!-- My Profile -->
+  <div class="card" id="profileCard" style="display:none">
+    <div class="section-label">Мой профиль</div>
+    <div id="myInfo">
+      <div class="loading">
+        <div class="loading-dots"><span></span><span></span><span></span></div>
+        Загрузка...
+      </div>
+    </div>
   </div>
 
-  <h2>Монитор группы</h2>
-  <div id="groupList">Собираем облачко участников...</div>
+  <!-- Status Buttons -->
+  <div class="card" id="statusCard" style="display:none">
+    <div class="section-label">Моё настроение</div>
+    <div class="status-buttons">
+      <button class="status-btn btn-study"  data-status="Учусь"    data-color="#7dd8e0" data-emoji="📚">📚 Учусь</button>
+      <button class="status-btn btn-coffee" data-status="Кофе"     data-color="#ffcc80" data-emoji="☕">☕ Кофе</button>
+      <button class="status-btn btn-game"   data-status="В игре"   data-color="#90d494" data-emoji="🎮">🎮 В игре</button>
+      <button class="status-btn btn-home"   data-status="Дома"     data-color="#c9a8f0" data-emoji="🏠">🏠 Дома</button>
+      <button class="status-btn btn-walk"   data-status="Гуляю"    data-color="#f0a0c0" data-emoji="🌿">🌿 Гуляю</button>
+      <button class="status-btn btn-sleep"  data-status="Сплю"     data-color="#9098e8" data-emoji="💤">💤 Сплю</button>
+    </div>
+  </div>
+
+  <!-- Group Monitor -->
+  <div class="card">
+    <div class="section-label">Монитор группы</div>
+    <div id="groupList">
+      <div class="loading">
+        <div class="loading-dots"><span></span><span></span><span></span></div>
+        Собираем облачко участников...
+      </div>
+    </div>
+  </div>
 
 </div>
+
+<div id="toast"></div>
 
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
@@ -197,108 +416,152 @@
     'sb_publishable_B7yD6pvugtqb9g9EZWNo8A_qsWbkpQY'
   );
 
-  // ─── Вход через Google ───
+  // ─── Toast ───
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2600);
+  }
+
+  // ─── Google Login ───
   document.getElementById('googleLoginBtn')?.addEventListener('click', async () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
-        options: {
-          redirectTo: window.location.href.split('?')[0]
-        }
+        options: { redirectTo: window.location.href.split('?')[0].split('#')[0] }
       });
       if (error) throw error;
     } catch (err) {
       console.error('Ошибка входа:', err);
-      alert('Не получилось войти 😔\n' + (err.message || 'Попробуй позже'));
+      showToast('Не получилось войти 😔');
     }
   });
 
-  // ─── Выход из аккаунта ───
-  function setupLogoutButton() {
-    const existingBtn = document.getElementById('logoutBtn');
-    if (existingBtn) existingBtn.remove();
-
-    const logoutBtn = document.createElement('button');
-    logoutBtn.id = 'logoutBtn';
-    logoutBtn.className = 'status-btn';
-    logoutBtn.textContent = 'Выйти';
-    logoutBtn.addEventListener('click', async () => {
-      try {
-        const { error } = await supabase.auth.signOut();
-        if (error) throw error;
-        // после signOut состояние обновится через onAuthStateChange
-      } catch (err) {
-        console.error('Ошибка выхода:', err);
-        alert('Не получилось выйти 😔\n' + err.message);
-      }
+  // ─── Logout ───
+  function setupLogoutButton(container) {
+    const old = document.getElementById('logoutBtn');
+    if (old) old.remove();
+    const btn = document.createElement('button');
+    btn.id = 'logoutBtn';
+    btn.className = 'btn';
+    btn.innerHTML = '🚪 Выйти';
+    Object.assign(btn.style, {
+      background: 'linear-gradient(135deg,#ffd0e4,#ffb3ce)',
+      color: '#b5446e',
+      fontSize: '0.88rem',
+      padding: '8px 16px',
+      marginLeft: 'auto',
+      boxShadow: '0 2px 10px rgba(255,100,150,0.15)'
     });
-
-    // Добавляем кнопку выхода в блок myInfo
-    document.getElementById('myInfo').appendChild(logoutBtn);
+    btn.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+    });
+    container.appendChild(btn);
   }
 
-  // ─── Обновление интерфейса в зависимости от авторизации ───
+  // ─── Load UI ───
+  let currentUserId = null;
+  let currentStatus = null;
+
   async function loadUserAndUI() {
     const { data: { user } } = await supabase.auth.getUser();
 
+    const authBlock   = document.getElementById('authBlock');
+    const profileCard = document.getElementById('profileCard');
+    const statusCard  = document.getElementById('statusCard');
+    const myInfo      = document.getElementById('myInfo');
+
     if (!user) {
-      document.getElementById('userStatus').textContent = 'Не авторизован';
-      document.getElementById('myInfo').innerHTML = 'Войди через Google, чтобы выбрать настроение 🌸';
-      document.getElementById('statusButtons').style.display = 'none';
-      document.getElementById('authBlock').style.display = 'block';
-      // убираем кнопку выхода если была
-      const logoutBtn = document.getElementById('logoutBtn');
-      if (logoutBtn) logoutBtn.remove();
+      currentUserId = null;
+      currentStatus = null;
+      authBlock.style.display   = 'block';
+      profileCard.style.display = 'none';
+      statusCard.style.display  = 'none';
+      fetchGroup(null);
       return;
     }
 
-    const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0];
+    currentUserId = user.id;
+    authBlock.style.display   = 'none';
+    profileCard.style.display = 'block';
+    statusCard.style.display  = 'block';
+
+    const name   = user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0];
     const avatar = user.user_metadata?.avatar_url || '';
 
-    let infoHtml = avatar 
-      ? `<img src="${avatar}" class="avatar" alt="Аватар"> `
-      : '';
-    infoHtml += `Привет, ${name} ✨<br>Ты здесь как:`;
+    // Fetch current status from DB
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('status')
+      .eq('id', user.id)
+      .single();
 
-    document.getElementById('userStatus').innerHTML = `Привет, ${name} ✨`;
-    document.getElementById('myInfo').innerHTML = infoHtml;
+    currentStatus = profile?.status || null;
 
-    document.getElementById('authBlock').style.display = 'none';
-    document.getElementById('statusButtons').style.display = 'flex';
+    const avatarEl = avatar
+      ? `<img src="${avatar}" class="avatar" alt="Аватар">`
+      : `<div class="avatar-placeholder">${name[0]?.toUpperCase() || '?'}</div>`;
 
-    // Добавляем кнопку «Выйти»
-    setupLogoutButton();
+    myInfo.innerHTML = `
+      ${avatarEl}
+      <div class="info">
+        <div class="greeting">Привет, ${name}! ✨</div>
+        <div class="current-status" id="statusDisplay">${currentStatus ? `Сейчас: ${currentStatus}` : 'Статус не выбран'}</div>
+      </div>
+    `;
 
+    setupLogoutButton(myInfo);
+    highlightActiveBtn(currentStatus);
     fetchGroup(user.id);
   }
 
-  // ─── Обновление статуса ───
+  // ─── Highlight active status btn ───
+  function highlightActiveBtn(status) {
+    document.querySelectorAll('.status-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.status === status);
+    });
+  }
+
+  // ─── Change Status — FIXED with upsert ───
   async function changeStatus(text, color) {
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      alert('Сначала войди через Google 🌼');
-      return false;
-    }
+    if (!user) { showToast('Сначала войди через Google 🌼'); return false; }
 
+    const name   = user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0];
+    const avatar = user.user_metadata?.avatar_url || null;
+
+    // upsert — создаёт запись если нет, обновляет если есть
     const { error } = await supabase
       .from('profiles')
-      .update({ 
+      .upsert({
+        id: user.id,
+        username: name,
+        avatar_url: avatar,
         status: text,
         color: color,
-        username: user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0],
-        avatar_url: user.user_metadata?.avatar_url || null
-      })
-      .eq('id', user.id);
+        updated_at: new Date().toISOString()
+      }, { onConflict: 'id' });
 
     if (error) {
-      console.error('Ошибка:', error);
-      alert('Не получилось обновить статус 😔\n' + error.message);
+      console.error('Ошибка upsert:', error);
+      showToast('Не получилось обновить статус 😔');
       return false;
     }
+
+    currentStatus = text;
+    const statusDisplay = document.getElementById('statusDisplay');
+    if (statusDisplay) {
+      statusDisplay.textContent = `Сейчас: ${text}`;
+      statusDisplay.classList.remove('pop');
+      void statusDisplay.offsetWidth;
+      statusDisplay.classList.add('pop');
+    }
+    highlightActiveBtn(text);
     return true;
   }
 
-  // ─── Загрузка списка участников ───
+  // ─── Fetch group ───
   async function fetchGroup(currentUserId = null) {
     const { data, error } = await supabase
       .from('profiles')
@@ -306,66 +569,64 @@
       .order('username', { ascending: true });
 
     if (error) {
-      console.error('Ошибка загрузки:', error);
       document.getElementById('groupList').innerHTML =
-        '<div class="error">Не удалось загрузить участников 💔</div>';
+        '<div class="error-state">Не удалось загрузить участников 💔</div>';
       return;
     }
 
-    if (data.length === 0) {
-      document.getElementById('groupList').innerHTML = '<div style="text-align:center; color:var(--text-light);">Пока здесь тихо... ☁️</div>';
+    if (!data || data.length === 0) {
+      document.getElementById('groupList').innerHTML =
+        '<div class="empty-state">Пока здесь тихо... ☁️</div>';
       return;
     }
 
-    document.getElementById('groupList').innerHTML = data
-      .map(user => {
-        const dotColor = user.color || '#e1bee7';
-        const statusText = user.status || 'Пока без настроения';
-        const avatarHtml = user.avatar_url 
-          ? `<img src="${user.avatar_url}" class="avatar" alt="${user.username}">`
-          : `<div class="avatar" style="background:#e0e0e0;display:flex;align-items:center;justify-content:center;font-size:1.4rem;">${user.username?.[0]?.toUpperCase() || '?'}</div>`;
+    document.getElementById('groupList').innerHTML = data.map(u => {
+      const dotColor  = u.color || '#c9a8f0';
+      const statusTxt = u.status || 'Без настроения';
+      const avatarHtml = u.avatar_url
+        ? `<img src="${u.avatar_url}" class="avatar" alt="${u.username}">`
+        : `<div class="avatar-placeholder">${u.username?.[0]?.toUpperCase() || '?'}</div>`;
+      const isMe = u.id === currentUserId;
 
-        return `
-          <div class="user-item">
-            ${avatarHtml}
-            <div>
-              <div class="username">${user.username}</div>
-              <div class="status-text">${statusText}</div>
-            </div>
-            <div class="status-dot" style="--dot-color: ${dotColor}"></div>
+      return `
+        <div class="user-item" style="${isMe ? 'border-color: rgba(200,160,255,0.5); background: linear-gradient(135deg,#fdf5ff,#fff0fa);' : ''}">
+          ${avatarHtml}
+          <div class="info">
+            <div class="username">${u.username}${isMe ? ' <span style="font-size:0.8em;color:#b070e0">это ты</span>' : ''}</div>
+            <div class="status-text">${statusTxt}</div>
           </div>
-        `;
-      })
-      .join('');
+          <div class="status-dot" style="--dot-color: ${dotColor}"></div>
+        </div>
+      `;
+    }).join('');
   }
 
-  // ─── Слушаем изменения авторизации ───
-  supabase.auth.onAuthStateChange((event, session) => {
-    console.log('Auth event:', event);
-    loadUserAndUI();
-  });
-
-  // ─── Инициализация ───
-  document.querySelectorAll('.status-btn:not(#googleLoginBtn)').forEach(btn => {
+  // ─── Status button clicks ───
+  document.querySelectorAll('.status-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
-      const text = btn.dataset.status;
+      const text  = btn.dataset.status;
       const color = btn.dataset.color;
+      const emoji = btn.dataset.emoji;
       if (await changeStatus(text, color)) {
-        fetchGroup();
+        showToast(`${emoji} Статус обновлён: ${text}`);
+        fetchGroup(currentUserId);
       }
     });
   });
 
-  // Первая загрузка
+  // ─── Auth state changes ───
+  supabase.auth.onAuthStateChange((event, session) => {
+    loadUserAndUI();
+  });
+
+  // ─── Init ───
   loadUserAndUI();
 
-  // Автообновление списка
-  setInterval(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) fetchGroup();
-    });
+  // ─── Auto-refresh ───
+  setInterval(async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    fetchGroup(user?.id || null);
   }, 6000);
-
 </script>
 </body>
 </html>
