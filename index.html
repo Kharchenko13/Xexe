@@ -66,7 +66,7 @@
     .section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
     #authBlock { text-align: center; }
     #authBlock p { color: var(--text-light); font-size: 0.97rem; margin-bottom: 20px; }
-    #myInfo { display: flex; align-items: center; gap: 16px; min-height: 56px; }
+    #myInfo { display: flex; align-items: center; gap: 16px; min-height: 56px; flex-wrap: wrap; }
     .btn {
       display: inline-flex;
       align-items: center;
@@ -132,6 +132,62 @@
     .user-item .info { flex: 1; min-width: 0; }
     .user-item .username { font-weight: 800; font-size: 1.02rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .user-item .status-text { font-size: 0.9rem; color: var(--text-light); font-weight: 600; margin-top: 2px; }
+    .user-item .study-time-badge {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #00808a;
+      background: #e0f7fb;
+      border-radius: 999px;
+      padding: 3px 10px;
+      margin-top: 4px;
+      display: inline-block;
+    }
+
+    /* ── Онлайн-индикатор ── */
+    .online-indicator-wrap { position: relative; flex-shrink: 0; }
+    .online-indicator-wrap .avatar,
+    .online-indicator-wrap .avatar-placeholder { display: block; }
+    .online-dot {
+      position: absolute;
+      bottom: 2px; right: 2px;
+      width: 13px; height: 13px;
+      border-radius: 50%;
+      border: 2.5px solid #fff;
+      background: #b0bec5; /* offline */
+      transition: background 0.4s ease;
+      z-index: 2;
+    }
+    .online-dot.is-online {
+      background: #43e07a;
+      box-shadow: 0 0 0 3px rgba(67,224,122,0.25);
+      animation: pulseGreen 2s infinite ease;
+    }
+    @keyframes pulseGreen {
+      0%,100% { box-shadow: 0 0 0 3px rgba(67,224,122,0.25); }
+      50%      { box-shadow: 0 0 0 6px rgba(67,224,122,0.10); }
+    }
+
+    /* ── Мой таймер учёбы ── */
+    #myStudyTimer {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #e0f7fb, #cff8ea);
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: #00808a;
+      box-shadow: 0 3px 14px rgba(0,160,170,0.15);
+      margin-top: 10px;
+      width: 100%;
+      justify-content: center;
+      letter-spacing: 0.03em;
+    }
+    #myStudyTimer.active { display: flex; }
+    #myStudyTimer .timer-icon { font-size: 1.2rem; animation: spin 3s linear infinite; display: inline-block; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
     .status-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--dot-color,#d0c0f0); box-shadow: 0 0 0 3px rgba(255,255,255,0.9); flex-shrink: 0; }
     .empty-state { text-align: center; color: var(--text-light); padding: 20px; font-size: 1rem; font-weight: 600; }
     .error-state { color: #c0304a; background: #fff0f3; padding: 14px 18px; border-radius: 16px; font-size: 0.95rem; text-align: center; font-weight: 600; }
@@ -178,6 +234,12 @@
     <div id="myInfo">
       <div class="loading"><div class="loading-dots"><span></span><span></span><span></span></div>Загрузка...</div>
     </div>
+    <!-- Таймер учёбы текущего пользователя -->
+    <div id="myStudyTimer">
+      <span class="timer-icon">⏱️</span>
+      <span>Учусь уже: </span>
+      <span id="myStudyTimerDisplay">0ч 0м 0с</span>
+    </div>
   </div>
 
   <div class="card" id="statusCard" style="display:none">
@@ -210,6 +272,58 @@
     'sb_publishable_B7yD6pvugtqb9g9EZWNo8A_qsWbkpQY'
   );
 
+  // ─── Онлайн: считаем "онлайн" если last_seen < 3 минут назад ───
+  const ONLINE_THRESHOLD_MS = 3 * 60 * 1000; // 3 минуты
+
+  function isOnline(lastSeen) {
+    if (!lastSeen) return false;
+    return (Date.now() - new Date(lastSeen).getTime()) < ONLINE_THRESHOLD_MS;
+  }
+
+  // ─── Таймер учёбы (локальный, для текущего юзера) ───
+  let studyStartedAt = null;   // Date когда началась учёба в этой сессии
+  let studyBaseSeconds = 0;    // study_seconds из БД на момент входа / смены статуса
+  let studyTimerInterval = null;
+
+  function formatSeconds(s) {
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    const sec = s % 60;
+    return `${h}ч ${m}м ${sec}с`;
+  }
+
+  function startStudyTimer(baseSeconds) {
+    studyBaseSeconds = baseSeconds || 0;
+    studyStartedAt = Date.now();
+    const timerEl = document.getElementById('myStudyTimer');
+    const display = document.getElementById('myStudyTimerDisplay');
+    timerEl.classList.add('active');
+    clearInterval(studyTimerInterval);
+    studyTimerInterval = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - studyStartedAt) / 1000);
+      display.textContent = formatSeconds(studyBaseSeconds + elapsed);
+    }, 1000);
+  }
+
+  function stopStudyTimer() {
+    clearInterval(studyTimerInterval);
+    studyTimerInterval = null;
+    studyStartedAt = null;
+    document.getElementById('myStudyTimer').classList.remove('active');
+  }
+
+  // Сохраняем accumulated study_seconds в БД (вызывается при смене статуса или выходе)
+  async function flushStudySeconds(userId) {
+    if (!userId || studyStartedAt === null) return;
+    const elapsed = Math.floor((Date.now() - studyStartedAt) / 1000);
+    const total = studyBaseSeconds + elapsed;
+    await supabase
+      .from('profiles')
+      .update({ study_seconds: total })
+      .eq('id', userId);
+  }
+
+  // ─── Утилиты ───
   function showToast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
@@ -221,9 +335,7 @@
     showToast('Открываем Google... 🌸');
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: {
-        redirectTo: 'https://kharchenko13.github.io/Xexe'
-      }
+      options: { redirectTo: 'https://kharchenko13.github.io/Xexe' }
     });
     if (error) {
       console.error('OAuth error:', error);
@@ -247,6 +359,8 @@
       boxShadow: '0 2px 10px rgba(255,100,150,0.15)'
     });
     btn.addEventListener('click', async () => {
+      await flushStudySeconds(currentUserId);
+      stopStudyTimer();
       await supabase.auth.signOut();
       showToast('Пока! 👋');
     });
@@ -255,6 +369,16 @@
 
   let currentUserId = null;
   let currentStatus = null;
+
+  // Ping "last_seen" каждые 60 сек, пока пользователь на странице
+  let lastSeenInterval = null;
+  async function pingLastSeen() {
+    if (!currentUserId) return;
+    await supabase
+      .from('profiles')
+      .update({ last_seen: new Date().toISOString() })
+      .eq('id', currentUserId);
+  }
 
   async function loadUserAndUI() {
     const { data: { user } } = await supabase.auth.getUser();
@@ -266,6 +390,8 @@
     if (!user) {
       currentUserId = null;
       currentStatus = null;
+      stopStudyTimer();
+      clearInterval(lastSeenInterval);
       authBlock.style.display   = 'block';
       profileCard.style.display = 'none';
       statusCard.style.display  = 'none';
@@ -281,13 +407,27 @@
     const name   = user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0];
     const avatar = user.user_metadata?.avatar_url || '';
 
+    // Получаем профиль из БД
     const { data: profiles } = await supabase
       .from('profiles')
-      .select('status')
+      .select('status, study_seconds')
       .eq('id', user.id)
       .limit(1);
 
     currentStatus = profiles?.[0]?.status || null;
+    const savedStudySeconds = profiles?.[0]?.study_seconds || 0;
+
+    // Обновляем last_seen сразу при входе
+    await supabase.from('profiles').update({ last_seen: new Date().toISOString() }).eq('id', user.id);
+    clearInterval(lastSeenInterval);
+    lastSeenInterval = setInterval(pingLastSeen, 60_000);
+
+    // Запускаем таймер учёбы если уже в статусе "Учусь"
+    if (currentStatus === 'Учусь') {
+      startStudyTimer(savedStudySeconds);
+    } else {
+      stopStudyTimer();
+    }
 
     const avatarEl = avatar
       ? `<img src="${avatar}" class="avatar" alt="Аватар">`
@@ -321,16 +461,35 @@
     const name   = user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0];
     const avatar = user.user_metadata?.avatar_url || null;
 
+    // Если уходим из "Учусь" — сохраняем накопленное время
+    if (currentStatus === 'Учусь' && text !== 'Учусь') {
+      await flushStudySeconds(user.id);
+      stopStudyTimer();
+    }
+
+    // Считаем study_seconds для сохранения
+    let studySecondsToSave = undefined;
+    if (text === 'Учусь') {
+      // Получаем текущее значение из БД
+      const { data: p } = await supabase.from('profiles').select('study_seconds').eq('id', user.id).limit(1);
+      const base = p?.[0]?.study_seconds || 0;
+      studySecondsToSave = base; // сохраним текущее, таймер добавит поверх при flush
+    }
+
+    const upsertData = {
+      id: user.id,
+      username: name,
+      avatar_url: avatar,
+      status: text,
+      color: color,
+      last_seen: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      ...(studySecondsToSave !== undefined ? { study_seconds: studySecondsToSave } : {})
+    };
+
     const { error } = await supabase
       .from('profiles')
-      .upsert({
-        id: user.id,
-        username: name,
-        avatar_url: avatar,
-        status: text,
-        color: color,
-        updated_at: new Date().toISOString()
-      }, { onConflict: 'id' });
+      .upsert(upsertData, { onConflict: 'id' });
 
     if (error) {
       console.error('Upsert error:', JSON.stringify(error));
@@ -339,6 +498,13 @@
     }
 
     currentStatus = text;
+
+    // Запускаем таймер если выбрали "Учусь"
+    if (text === 'Учусь') {
+      const { data: p } = await supabase.from('profiles').select('study_seconds').eq('id', user.id).limit(1);
+      startStudyTimer(p?.[0]?.study_seconds || 0);
+    }
+
     const statusDisplay = document.getElementById('statusDisplay');
     if (statusDisplay) {
       statusDisplay.textContent = `Сейчас: ${text}`;
@@ -353,7 +519,7 @@
   async function fetchGroup(userId = null) {
     const { data, error } = await supabase
       .from('profiles')
-      .select('id, username, status, color, avatar_url')
+      .select('id, username, status, color, avatar_url, last_seen, study_seconds')
       .order('username', { ascending: true });
 
     if (error) {
@@ -371,16 +537,37 @@
     document.getElementById('groupList').innerHTML = data.map(u => {
       const dotColor   = u.color || '#c9a8f0';
       const statusTxt  = u.status || 'Без настроения';
+      const online     = isOnline(u.last_seen);
+      const isMe       = u.id === userId;
+
       const avatarHtml = u.avatar_url
         ? `<img src="${u.avatar_url}" class="avatar" alt="${u.username}">`
         : `<div class="avatar-placeholder">${u.username?.[0]?.toUpperCase() || '?'}</div>`;
-      const isMe = u.id === userId;
+
+      // Показываем время учёбы если статус "Учусь" и есть секунды
+      let studyBadge = '';
+      if (u.status === 'Учусь' && u.study_seconds > 0) {
+        studyBadge = `<div class="study-time-badge">📚 ${formatSeconds(u.study_seconds)}</div>`;
+      }
+
+      // Метка онлайн/оффлайн
+      const onlineLabel = online
+        ? `<span style="font-size:0.78rem;font-weight:700;color:#2db860;background:#e8fff1;border-radius:999px;padding:2px 8px;margin-left:6px;">● онлайн</span>`
+        : `<span style="font-size:0.78rem;font-weight:600;color:#aaa;background:#f3f3f3;border-radius:999px;padding:2px 8px;margin-left:6px;">○ оффлайн</span>`;
+
       return `
         <div class="user-item" style="${isMe ? 'border-color:rgba(200,160,255,0.5);background:linear-gradient(135deg,#fdf5ff,#fff0fa);' : ''}">
-          ${avatarHtml}
+          <div class="online-indicator-wrap">
+            ${avatarHtml}
+            <div class="online-dot ${online ? 'is-online' : ''}"></div>
+          </div>
           <div class="info">
-            <div class="username">${u.username}${isMe ? ' <span style="font-size:0.8em;color:#b070e0">это ты</span>' : ''}</div>
+            <div class="username">
+              ${u.username}${isMe ? ' <span style="font-size:0.8em;color:#b070e0">это ты</span>' : ''}
+              ${onlineLabel}
+            </div>
             <div class="status-text">${statusTxt}</div>
+            ${studyBadge}
           </div>
           <div class="status-dot" style="--dot-color:${dotColor}"></div>
         </div>
@@ -406,10 +593,18 @@
 
   loadUserAndUI();
 
+  // Обновление списка каждые 6 сек
   setInterval(async () => {
     const { data: { user } } = await supabase.auth.getUser();
     fetchGroup(user?.id || null);
   }, 6000);
+
+  // Сохраняем время учёбы при уходе со страницы
+  window.addEventListener('beforeunload', async () => {
+    if (currentUserId && currentStatus === 'Учусь') {
+      await flushStudySeconds(currentUserId);
+    }
+  });
 </script>
 </body>
 </html>
