@@ -7,689 +7,616 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #fdf6ff; --card: #ffffff; --text: #3d3558;
-      --text-light: #8e84aa; --accent: #c9aff5;
-      --border: rgba(201,175,245,0.25);
-      --shadow-sm: 0 2px 12px rgba(160,130,220,0.10);
-      --shadow-md: 0 8px 32px rgba(160,130,220,0.16);
+      --bg:#fdf6ff; --card:#fff; --text:#3d3558; --text-light:#8e84aa;
+      --accent:#c9aff5; --border:rgba(201,175,245,0.25);
+      --sh-sm:0 2px 12px rgba(160,130,220,.10); --sh-md:0 8px 32px rgba(160,130,220,.16);
     }
-    * { box-sizing:border-box; margin:0; padding:0; }
-    body {
-      font-family:'Nunito',sans-serif;
-      background:var(--bg);
-      background-image:
-        radial-gradient(ellipse 80% 50% at 20% 0%,rgba(220,190,255,0.25) 0%,transparent 60%),
-        radial-gradient(ellipse 60% 40% at 80% 100%,rgba(249,168,212,0.18) 0%,transparent 55%);
-      color:var(--text); min-height:100vh; padding:40px 16px 80px;
-    }
-    .container { max-width:680px; margin:0 auto; }
-    .header { text-align:center; margin-bottom:40px; animation:fadeDown 0.6s ease both; }
-    .header-title {
-      font-family:'Playfair Display',serif; font-style:italic; font-size:2.6rem;
-      background:linear-gradient(135deg,#b87fff,#f06bba);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-      line-height:1.2; margin-bottom:6px;
-    }
-    .header-sub { color:var(--text-light); font-size:0.95rem; font-weight:600; letter-spacing:0.04em; }
-    .card {
-      background:var(--card); border-radius:28px; border:1px solid var(--border);
-      box-shadow:var(--shadow-md); padding:28px; margin-bottom:24px;
-      animation:fadeUp 0.5s ease both;
-    }
-    .section-label {
-      font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700;
-      color:var(--text); margin-bottom:18px; display:flex; align-items:center; gap:8px;
-    }
-    .section-label::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,var(--border),transparent); }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Nunito',sans-serif;background:var(--bg);
+      background-image:radial-gradient(ellipse 80% 50% at 20% 0%,rgba(220,190,255,.25) 0%,transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 100%,rgba(249,168,212,.18) 0%,transparent 55%);
+      color:var(--text);min-height:100vh;padding:40px 16px 80px}
+    .wrap{max-width:680px;margin:0 auto}
+    .hdr{text-align:center;margin-bottom:40px;animation:fD .6s ease both}
+    .hdr-t{font-family:'Playfair Display',serif;font-style:italic;font-size:2.6rem;
+      background:linear-gradient(135deg,#b87fff,#f06bba);-webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;background-clip:text;line-height:1.2;margin-bottom:6px}
+    .hdr-s{color:var(--text-light);font-size:.95rem;font-weight:600;letter-spacing:.04em}
+    .card{background:var(--card);border-radius:28px;border:1px solid var(--border);
+      box-shadow:var(--sh-md);padding:28px;margin-bottom:24px;animation:fU .5s ease both}
+    .lbl{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--text);
+      margin-bottom:18px;display:flex;align-items:center;gap:8px}
+    .lbl::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+    #authCard{text-align:center}
+    #authCard p{color:var(--text-light);font-size:.97rem;margin-bottom:20px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border:none;border-radius:999px;
+      font-family:'Nunito',sans-serif;font-weight:700;font-size:.97rem;cursor:pointer;
+      transition:transform .22s,box-shadow .22s}
+    .btn:hover{transform:translateY(-2px)}.btn:active{transform:scale(.98)}
+    #loginBtn{background:linear-gradient(135deg,#5b8dee,#4070e0);color:#fff;font-size:1.05rem;
+      padding:14px 28px;box-shadow:0 6px 20px rgba(91,141,238,.35);margin:0 auto}
+    #loginBtn svg{width:20px;height:20px;flex-shrink:0}
+    .sbwrap{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+    .sb{padding:11px 20px;border:2px solid transparent;border-radius:999px;
+      font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;
+      transition:all .25s;background:var(--bb);color:var(--bt);box-shadow:0 3px 12px rgba(0,0,0,.06)}
+    .sb:hover{transform:translateY(-3px) scale(1.04);border-color:var(--bbd)}
+    .sb.on{border-color:var(--bbd);box-shadow:0 0 0 3px rgba(var(--bg2),.25)}
+    .s1{--bb:#e0f7fb;--bt:#00808a;--bbd:#7dd8e0;--bg2:125,216,224}
+    .s2{--bb:#fff4e2;--bt:#c06200;--bbd:#ffcc80;--bg2:255,180,80}
+    .s3{--bb:#edf7ed;--bt:#2a7a2e;--bbd:#90d494;--bg2:100,200,100}
+    .s4{--bb:#f5eeff;--bt:#7040b0;--bbd:#c9a8f0;--bg2:180,140,240}
+    .s5{--bb:#fff0f5;--bt:#b03070;--bbd:#f0a0c0;--bg2:240,130,170}
+    .s6{--bb:#eef0ff;--bt:#3040a0;--bbd:#9098e8;--bg2:120,140,230}
+    .av{width:48px;height:48px;border-radius:50%;object-fit:cover;border:2.5px solid var(--accent);flex-shrink:0}
+    .avp{width:48px;height:48px;border-radius:50%;border:2.5px solid var(--accent);
+      background:linear-gradient(135deg,#e8d5ff,#ffd5ec);display:flex;align-items:center;
+      justify-content:center;font-size:1.3rem;font-weight:800;color:#9060c0;flex-shrink:0}
+    .avs{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);flex-shrink:0}
+    .avsp{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#e8d5ff,#ffd5ec);
+      display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:800;color:#9060c0;flex-shrink:0}
+    .owrap{position:relative;flex-shrink:0}
+    .odot{position:absolute;bottom:2px;right:2px;width:13px;height:13px;border-radius:50%;
+      border:2.5px solid #fff;background:#b0bec5;z-index:2}
+    .odot.on{background:#43e07a;box-shadow:0 0 0 3px rgba(67,224,122,.25);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(67,224,122,.25)}50%{box-shadow:0 0 0 6px rgba(67,224,122,.1)}}
+    #myInfo{display:flex;align-items:center;gap:16px;min-height:56px;flex-wrap:wrap}
 
-    #authBlock { text-align:center; }
-    #authBlock p { color:var(--text-light); font-size:0.97rem; margin-bottom:20px; }
-    #myInfo { display:flex; align-items:center; gap:16px; min-height:56px; flex-wrap:wrap; }
+    /* ══ ТАЙМЕР ══ */
+    #timerBox{display:none;flex-direction:column;gap:12px;margin-top:16px;
+      padding:16px 20px;border-radius:20px;border:2px solid var(--tc,#c9a8f0);background:var(--tbg,#f5eeff)}
+    #timerBox.show{display:flex}
+    .timer-top{display:flex;align-items:center;justify-content:space-between}
+    .timer-left{display:flex;align-items:center;gap:12px}
+    .tring{width:42px;height:42px;border-radius:50%;border:3px solid var(--trm,#ddd);
+      border-top-color:var(--trc,#9060c0);flex-shrink:0}
+    .tring.spin{animation:spin 1s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .tinfo{display:flex;flex-direction:column;gap:2px}
+    .tname{font-size:.75rem;font-weight:800;color:var(--ttx,#7040b0);letter-spacing:.08em;text-transform:uppercase}
+    #tCur{font-size:1.5rem;font-weight:900;color:var(--ttx,#7040b0);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+    .timer-right{text-align:right}
+    .ttlbl{font-size:.72rem;color:var(--ttx,#7040b0);opacity:.65;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+    #tTot{font-size:1rem;font-weight:800;color:var(--ttx,#7040b0);font-variant-numeric:tabular-nums}
+    .timer-btns{display:flex;gap:8px}
+    .tbtn{padding:7px 16px;border-radius:999px;border:1.5px solid var(--tc,#c9a8f0);
+      background:transparent;color:var(--ttx,#7040b0);font-family:'Nunito',sans-serif;
+      font-weight:800;font-size:.85rem;cursor:pointer;transition:all .2s}
+    .tbtn:hover{background:var(--tc,#c9a8f0);color:#fff}
+    .tbtn:active{transform:scale(.96)}
+    .tbtn.start{background:var(--trc,#9060c0);color:#fff;border-color:var(--trc,#9060c0)}
+    .tbtn.start:hover{opacity:.85}
+    /* цвета по статусу */
+    .tc1{--tbg:#e0f7fb;--tc:#7dd8e0;--trc:#00a8b5;--trm:#b2edf2;--ttx:#007a85}
+    .tc2{--tbg:#fff4e2;--tc:#ffcc80;--trc:#e08000;--trm:#ffe0a0;--ttx:#c06200}
+    .tc3{--tbg:#edf7ed;--tc:#90d494;--trc:#2a9a2e;--trm:#b8e8ba;--ttx:#1a6a1e}
+    .tc4{--tbg:#f5eeff;--tc:#c9a8f0;--trc:#9060c0;--trm:#ddc8f8;--ttx:#7040b0}
+    .tc5{--tbg:#fff0f5;--tc:#f0a0c0;--trc:#c0406a;--trm:#f8c8da;--ttx:#b03070}
+    .tc6{--tbg:#eef0ff;--tc:#9098e8;--trc:#4050c0;--trm:#c0c8f0;--ttx:#3040a0}
 
-    .btn {
-      display:inline-flex; align-items:center; gap:8px;
-      padding:12px 22px; border:none; border-radius:999px;
-      font-family:'Nunito',sans-serif; font-weight:700; font-size:0.97rem;
-      cursor:pointer; transition:transform 0.22s ease,box-shadow 0.22s ease;
-    }
-    .btn:hover { transform:translateY(-2px); }
-    .btn:active { transform:scale(0.98); }
-    #googleLoginBtn {
-      background:linear-gradient(135deg,#5b8dee,#4070e0); color:#fff;
-      font-size:1.05rem; padding:14px 28px;
-      box-shadow:0 6px 20px rgba(91,141,238,0.35); margin:0 auto;
-    }
-    #googleLoginBtn svg { width:20px; height:20px; flex-shrink:0; }
+    /* монитор */
+    #gList{display:flex;flex-direction:column;gap:12px}
+    .ui{display:flex;align-items:center;gap:14px;padding:16px 18px;
+      background:linear-gradient(135deg,#fdfaff,#faf5ff);border-radius:20px;
+      border:1px solid var(--border);box-shadow:var(--sh-sm);transition:all .22s}
+    .ui:hover{transform:translateY(-3px);box-shadow:var(--sh-md)}
+    .ui .inf{flex:1;min-width:0}
+    .uname{font-weight:800;font-size:1.02rem;color:var(--text)}
+    .ust{font-size:.9rem;color:var(--text-light);font-weight:600;margin-top:2px}
+    .tbadge{display:inline-flex;align-items:center;gap:5px;font-size:.82rem;font-weight:800;
+      border-radius:999px;padding:3px 11px;margin-top:5px}
+    .tb1{color:#007a85;background:#e0f7fb}.tb2{color:#c06200;background:#fff4e2}
+    .tb3{color:#1a6a1e;background:#edf7ed}.tb4{color:#7040b0;background:#f5eeff}
+    .tb5{color:#b03070;background:#fff0f5}.tb6{color:#3040a0;background:#eef0ff}
+    .onl{font-size:.75rem;font-weight:700;color:#2db860;background:#e8fff1;border-radius:999px;padding:2px 8px;margin-left:6px}
+    .ofl{font-size:.75rem;font-weight:600;color:#aaa;background:#f3f3f3;border-radius:999px;padding:2px 8px;margin-left:6px}
+    .sdot{width:14px;height:14px;border-radius:50%;background:var(--dc,#d0c0f0);box-shadow:0 0 0 3px rgba(255,255,255,.9);flex-shrink:0}
 
-    .status-buttons { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
-    .status-btn {
-      padding:11px 20px; border:2px solid transparent; border-radius:999px;
-      font-family:'Nunito',sans-serif; font-weight:800; font-size:0.95rem;
-      cursor:pointer; transition:all 0.25s ease;
-      background:var(--btn-bg); color:var(--btn-text);
-      box-shadow:0 3px 12px rgba(0,0,0,0.06);
-    }
-    .status-btn:hover { transform:translateY(-3px) scale(1.04); box-shadow:0 10px 28px rgba(0,0,0,0.10); border-color:var(--btn-border); }
-    .status-btn.active { border-color:var(--btn-border); box-shadow:0 0 0 3px rgba(var(--btn-glow),0.25); }
-    .btn-study  { --btn-bg:#e0f7fb; --btn-text:#00808a; --btn-border:#7dd8e0; --btn-glow:125,216,224; }
-    .btn-coffee { --btn-bg:#fff4e2; --btn-text:#c06200; --btn-border:#ffcc80; --btn-glow:255,180,80; }
-    .btn-game   { --btn-bg:#edf7ed; --btn-text:#2a7a2e; --btn-border:#90d494; --btn-glow:100,200,100; }
-    .btn-home   { --btn-bg:#f5eeff; --btn-text:#7040b0; --btn-border:#c9a8f0; --btn-glow:180,140,240; }
-    .btn-walk   { --btn-bg:#fff0f5; --btn-text:#b03070; --btn-border:#f0a0c0; --btn-glow:240,130,170; }
-    .btn-sleep  { --btn-bg:#eef0ff; --btn-text:#3040a0; --btn-border:#9098e8; --btn-glow:120,140,230; }
-
-    .avatar { width:48px; height:48px; border-radius:50%; object-fit:cover; border:2.5px solid var(--accent); flex-shrink:0; }
-    .avatar-placeholder {
-      width:48px; height:48px; border-radius:50%; border:2.5px solid var(--accent);
-      background:linear-gradient(135deg,#e8d5ff,#ffd5ec);
-      display:flex; align-items:center; justify-content:center;
-      font-size:1.3rem; font-weight:800; color:#9060c0; flex-shrink:0;
-    }
-    .avatar-sm { width:34px; height:34px; border-radius:50%; object-fit:cover; border:2px solid var(--accent); flex-shrink:0; }
-    .avatar-sm-placeholder {
-      width:34px; height:34px; border-radius:50%;
-      background:linear-gradient(135deg,#e8d5ff,#ffd5ec);
-      display:flex; align-items:center; justify-content:center;
-      font-size:0.95rem; font-weight:800; color:#9060c0; flex-shrink:0;
-    }
-
-    .online-indicator-wrap { position:relative; flex-shrink:0; }
-    .online-dot {
-      position:absolute; bottom:2px; right:2px;
-      width:13px; height:13px; border-radius:50%;
-      border:2.5px solid #fff; background:#b0bec5; z-index:2;
-    }
-    .online-dot.is-online { background:#43e07a; box-shadow:0 0 0 3px rgba(67,224,122,0.25); animation:pulseGreen 2s infinite ease; }
-    @keyframes pulseGreen {
-      0%,100% { box-shadow:0 0 0 3px rgba(67,224,122,0.25); }
-      50%      { box-shadow:0 0 0 6px rgba(67,224,122,0.10); }
-    }
-
-    /* ── Таймер статуса (мой) ── */
-    #myStatusTimer {
-      display:none; align-items:center; justify-content:space-between;
-      margin-top:14px; padding:12px 20px;
-      border-radius:18px; border:1.5px solid var(--timer-border,#c9a8f0);
-      background:var(--timer-bg,#f5eeff);
-    }
-    #myStatusTimer.active { display:flex; }
-    .timer-left { display:flex; align-items:center; gap:10px; }
-    .timer-ring {
-      width:36px; height:36px; border-radius:50%;
-      border:3px solid var(--timer-ring-muted,#ddd);
-      border-top-color:var(--timer-ring-color,#9060c0);
-      animation:spinRing 1s linear infinite; flex-shrink:0;
-    }
-    @keyframes spinRing { to { transform:rotate(360deg); } }
-    .timer-info { display:flex; flex-direction:column; }
-    .timer-status-name { font-size:0.8rem; font-weight:700; color:var(--timer-text,#7040b0); letter-spacing:0.05em; text-transform:uppercase; }
-    #myTimerDisplay { font-size:1.3rem; font-weight:900; color:var(--timer-text,#7040b0); font-variant-numeric:tabular-nums; letter-spacing:0.02em; }
-    .timer-total-wrap { text-align:right; }
-    .timer-total-label { font-size:0.75rem; color:var(--timer-text,#7040b0); opacity:0.7; font-weight:600; }
-    #myTimerTotal { font-size:0.95rem; font-weight:800; color:var(--timer-text,#7040b0); font-variant-numeric:tabular-nums; }
-
-    /* цвета таймера по статусу */
-    .timer-study  { --timer-bg:#e0f7fb; --timer-border:#7dd8e0; --timer-ring-color:#00a8b5; --timer-ring-muted:#b2edf2; --timer-text:#007a85; }
-    .timer-coffee { --timer-bg:#fff4e2; --timer-border:#ffcc80; --timer-ring-color:#e08000; --timer-ring-muted:#ffe0a0; --timer-text:#c06200; }
-    .timer-game   { --timer-bg:#edf7ed; --timer-border:#90d494; --timer-ring-color:#2a9a2e; --timer-ring-muted:#b8e8ba; --timer-text:#1a6a1e; }
-    .timer-home   { --timer-bg:#f5eeff; --timer-border:#c9a8f0; --timer-ring-color:#9060c0; --timer-ring-muted:#ddc8f8; --timer-text:#7040b0; }
-    .timer-walk   { --timer-bg:#fff0f5; --timer-border:#f0a0c0; --timer-ring-color:#c0406a; --timer-ring-muted:#f8c8da; --timer-text:#b03070; }
-    .timer-sleep  { --timer-bg:#eef0ff; --timer-border:#9098e8; --timer-ring-color:#4050c0; --timer-ring-muted:#c0c8f0; --timer-text:#3040a0; }
-
-    /* ── Монитор группы ── */
-    #groupList { display:flex; flex-direction:column; gap:12px; }
-    .user-item {
-      display:flex; align-items:center; gap:14px; padding:16px 18px;
-      background:linear-gradient(135deg,#fdfaff,#faf5ff);
-      border-radius:20px; border:1px solid var(--border);
-      box-shadow:var(--shadow-sm); transition:all 0.22s ease;
-    }
-    .user-item:hover { transform:translateY(-3px); box-shadow:var(--shadow-md); }
-    .user-item .info { flex:1; min-width:0; }
-    .user-item .username { font-weight:800; font-size:1.02rem; color:var(--text); }
-    .user-item .status-text { font-size:0.9rem; color:var(--text-light); font-weight:600; margin-top:2px; }
-    /* бейдж таймера рядом со статусом */
-    .status-timer-badge {
-      display:inline-flex; align-items:center; gap:4px;
-      font-size:0.8rem; font-weight:800;
-      border-radius:999px; padding:2px 10px; margin-top:4px;
-    }
-    .badge-study  { color:#007a85; background:#e0f7fb; }
-    .badge-coffee { color:#c06200; background:#fff4e2; }
-    .badge-game   { color:#1a6a1e; background:#edf7ed; }
-    .badge-home   { color:#7040b0; background:#f5eeff; }
-    .badge-walk   { color:#b03070; background:#fff0f5; }
-    .badge-sleep  { color:#3040a0; background:#eef0ff; }
-    .online-label-on  { font-size:0.75rem; font-weight:700; color:#2db860; background:#e8fff1; border-radius:999px; padding:2px 8px; margin-left:6px; }
-    .online-label-off { font-size:0.75rem; font-weight:600; color:#aaa; background:#f3f3f3; border-radius:999px; padding:2px 8px; margin-left:6px; }
-    .status-dot { width:14px; height:14px; border-radius:50%; background:var(--dot-color,#d0c0f0); box-shadow:0 0 0 3px rgba(255,255,255,0.9); flex-shrink:0; }
-
-    /* ── Чат ── */
-    #chatMessages {
-      display:flex; flex-direction:column; gap:10px;
-      max-height:340px; overflow-y:auto;
-      padding:4px 2px 8px; margin-bottom:14px;
-      scrollbar-width:thin; scrollbar-color:var(--accent) transparent;
-    }
-    .chat-msg { display:flex; gap:10px; align-items:flex-start; animation:fadeUp 0.3s ease both; }
-    .chat-msg.mine { flex-direction:row-reverse; }
-    .chat-bubble {
-      max-width:72%; padding:10px 14px; border-radius:18px;
-      font-size:0.95rem; font-weight:600; line-height:1.4; word-break:break-word;
-      background:linear-gradient(135deg,#f3eaff,#ffe8f5);
-      color:var(--text); border:1px solid rgba(201,175,245,0.3);
-    }
-    .chat-msg.mine .chat-bubble { background:linear-gradient(135deg,#b87fff,#f06bba); color:#fff; border:none; }
-    .chat-meta { font-size:0.78rem; color:var(--text-light); font-weight:600; margin-bottom:3px; }
-    .chat-msg.mine .chat-meta { text-align:right; }
-    .chat-input-row { display:flex; gap:10px; align-items:center; }
-    #chatInput {
-      flex:1; padding:12px 18px; border-radius:999px;
-      border:1.5px solid rgba(201,175,245,0.5);
-      font-family:'Nunito',sans-serif; font-size:0.97rem; font-weight:600;
-      color:var(--text); background:#fdf6ff; outline:none;
-      transition:border-color 0.2s ease;
-    }
-    #chatInput:focus { border-color:var(--accent); }
-    #chatSendBtn {
-      width:46px; height:46px; border-radius:50%; border:none;
-      background:linear-gradient(135deg,#b87fff,#f06bba);
-      color:#fff; font-size:1.2rem; cursor:pointer;
-      display:flex; align-items:center; justify-content:center;
-      box-shadow:0 4px 14px rgba(184,127,255,0.4);
-      transition:transform 0.2s ease; flex-shrink:0;
-    }
-    #chatSendBtn:hover { transform:scale(1.08); }
-    #chatSendBtn:active { transform:scale(0.95); }
-    #chatBlock { display:none; }
-
-    .empty-state { text-align:center; color:var(--text-light); padding:20px; font-size:1rem; font-weight:600; }
-    .error-state { color:#c0304a; background:#fff0f3; padding:14px 18px; border-radius:16px; font-size:0.95rem; text-align:center; font-weight:600; }
-    #toast {
-      position:fixed; bottom:32px; left:50%;
-      transform:translateX(-50%) translateY(20px);
-      background:linear-gradient(135deg,#6d3fcc,#c04090);
-      color:white; padding:12px 24px; border-radius:999px;
-      font-weight:700; font-size:0.95rem;
-      box-shadow:0 8px 28px rgba(130,60,180,0.35);
-      opacity:0; pointer-events:none;
-      transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);
-      white-space:nowrap; z-index:1000;
-    }
-    #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
-    .loading { display:flex; align-items:center; gap:10px; color:var(--text-light); font-weight:600; font-size:0.97rem; }
-    .loading-dots span { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--accent); animation:bounce 1.1s infinite ease; margin:0 2px; }
-    .loading-dots span:nth-child(2) { animation-delay:0.18s; }
-    .loading-dots span:nth-child(3) { animation-delay:0.36s; }
-    @keyframes fadeDown { from{opacity:0;transform:translateY(-18px)} to{opacity:1;transform:translateY(0)} }
-    @keyframes fadeUp   { from{opacity:0;transform:translateY(14px)}  to{opacity:1;transform:translateY(0)} }
-    @keyframes bounce   { 0%,80%,100%{transform:scale(0.7);opacity:0.5} 40%{transform:scale(1.1);opacity:1} }
-    @keyframes pop      { 0%{transform:scale(1)} 40%{transform:scale(1.18)} 100%{transform:scale(1)} }
-    .pop { animation:pop 0.35s ease; }
+    /* чат */
+    #msgs{display:flex;flex-direction:column;gap:10px;max-height:340px;overflow-y:auto;
+      padding:4px 2px 8px;margin-bottom:14px;scrollbar-width:thin;scrollbar-color:var(--accent) transparent}
+    .msg{display:flex;gap:10px;align-items:flex-start;animation:fU .3s ease both}
+    .msg.me{flex-direction:row-reverse}
+    .bbl{max-width:72%;padding:10px 14px;border-radius:18px;font-size:.95rem;font-weight:600;
+      line-height:1.4;word-break:break-word;background:linear-gradient(135deg,#f3eaff,#ffe8f5);
+      color:var(--text);border:1px solid rgba(201,175,245,.3)}
+    .msg.me .bbl{background:linear-gradient(135deg,#b87fff,#f06bba);color:#fff;border:none}
+    .meta{font-size:.78rem;color:var(--text-light);font-weight:600;margin-bottom:3px}
+    .msg.me .meta{text-align:right}
+    .cinp{display:flex;gap:10px;align-items:center}
+    #ci{flex:1;padding:12px 18px;border-radius:999px;border:1.5px solid rgba(201,175,245,.5);
+      font-family:'Nunito',sans-serif;font-size:.97rem;font-weight:600;color:var(--text);
+      background:#fdf6ff;outline:none;transition:border-color .2s}
+    #ci:focus{border-color:var(--accent)}
+    #csb{width:46px;height:46px;border-radius:50%;border:none;
+      background:linear-gradient(135deg,#b87fff,#f06bba);color:#fff;font-size:1.2rem;
+      cursor:pointer;display:flex;align-items:center;justify-content:center;
+      box-shadow:0 4px 14px rgba(184,127,255,.4);transition:transform .2s;flex-shrink:0}
+    #csb:hover{transform:scale(1.08)}#csb:active{transform:scale(.95)}
+    #chatCard{display:none}
+    .empty{text-align:center;color:var(--text-light);padding:20px;font-size:1rem;font-weight:600}
+    .err{color:#c0304a;background:#fff0f3;padding:14px 18px;border-radius:16px;font-size:.95rem;text-align:center;font-weight:600}
+    #toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);
+      background:linear-gradient(135deg,#6d3fcc,#c04090);color:#fff;padding:12px 24px;
+      border-radius:999px;font-weight:700;font-size:.95rem;box-shadow:0 8px 28px rgba(130,60,180,.35);
+      opacity:0;pointer-events:none;transition:all .35s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;z-index:1000}
+    #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+    .ld{display:flex;align-items:center;gap:10px;color:var(--text-light);font-weight:600;font-size:.97rem}
+    .ld span{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);
+      animation:bc 1.1s infinite ease;margin:0 2px}
+    .ld span:nth-child(2){animation-delay:.18s}.ld span:nth-child(3){animation-delay:.36s}
+    @keyframes fD{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fU{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes bc{0%,80%,100%{transform:scale(.7);opacity:.5}40%{transform:scale(1.1);opacity:1}}
+    @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
+    .pop{animation:pop .35s ease}
   </style>
 </head>
 <body>
-<div class="container">
-  <div class="header">
-    <div class="header-title">нежный вайб 🌸</div>
-    <div class="header-sub">монитор настроения группы</div>
+<div class="wrap">
+  <div class="hdr">
+    <div class="hdr-t">нежный вайб 🌸</div>
+    <div class="hdr-s">монитор настроения группы</div>
   </div>
 
-  <div class="card" id="authBlock">
+  <div class="card" id="authCard">
     <p>Войди, чтобы выбирать настроение и видеть всех ✨</p>
-    <button id="googleLoginBtn" class="btn">
+    <button id="loginBtn" class="btn">
       <svg viewBox="0 0 24 24"><path fill="white" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.51h5.84c-.25 1.31-.98 2.42-2.07 3.16v2.63h3.35c1.96-1.81 3.09-4.47 3.09-7.25z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.35-2.63c-1.01.68-2.29 1.08-3.93 1.08-3.02 0-5.58-2.04-6.49-4.79H.96v2.67C2.77 20.39 6.62 23 12 23z"/><path fill="#FBBC05" d="M5.51 14.21c-.23-.68-.36-1.41-.36-2.21s.13-1.53.36-2.21V7.34H.96C.35 8.85 0 10.39 0 12s.35 3.15.96 4.66l4.55-2.45z"/><path fill="#EA4335" d="M12 4.98c1.64 0 3.11.56 4.27 1.66l3.19-3.19C17.46 1.01 14.97 0 12 0 6.62 0 2.77 2.61.96 6.34l4.55 2.45C6.42 6.02 8.98 4.98 12 4.98z"/></svg>
       Войти через Google
     </button>
   </div>
 
   <div class="card" id="profileCard" style="display:none">
-    <div class="section-label">Мой профиль</div>
-    <div id="myInfo">
-      <div class="loading"><div class="loading-dots"><span></span><span></span><span></span></div>Загрузка...</div>
-    </div>
-    <div id="myStatusTimer">
-      <div class="timer-left">
-        <div class="timer-ring"></div>
-        <div class="timer-info">
-          <div class="timer-status-name" id="timerStatusName">статус</div>
-          <div id="myTimerDisplay">0:00:00</div>
+    <div class="lbl">Мой профиль</div>
+    <div id="myInfo"><div class="ld"><span></span><span></span><span></span>Загрузка...</div></div>
+
+    <!-- ТАЙМЕР -->
+    <div id="timerBox">
+      <div class="timer-top">
+        <div class="timer-left">
+          <div class="tring" id="tRing"></div>
+          <div class="tinfo">
+            <div class="tname" id="tName">статус</div>
+            <div id="tCur">0:00:00</div>
+          </div>
+        </div>
+        <div class="timer-right">
+          <div class="ttlbl">всего сегодня</div>
+          <div id="tTot">0:00:00</div>
         </div>
       </div>
-      <div class="timer-total-wrap">
-        <div class="timer-total-label">всего сегодня</div>
-        <div id="myTimerTotal">0:00:00</div>
+      <div class="timer-btns">
+        <button class="tbtn start" id="tBtnStart">▶ Старт</button>
+        <button class="tbtn" id="tBtnStop">⏸ Пауза</button>
+        <button class="tbtn" id="tBtnReset">↺ Сброс</button>
       </div>
     </div>
   </div>
 
   <div class="card" id="statusCard" style="display:none">
-    <div class="section-label">Моё настроение</div>
-    <div class="status-buttons">
-      <button class="status-btn btn-study"  data-status="Учусь"  data-color="#7dd8e0" data-emoji="📚" data-timerclass="timer-study"  data-badgeclass="badge-study">📚 Учусь</button>
-      <button class="status-btn btn-coffee" data-status="Кофе"   data-color="#ffcc80" data-emoji="☕" data-timerclass="timer-coffee" data-badgeclass="badge-coffee">☕ Кофе</button>
-      <button class="status-btn btn-game"   data-status="В игре" data-color="#90d494" data-emoji="🎮" data-timerclass="timer-game"   data-badgeclass="badge-game">🎮 В игре</button>
-      <button class="status-btn btn-home"   data-status="Дома"   data-color="#c9a8f0" data-emoji="🏠" data-timerclass="timer-home"   data-badgeclass="badge-home">🏠 Дома</button>
-      <button class="status-btn btn-walk"   data-status="Гуляю"  data-color="#f0a0c0" data-emoji="🌿" data-timerclass="timer-walk"   data-badgeclass="badge-walk">🌿 Гуляю</button>
-      <button class="status-btn btn-sleep"  data-status="Сплю"   data-color="#9098e8" data-emoji="💤" data-timerclass="timer-sleep"  data-badgeclass="badge-sleep">💤 Сплю</button>
+    <div class="lbl">Моё настроение</div>
+    <div class="sbwrap">
+      <button class="sb s1" data-s="Учусь"  data-c="#7dd8e0" data-e="📚" data-tc="tc1" data-tb="tb1">📚 Учусь</button>
+      <button class="sb s2" data-s="Кофе"   data-c="#ffcc80" data-e="☕" data-tc="tc2" data-tb="tb2">☕ Кофе</button>
+      <button class="sb s3" data-s="В игре" data-c="#90d494" data-e="🎮" data-tc="tc3" data-tb="tb3">🎮 В игре</button>
+      <button class="sb s4" data-s="Дома"   data-c="#c9a8f0" data-e="🏠" data-tc="tc4" data-tb="tb4">🏠 Дома</button>
+      <button class="sb s5" data-s="Гуляю"  data-c="#f0a0c0" data-e="🌿" data-tc="tc5" data-tb="tb5">🌿 Гуляю</button>
+      <button class="sb s6" data-s="Сплю"   data-c="#9098e8" data-e="💤" data-tc="tc6" data-tb="tb6">💤 Сплю</button>
     </div>
   </div>
 
   <div class="card">
-    <div class="section-label">Монитор группы</div>
-    <div id="groupList">
-      <div class="loading"><div class="loading-dots"><span></span><span></span><span></span></div>Загружаем...</div>
-    </div>
+    <div class="lbl">Монитор группы</div>
+    <div id="gList"><div class="ld"><span></span><span></span><span></span>Загружаем...</div></div>
   </div>
 
-  <div class="card" id="chatBlock">
-    <div class="section-label">Общий чат 💬</div>
-    <div id="chatMessages">
-      <div class="loading"><div class="loading-dots"><span></span><span></span><span></span></div>Загружаем сообщения...</div>
-    </div>
-    <div class="chat-input-row">
-      <input id="chatInput" type="text" placeholder="Сообщение..." />
-      <button id="chatSendBtn">➤</button>
+  <div class="card" id="chatCard">
+    <div class="lbl">Общий чат 💬</div>
+    <div id="msgs"><div class="ld"><span></span><span></span><span></span>Загружаем...</div></div>
+    <div class="cinp">
+      <input id="ci" type="text" placeholder="Сообщение..." />
+      <button id="csb">➤</button>
     </div>
   </div>
 </div>
 <div id="toast"></div>
 
 <script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-  const supabase = createClient(
-    'https://pxqmvgmicxxbkxcrthqz.supabase.co',
-    'sb_publishable_B7yD6pvugtqb9g9EZWNo8A_qsWbkpQY'
-  );
+const sb = createClient(
+  'https://pxqmvgmicxxbkxcrthqz.supabase.co',
+  'sb_publishable_B7yD6pvugtqb9g9EZWNo8A_qsWbkpQY'
+);
 
-  const ONLINE_MS = 3 * 60 * 1000;
+const ONLINE_MS = 3 * 60 * 1000;
+const isOnline = ts => !!ts && (Date.now() - new Date(ts).getTime()) < ONLINE_MS;
 
-  // Карта статус → ключ таймера и бейджа
-  const STATUS_MAP = {
-    'Учусь':  { timerClass:'timer-study',  badgeClass:'badge-study',  key:'study'  },
-    'Кофе':   { timerClass:'timer-coffee', badgeClass:'badge-coffee', key:'coffee' },
-    'В игре': { timerClass:'timer-game',   badgeClass:'badge-game',   key:'game'   },
-    'Дома':   { timerClass:'timer-home',   badgeClass:'badge-home',   key:'home'   },
-    'Гуляю':  { timerClass:'timer-walk',   badgeClass:'badge-walk',   key:'walk'   },
-    'Сплю':   { timerClass:'timer-sleep',  badgeClass:'badge-sleep',  key:'sleep'  },
-  };
+function fmtS(s) {
+  s = Math.floor(s || 0);
+  return `${Math.floor(s/3600)}:${String(Math.floor((s%3600)/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+}
 
-  function isOnline(ts) {
-    if (!ts) return false;
-    return (Date.now() - new Date(ts).getTime()) < ONLINE_MS;
-  }
+function ago(ts) {
+  const m = Math.floor((Date.now() - new Date(ts).getTime()) / 60000);
+  if (m < 1) return 'только что';
+  if (m < 60) return `${m} мин назад`;
+  const h = Math.floor(m/60);
+  return h < 24 ? `${h} ч назад` : `${Math.floor(h/24)} дн назад`;
+}
 
-  function fmtSec(s) {
-    s = Math.floor(s || 0);
-    const h = Math.floor(s / 3600);
-    const m = Math.floor((s % 3600) / 60);
-    const sec = s % 60;
-    return `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
-  }
+function esc(v) {
+  if (v == null) return '';
+  return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
 
-  function timeAgo(ts) {
-    const m = Math.floor((Date.now() - new Date(ts).getTime()) / 60000);
-    if (m < 1) return 'только что';
-    if (m < 60) return `${m} мин назад`;
-    const h = Math.floor(m / 60);
-    if (h < 24) return `${h} ч назад`;
-    return `${Math.floor(h/24)} дн назад`;
-  }
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('on');
+  setTimeout(() => el.classList.remove('on'), 2600);
+}
 
-  function escapeHtml(str) {
-    if (str === null || str === undefined) return '';
-    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
+// ══════════════════════════════════
+//  ТАЙМЕР — старт / пауза / сброс
+//  tBase   = накопленные секунды до паузы
+//  tStart  = timestamp когда нажали старт
+//  tActive = идёт ли сейчас
+// ══════════════════════════════════
+let tBase = 0, tStart = null, tActive = false, tTick = null;
+let hasStatusSeconds = false; // флаг: есть ли колонка в БД
 
-  // ══════════════════════════════════════════
-  //  ТАЙМЕР СТАТУСА
-  //  - timerBase: накопленные секунды (из БД, колонка status_seconds)
-  //  - timerStartedAt: когда нажали статус в этой сессии
-  //  При смене статуса — сохраняем накопленное, сбрасываем на 0 для нового
-  // ══════════════════════════════════════════
-  let timerBase      = 0;
-  let timerStartedAt = null;
-  let timerInterval  = null;
-  let timerStatus    = null; // текущий статус таймера
+function tFmt() {
+  const cur = tActive ? tBase + (Date.now() - tStart) / 1000 : tBase;
+  document.getElementById('tCur').textContent = fmtS(tActive ? (Date.now() - tStart) / 1000 : 0);
+  document.getElementById('tTot').textContent = fmtS(cur);
+}
 
-  function startTimer(status, baseSeconds) {
-    timerStatus    = status;
-    timerBase      = baseSeconds || 0;
-    timerStartedAt = Date.now();
+function tTick_() {
+  const elapsed = (Date.now() - tStart) / 1000;
+  document.getElementById('tCur').textContent = fmtS(elapsed);
+  document.getElementById('tTot').textContent = fmtS(tBase + elapsed);
+}
 
-    const info = STATUS_MAP[status] || {};
-    const timerEl = document.getElementById('myStatusTimer');
+function timerSetStatus(s, tcClass) {
+  const box = document.getElementById('timerBox');
+  box.className = 'show ' + (tcClass || 'tc4');
+  document.getElementById('tName').textContent = s;
+  // сброс таймера при смене статуса
+  tBase = 0; tStart = null; tActive = false;
+  clearInterval(tTick);
+  document.getElementById('tCur').textContent = '0:00:00';
+  document.getElementById('tTot').textContent = '0:00:00';
+  document.getElementById('tRing').classList.remove('spin');
+  document.getElementById('tBtnStart').textContent = '▶ Старт';
+}
 
-    // Ставим цвет по статусу
-    timerEl.className = 'active ' + (info.timerClass || 'timer-home');
-    document.getElementById('timerStatusName').textContent = status;
-    document.getElementById('myTimerTotal').textContent = fmtSec(timerBase);
+function timerHide() {
+  clearInterval(tTick);
+  tBase = 0; tStart = null; tActive = false;
+  document.getElementById('timerBox').classList.remove('show');
+  document.getElementById('tRing').classList.remove('spin');
+}
 
-    clearInterval(timerInterval);
-    timerInterval = setInterval(() => {
-      const elapsed = (Date.now() - timerStartedAt) / 1000;
-      document.getElementById('myTimerDisplay').textContent = fmtSec(elapsed);
-      document.getElementById('myTimerTotal').textContent   = fmtSec(timerBase + elapsed);
-    }, 1000);
-  }
+// Старт / возобновить
+document.getElementById('tBtnStart').addEventListener('click', () => {
+  if (tActive) return;
+  tActive = true;
+  tStart  = Date.now();
+  document.getElementById('tRing').classList.add('spin');
+  document.getElementById('tBtnStart').textContent = '▶ Идёт...';
+  clearInterval(tTick);
+  tTick = setInterval(tTick_, 1000);
+  saveTimer();
+});
 
-  function stopTimer() {
-    clearInterval(timerInterval);
-    timerInterval  = null;
-    timerStartedAt = null;
-    timerStatus    = null;
-    const timerEl = document.getElementById('myStatusTimer');
-    timerEl.classList.remove('active');
-    document.getElementById('myTimerDisplay').textContent = '0:00:00';
-    document.getElementById('myTimerTotal').textContent   = '0:00:00';
-  }
+// Пауза
+document.getElementById('tBtnStop').addEventListener('click', () => {
+  if (!tActive) return;
+  tBase  += (Date.now() - tStart) / 1000;
+  tActive = false; tStart = null;
+  clearInterval(tTick);
+  document.getElementById('tRing').classList.remove('spin');
+  document.getElementById('tBtnStart').textContent = '▶ Продолжить';
+  document.getElementById('tCur').textContent = '0:00:00';
+  document.getElementById('tTot').textContent = fmtS(tBase);
+  saveTimer();
+});
 
-  async function saveTimerSeconds(uid) {
-    if (!uid || timerStartedAt === null) return;
-    const elapsed = (Date.now() - timerStartedAt) / 1000;
-    const total   = Math.floor(timerBase + elapsed);
-    await supabase.from('profiles').update({ status_seconds: total }).eq('id', uid);
-    timerBase = total;
-  }
-  // ══════════════════════════════════════════
+// Сброс
+document.getElementById('tBtnReset').addEventListener('click', () => {
+  tBase = 0; tStart = null; tActive = false;
+  clearInterval(tTick);
+  document.getElementById('tRing').classList.remove('spin');
+  document.getElementById('tBtnStart').textContent = '▶ Старт';
+  document.getElementById('tCur').textContent = '0:00:00';
+  document.getElementById('tTot').textContent = '0:00:00';
+  saveTimer();
+});
 
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2600);
-  }
+async function saveTimer() {
+  if (!uid || !hasStatusSeconds) return;
+  const total = Math.floor(tBase + (tActive && tStart ? (Date.now() - tStart) / 1000 : 0));
+  await sb.from('profiles').update({ status_seconds: total }).eq('id', uid);
+}
+// ══════════════════════════════════
 
-  let currentUserId     = null;
-  let currentUserName   = '';
-  let currentUserAvatar = '';
-  let currentStatus     = null;
-  let lastSeenInterval  = null;
-  let chatMessages      = [];
+let uid = null, uname = '', uavatar = '', ustatus = null, lsInt = null, msgs = [];
 
-  async function pingLastSeen() {
-    if (!currentUserId) return;
-    await supabase.from('profiles')
-      .update({ last_seen: new Date().toISOString() })
-      .eq('id', currentUserId);
-  }
+async function pingLS() {
+  if (!uid) return;
+  await sb.from('profiles').update({ last_seen: new Date().toISOString() }).eq('id', uid);
+}
 
-  document.getElementById('googleLoginBtn').addEventListener('click', async () => {
-    showToast('Открываем Google... 🌸');
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: 'https://kharchenko13.github.io/Xexe' }
-    });
-    if (error) showToast('Ошибка: ' + error.message);
+document.getElementById('loginBtn').addEventListener('click', async () => {
+  toast('Открываем Google... 🌸');
+  const { error } = await sb.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: 'https://kharchenko13.github.io/Xexe' }
   });
+  if (error) toast('Ошибка: ' + error.message);
+});
 
-  function setupLogoutButton(container) {
-    const old = document.getElementById('logoutBtn');
-    if (old) old.remove();
-    const btn = document.createElement('button');
-    btn.id = 'logoutBtn'; btn.className = 'btn'; btn.innerHTML = '🚪 Выйти';
-    Object.assign(btn.style, {
-      background:'linear-gradient(135deg,#ffd0e4,#ffb3ce)', color:'#b5446e',
-      fontSize:'0.88rem', padding:'8px 16px', marginLeft:'auto',
-      boxShadow:'0 2px 10px rgba(255,100,150,0.15)'
-    });
-    btn.addEventListener('click', async () => {
-      await saveTimerSeconds(currentUserId);
-      stopTimer();
-      clearInterval(lastSeenInterval);
-      await supabase.auth.signOut();
-      showToast('Пока! 👋');
-    });
-    container.appendChild(btn);
+function addLogout(container) {
+  document.getElementById('logoutBtn')?.remove();
+  const b = document.createElement('button');
+  b.id = 'logoutBtn'; b.className = 'btn'; b.innerHTML = '🚪 Выйти';
+  Object.assign(b.style, {
+    background:'linear-gradient(135deg,#ffd0e4,#ffb3ce)', color:'#b5446e',
+    fontSize:'.88rem', padding:'8px 16px', marginLeft:'auto'
+  });
+  b.onclick = async () => {
+    await saveTimer();
+    timerHide();
+    clearInterval(lsInt);
+    await sb.auth.signOut();
+    toast('Пока! 👋');
+  };
+  container.appendChild(b);
+}
+
+async function load() {
+  const { data:{ user } } = await sb.auth.getUser();
+
+  if (!user) {
+    uid = null; ustatus = null;
+    timerHide(); clearInterval(lsInt);
+    document.getElementById('authCard').style.display    = 'block';
+    document.getElementById('profileCard').style.display = 'none';
+    document.getElementById('statusCard').style.display  = 'none';
+    document.getElementById('chatCard').style.display    = 'none';
+    loadGroup(null);
+    return;
   }
 
-  async function loadUserAndUI() {
-    const { data:{ user } } = await supabase.auth.getUser();
+  uid     = user.id;
+  uname   = user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0];
+  uavatar = user.user_metadata?.avatar_url || '';
 
-    if (!user) {
-      currentUserId = null; currentStatus = null;
-      stopTimer(); clearInterval(lastSeenInterval);
-      document.getElementById('authBlock').style.display   = 'block';
-      document.getElementById('profileCard').style.display = 'none';
-      document.getElementById('statusCard').style.display  = 'none';
-      document.getElementById('chatBlock').style.display   = 'none';
-      fetchGroup(null);
-      return;
-    }
+  document.getElementById('authCard').style.display    = 'none';
+  document.getElementById('profileCard').style.display = 'block';
+  document.getElementById('statusCard').style.display  = 'block';
+  document.getElementById('chatCard').style.display    = 'block';
 
-    currentUserId     = user.id;
-    currentUserName   = user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0];
-    currentUserAvatar = user.user_metadata?.avatar_url || '';
+  // Пробуем загрузить профиль — проверяем есть ли status_seconds
+  const { data: prof, error: pErr } = await sb
+    .from('profiles')
+    .select('status, status_seconds, last_seen')
+    .eq('id', uid).limit(1);
 
-    document.getElementById('authBlock').style.display   = 'none';
-    document.getElementById('profileCard').style.display = 'block';
-    document.getElementById('statusCard').style.display  = 'block';
-    document.getElementById('chatBlock').style.display   = 'block';
-
-    const { data:profiles } = await supabase
+  if (pErr) {
+    // Если ошибка — колонки нет, работаем без неё
+    console.warn('profiles fetch:', pErr.message);
+    hasStatusSeconds = false;
+    const { data: prof2 } = await sb
       .from('profiles')
-      .select('status, status_seconds')
-      .eq('id', user.id).limit(1);
-
-    currentStatus = profiles?.[0]?.status || null;
-    const savedSec = profiles?.[0]?.status_seconds || 0;
-
-    await supabase.from('profiles')
-      .update({ last_seen: new Date().toISOString() }).eq('id', user.id);
-    clearInterval(lastSeenInterval);
-    lastSeenInterval = setInterval(pingLastSeen, 60_000);
-
-    // Запускаем таймер если уже есть статус
-    if (currentStatus) {
-      startTimer(currentStatus, savedSec);
-    } else {
-      stopTimer();
+      .select('status')
+      .eq('id', uid).limit(1);
+    ustatus = prof2?.[0]?.status || null;
+  } else {
+    hasStatusSeconds = true;
+    ustatus = prof?.[0]?.status || null;
+    const saved = prof?.[0]?.status_seconds || 0;
+    if (ustatus && saved > 0) {
+      tBase = saved;
+      document.getElementById('tTot').textContent = fmtS(saved);
     }
+  }
 
-    const avatarEl = currentUserAvatar
-      ? `<img src="${currentUserAvatar}" class="avatar" alt="Аватар">`
-      : `<div class="avatar-placeholder">${currentUserName[0]?.toUpperCase()||'?'}</div>`;
+  // ping last_seen
+  try {
+    await sb.from('profiles').update({ last_seen: new Date().toISOString() }).eq('id', uid);
+  } catch(e) {}
+  clearInterval(lsInt);
+  lsInt = setInterval(pingLS, 60_000);
 
-    document.getElementById('myInfo').innerHTML = `
-      ${avatarEl}
-      <div class="info" style="flex:1">
-        <div style="font-size:1.12rem;font-weight:700;color:var(--text)">${currentUserName} ✨</div>
-        <div id="statusDisplay" style="font-size:0.9rem;color:var(--text-light);font-weight:600;margin-top:4px">
-          ${currentStatus ? `Сейчас: ${currentStatus}` : 'Статус не выбран'}
+  // Показываем таймер если есть статус
+  if (ustatus) {
+    const btn = document.querySelector(`.sb[data-s="${ustatus}"]`);
+    const tc  = btn?.dataset.tc || 'tc4';
+    const box = document.getElementById('timerBox');
+    box.className = 'show ' + tc;
+    document.getElementById('tName').textContent = ustatus;
+    document.getElementById('tTot').textContent = fmtS(tBase);
+  }
+
+  const avEl = uavatar
+    ? `<img src="${uavatar}" class="av" alt="">`
+    : `<div class="avp">${uname[0]?.toUpperCase()||'?'}</div>`;
+
+  document.getElementById('myInfo').innerHTML = `
+    ${avEl}
+    <div style="flex:1;min-width:0">
+      <div style="font-size:1.12rem;font-weight:700;color:var(--text)">${esc(uname)} ✨</div>
+      <div id="sDis" style="font-size:.9rem;color:var(--text-light);font-weight:600;margin-top:4px">
+        ${ustatus ? 'Сейчас: '+ustatus : 'Статус не выбран'}
+      </div>
+    </div>`;
+  addLogout(document.getElementById('myInfo'));
+  hlBtn(ustatus);
+  loadGroup(uid);
+  loadMsgs();
+}
+
+function hlBtn(s) {
+  document.querySelectorAll('.sb').forEach(b => b.classList.toggle('on', b.dataset.s === s));
+}
+
+async function setStatus(s, color, tc) {
+  const { data:{ user } } = await sb.auth.getUser();
+  if (!user) { toast('Сначала войди 🌼'); return false; }
+
+  // Сохраняем таймер старого статуса и сбрасываем
+  await saveTimer();
+
+  // Формируем payload — без status_seconds если колонки нет
+  const payload = {
+    id: user.id, username: uname,
+    avatar_url: uavatar || null,
+    status: s, color,
+    last_seen: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  };
+  if (hasStatusSeconds) payload.status_seconds = 0;
+
+  const { error } = await sb.from('profiles').upsert(payload, { onConflict:'id' });
+
+  if (error) {
+    console.error('setStatus:', error);
+    toast('Ошибка: ' + error.message);
+    return false;
+  }
+
+  ustatus = s;
+  timerSetStatus(s, tc); // сбрасываем таймер для нового статуса
+
+  const sd = document.getElementById('sDis');
+  if (sd) { sd.textContent = 'Сейчас: ' + s; sd.classList.remove('pop'); void sd.offsetWidth; sd.classList.add('pop'); }
+  hlBtn(s);
+  return true;
+}
+
+async function loadGroup(userId) {
+  const cols = hasStatusSeconds
+    ? 'id,username,status,color,avatar_url,last_seen,status_seconds'
+    : 'id,username,status,color,avatar_url,last_seen';
+
+  const { data, error } = await sb.from('profiles')
+    .select(cols)
+    .order('username', { ascending: true });
+
+  const el = document.getElementById('gList');
+
+  if (error) {
+    console.error('loadGroup:', error);
+    el.innerHTML = '<div class="err">Ошибка загрузки 💔<br><small>'+esc(error.message)+'</small></div>';
+    return;
+  }
+  if (!data?.length) {
+    el.innerHTML = '<div class="empty">Пока тихо... ☁️</div>';
+    return;
+  }
+
+  el.innerHTML = data.map(u => {
+    const online = isOnline(u.last_seen);
+    const me     = u.id === userId;
+    const btn    = document.querySelector(`.sb[data-s="${u.status}"]`);
+    const tbCls  = btn?.dataset.tb || 'tb4';
+    const av = u.avatar_url
+      ? `<img src="${u.avatar_url}" class="av" alt="${esc(u.username)}">`
+      : `<div class="avp">${(u.username||'?')[0].toUpperCase()}</div>`;
+    const badge = (u.status && u.status_seconds > 0)
+      ? `<div class="tbadge ${tbCls}">⏱ ${fmtS(u.status_seconds)}</div>` : '';
+    const olbl = online
+      ? `<span class="onl">● онлайн</span>`
+      : `<span class="ofl">○ оффлайн</span>`;
+    return `
+      <div class="ui" style="${me?'border-color:rgba(200,160,255,.5);background:linear-gradient(135deg,#fdf5ff,#fff0fa);':''}">
+        <div class="owrap">${av}<div class="odot ${online?'on':''}"></div></div>
+        <div class="inf">
+          <div class="uname">${esc(u.username||'—')}${me?' <span style="font-size:.8em;color:#b070e0">это ты</span>':''}${olbl}</div>
+          <div class="ust">${esc(u.status||'Без настроения')}</div>
+          ${badge}
+        </div>
+        <div class="sdot" style="--dc:${u.color||'#d0c0f0'}"></div>
+      </div>`;
+  }).join('');
+}
+
+async function loadMsgs() {
+  const { data, error } = await sb.from('messages')
+    .select('id,user_id,username,avatar_url,text,created_at')
+    .order('created_at', { ascending:true }).limit(80);
+  if (error) { console.error('loadMsgs:', error); return; }
+  msgs = data || [];
+  renderMsgs();
+}
+
+function renderMsgs() {
+  const el = document.getElementById('msgs');
+  if (!msgs.length) { el.innerHTML = '<div class="empty">Сообщений пока нет 💬</div>'; return; }
+  el.innerHTML = msgs.map(m => {
+    const me = m.user_id === uid;
+    const av = m.avatar_url
+      ? `<img src="${m.avatar_url}" class="avs" alt="">`
+      : `<div class="avsp">${(m.username||'?')[0].toUpperCase()}</div>`;
+    return `
+      <div class="msg ${me?'me':''}">
+        ${av}
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;${me?'align-items:flex-end':''}">
+          <div class="meta">${me?'Ты':esc(m.username)} · ${ago(m.created_at)}</div>
+          <div class="bbl">${esc(m.text)}</div>
         </div>
       </div>`;
-    setupLogoutButton(document.getElementById('myInfo'));
-    highlightActiveBtn(currentStatus);
-    fetchGroup(user.id);
-    fetchMessages();
-  }
+  }).join('');
+  el.scrollTop = el.scrollHeight;
+}
 
-  function highlightActiveBtn(status) {
-    document.querySelectorAll('.status-btn').forEach(btn =>
-      btn.classList.toggle('active', btn.dataset.status === status)
-    );
-  }
-
-  async function changeStatus(text, color) {
-    const { data:{ user } } = await supabase.auth.getUser();
-    if (!user) { showToast('Сначала войди 🌼'); return false; }
-
-    // Сохраняем время старого статуса
-    await saveTimerSeconds(user.id);
-    stopTimer();
-
-    // Для нового статуса начинаем с 0
-    const { error } = await supabase.from('profiles').upsert({
-      id:             user.id,
-      username:       currentUserName,
-      avatar_url:     currentUserAvatar || null,
-      status:         text,
-      color:          color,
-      status_seconds: 0,
-      last_seen:      new Date().toISOString(),
-      updated_at:     new Date().toISOString(),
-    }, { onConflict:'id' });
-
-    if (error) {
-      console.error('changeStatus error:', error);
-      showToast('Ошибка: ' + error.message);
-      return false;
-    }
-
-    currentStatus = text;
-    startTimer(text, 0); // новый статус — таймер с нуля
-
-    const sd = document.getElementById('statusDisplay');
-    if (sd) {
-      sd.textContent = `Сейчас: ${text}`;
-      sd.classList.remove('pop'); void sd.offsetWidth; sd.classList.add('pop');
-    }
-    highlightActiveBtn(text);
-    return true;
-  }
-
-  async function fetchGroup(userId) {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('id, username, status, color, avatar_url, last_seen, status_seconds')
-      .order('username', { ascending:true });
-
-    if (error) {
-      document.getElementById('groupList').innerHTML = '<div class="error-state">Ошибка загрузки 💔</div>';
-      return;
-    }
-    if (!data?.length) {
-      document.getElementById('groupList').innerHTML = '<div class="empty-state">Пока тихо... ☁️</div>';
-      return;
-    }
-
-    document.getElementById('groupList').innerHTML = data.map(u => {
-      const online = isOnline(u.last_seen);
-      const isMe   = u.id === userId;
-      const av = u.avatar_url
-        ? `<img src="${u.avatar_url}" class="avatar" alt="${escapeHtml(u.username)}">`
-        : `<div class="avatar-placeholder">${u.username?.[0]?.toUpperCase()||'?'}</div>`;
-
-      // Бейдж таймера рядом со статусом
-      const info = STATUS_MAP[u.status] || {};
-      const timerBadge = (u.status && u.status_seconds > 0)
-        ? `<div class="status-timer-badge ${info.badgeClass||'badge-home'}">⏱ ${fmtSec(u.status_seconds)}</div>`
-        : '';
-
-      const onlineLbl = online
-        ? `<span class="online-label-on">● онлайн</span>`
-        : `<span class="online-label-off">○ оффлайн</span>`;
-
-      return `
-        <div class="user-item" style="${isMe?'border-color:rgba(200,160,255,0.5);background:linear-gradient(135deg,#fdf5ff,#fff0fa);':''}">
-          <div class="online-indicator-wrap">
-            ${av}
-            <div class="online-dot ${online?'is-online':''}"></div>
-          </div>
-          <div class="info">
-            <div class="username">${escapeHtml(u.username)}${isMe?' <span style="font-size:0.8em;color:#b070e0">это ты</span>':''}${onlineLbl}</div>
-            <div class="status-text">${escapeHtml(u.status||'Без настроения')}</div>
-            ${timerBadge}
-          </div>
-          <div class="status-dot" style="--dot-color:${u.color||'#d0c0f0'}"></div>
-        </div>`;
-    }).join('');
-  }
-
-  async function fetchMessages() {
-    const { data, error } = await supabase
-      .from('messages')
-      .select('id, user_id, username, avatar_url, text, created_at')
-      .order('created_at', { ascending:true })
-      .limit(80);
-    if (error) { console.error('fetchMessages:', error); return; }
-    chatMessages = data || [];
-    renderMessages();
-  }
-
-  function renderMessages() {
-    const container = document.getElementById('chatMessages');
-    if (!chatMessages.length) {
-      container.innerHTML = '<div class="empty-state">Сообщений пока нет... напиши первым 💬</div>';
-      return;
-    }
-    container.innerHTML = chatMessages.map(msg => {
-      const mine = msg.user_id === currentUserId;
-      const av = msg.avatar_url
-        ? `<img src="${msg.avatar_url}" class="avatar-sm" alt="">`
-        : `<div class="avatar-sm-placeholder">${(msg.username||'?')[0].toUpperCase()}</div>`;
-      return `
-        <div class="chat-msg ${mine?'mine':''}">
-          ${av}
-          <div style="flex:1;min-width:0;display:flex;flex-direction:column;${mine?'align-items:flex-end':''}">
-            <div class="chat-meta">${mine?'Ты':escapeHtml(msg.username)} · ${timeAgo(msg.created_at)}</div>
-            <div class="chat-bubble">${escapeHtml(msg.text)}</div>
-          </div>
-        </div>`;
-    }).join('');
-    container.scrollTop = container.scrollHeight;
-  }
-
-  async function sendMessage() {
-    const input = document.getElementById('chatInput');
-    const text  = input.value.trim();
-    if (!text) { showToast('Напиши что-нибудь 💬'); return; }
-    if (!currentUserId) { showToast('Сначала войди 🌼'); return; }
-    input.value = ''; input.disabled = true;
-    const { error } = await supabase.from('messages').insert({
-      user_id: currentUserId, username: currentUserName,
-      avatar_url: currentUserAvatar || null, text,
-      created_at: new Date().toISOString(),
-    });
-    input.disabled = false; input.focus();
-    if (error) { console.error('sendMessage:', error); showToast('Ошибка: ' + error.message); return; }
-    await fetchMessages();
-  }
-
-  document.getElementById('chatSendBtn').addEventListener('click', sendMessage);
-  document.getElementById('chatInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+async function sendMsg() {
+  const inp = document.getElementById('ci');
+  const txt = inp.value.trim();
+  if (!txt) { toast('Напиши что-нибудь 💬'); return; }
+  if (!uid)  { toast('Сначала войди 🌼'); return; }
+  inp.value = ''; inp.disabled = true;
+  const { error } = await sb.from('messages').insert({
+    user_id: uid, username: uname,
+    avatar_url: uavatar || null, text: txt,
+    created_at: new Date().toISOString()
   });
+  inp.disabled = false; inp.focus();
+  if (error) { console.error('sendMsg:', error); toast('Ошибка: ' + error.message); return; }
+  await loadMsgs();
+}
 
-  document.querySelectorAll('.status-btn').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      if (await changeStatus(btn.dataset.status, btn.dataset.color)) {
-        showToast(`${btn.dataset.emoji} ${btn.dataset.status}`);
-        const { data:{ user } } = await supabase.auth.getUser();
-        fetchGroup(user?.id);
-      }
-    });
-  });
+document.getElementById('csb').addEventListener('click', sendMsg);
+document.getElementById('ci').addEventListener('keydown', e => {
+  if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
+});
 
-  supabase.channel('messages-rt')
-    .on('postgres_changes', { event:'INSERT', schema:'public', table:'messages' }, payload => {
-      if (payload.new.user_id !== currentUserId) {
-        chatMessages.push(payload.new);
-        renderMessages();
-      }
-    })
-    .subscribe();
-
-  supabase.auth.onAuthStateChange(() => loadUserAndUI());
-  loadUserAndUI();
-
-  setInterval(async () => {
-    const { data:{ user } } = await supabase.auth.getUser();
-    fetchGroup(user?.id || null);
-  }, 6000);
-
-  // Автосохранение каждые 30 сек
-  setInterval(async () => {
-    if (currentUserId && timerStartedAt !== null) {
-      await saveTimerSeconds(currentUserId);
+document.querySelectorAll('.sb').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    if (await setStatus(btn.dataset.s, btn.dataset.c, btn.dataset.tc)) {
+      toast(`${btn.dataset.e} ${btn.dataset.s}`);
+      loadGroup(uid);
     }
-  }, 30_000);
-
-  // Сохраняем при закрытии
-  window.addEventListener('beforeunload', () => {
-    if (currentUserId && timerStartedAt !== null) saveTimerSeconds(currentUserId);
   });
+});
+
+sb.channel('chat-rt')
+  .on('postgres_changes', { event:'INSERT', schema:'public', table:'messages' }, p => {
+    if (p.new.user_id !== uid) { msgs.push(p.new); renderMsgs(); }
+  })
+  .subscribe();
+
+sb.auth.onAuthStateChange(() => load());
+load();
+
+setInterval(() => loadGroup(uid), 6000);
+
+// Автосохранение таймера каждые 30с
+setInterval(() => { if (uid && tActive) saveTimer(); }, 30_000);
+
+window.addEventListener('beforeunload', () => { if (uid) saveTimer(); });
 </script>
 </body>
 </html>
