@@ -62,10 +62,10 @@
     }
     .section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
 
+    /* Auth */
     #authBlock { text-align: center; }
     #authBlock p { color: var(--text-light); font-size: 0.97rem; margin-bottom: 20px; }
     #myInfo { display: flex; align-items: center; gap: 16px; min-height: 56px; flex-wrap: wrap; }
-
     .btn {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 12px 22px; border: none; border-radius: 999px;
@@ -81,6 +81,7 @@
     }
     #googleLoginBtn svg { width: 20px; height: 20px; flex-shrink: 0; }
 
+    /* Status */
     .status-buttons { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
     .status-btn {
       padding: 11px 20px; border: 2px solid transparent; border-radius: 999px;
@@ -98,6 +99,7 @@
     .btn-walk   { --btn-bg:#fff0f5; --btn-text:#b03070; --btn-border:#f0a0c0; --btn-glow:240,130,170; }
     .btn-sleep  { --btn-bg:#eef0ff; --btn-text:#3040a0; --btn-border:#9098e8; --btn-glow:120,140,230; }
 
+    /* Avatars */
     .avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2.5px solid var(--accent); flex-shrink: 0; }
     .avatar-placeholder {
       width: 48px; height: 48px; border-radius: 50%; border: 2.5px solid var(--accent);
@@ -113,6 +115,7 @@
       font-size: 0.95rem; font-weight: 800; color: #9060c0; flex-shrink: 0;
     }
 
+    /* Online dot */
     .online-indicator-wrap { position: relative; flex-shrink: 0; }
     .online-dot {
       position: absolute; bottom: 2px; right: 2px;
@@ -129,18 +132,37 @@
       50%      { box-shadow: 0 0 0 6px rgba(67,224,122,0.10); }
     }
 
+    /* ───── СЕКУНДОМЕР ───── */
     #myStudyTimer {
-      display: none; align-items: center; gap: 8px;
-      background: linear-gradient(135deg, #e0f7fb, #cff8ea);
-      border-radius: 999px; padding: 8px 18px;
-      font-weight: 800; font-size: 1.05rem; color: #00808a;
-      box-shadow: 0 3px 14px rgba(0,160,170,0.15);
-      margin-top: 12px; width: 100%; justify-content: center;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 16px;
+      padding: 14px 24px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #e0f7fb, #d0f5ea);
+      border: 2px solid #7dd8e0;
+      box-shadow: 0 4px 18px rgba(0,180,190,0.15);
     }
     #myStudyTimer.active { display: flex; }
-    .timer-icon { font-size: 1.1rem; animation: spinSlow 4s linear infinite; display: inline-block; }
-    @keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .timer-ring {
+      width: 40px; height: 40px; flex-shrink: 0;
+      border-radius: 50%;
+      border: 3px solid #7dd8e0;
+      border-top-color: #00a8b5;
+      animation: spinRing 1.2s linear infinite;
+    }
+    @keyframes spinRing { to { transform: rotate(360deg); } }
+    .timer-content { display: flex; flex-direction: column; align-items: center; }
+    .timer-label { font-size: 0.78rem; font-weight: 700; color: #009aa5; letter-spacing: 0.08em; text-transform: uppercase; }
+    #myStudyTimerDisplay {
+      font-size: 1.4rem; font-weight: 900; color: #007a85;
+      letter-spacing: 0.04em; font-variant-numeric: tabular-nums;
+    }
+    /* ───────────────────── */
 
+    /* Group list */
     #groupList { display: flex; flex-direction: column; gap: 12px; }
     .user-item {
       display: flex; align-items: center; gap: 14px;
@@ -153,11 +175,16 @@
     .user-item .info { flex: 1; min-width: 0; }
     .user-item .username { font-weight: 800; font-size: 1.02rem; color: var(--text); }
     .user-item .status-text { font-size: 0.9rem; color: var(--text-light); font-weight: 600; margin-top: 2px; }
-    .study-badge { font-size: 0.82rem; font-weight: 800; color: #00808a; background: #e0f7fb; border-radius: 999px; padding: 3px 10px; margin-top: 4px; display: inline-block; }
+    .study-badge {
+      font-size: 0.82rem; font-weight: 800; color: #00808a;
+      background: #e0f7fb; border-radius: 999px;
+      padding: 3px 10px; margin-top: 4px; display: inline-block;
+    }
     .online-label-on  { font-size: 0.75rem; font-weight: 700; color: #2db860; background: #e8fff1; border-radius: 999px; padding: 2px 8px; margin-left: 6px; }
     .online-label-off { font-size: 0.75rem; font-weight: 600; color: #aaa; background: #f3f3f3; border-radius: 999px; padding: 2px 8px; margin-left: 6px; }
     .status-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--dot-color,#d0c0f0); box-shadow: 0 0 0 3px rgba(255,255,255,0.9); flex-shrink: 0; }
 
+    /* Chat */
     #chatMessages {
       display: flex; flex-direction: column; gap: 10px;
       max-height: 340px; overflow-y: auto;
@@ -196,6 +223,7 @@
     #chatSendBtn:active { transform: scale(0.95); }
     #chatBlock { display: none; }
 
+    /* Misc */
     .empty-state { text-align: center; color: var(--text-light); padding: 20px; font-size: 1rem; font-weight: 600; }
     .error-state { color: #c0304a; background: #fff0f3; padding: 14px 18px; border-radius: 16px; font-size: 0.95rem; text-align: center; font-weight: 600; }
     #toast {
@@ -216,8 +244,8 @@
     .loading-dots span:nth-child(3) { animation-delay: 0.36s; }
     @keyframes fadeDown { from { opacity:0; transform:translateY(-18px); } to { opacity:1; transform:translateY(0); } }
     @keyframes fadeUp   { from { opacity:0; transform:translateY(14px);  } to { opacity:1; transform:translateY(0); } }
-    @keyframes bounce { 0%,80%,100% { transform:scale(0.7); opacity:0.5; } 40% { transform:scale(1.1); opacity:1; } }
-    @keyframes pop { 0% { transform:scale(1); } 40% { transform:scale(1.18); } 100% { transform:scale(1); } }
+    @keyframes bounce { 0%,80%,100%{ transform:scale(0.7);opacity:0.5; } 40%{ transform:scale(1.1);opacity:1; } }
+    @keyframes pop { 0%{ transform:scale(1); } 40%{ transform:scale(1.18); } 100%{ transform:scale(1); } }
     .pop { animation: pop 0.35s ease; }
   </style>
 </head>
@@ -241,10 +269,13 @@
     <div id="myInfo">
       <div class="loading"><div class="loading-dots"><span></span><span></span><span></span></div>Загрузка...</div>
     </div>
+    <!-- СЕКУНДОМЕР -->
     <div id="myStudyTimer">
-      <span class="timer-icon">⏱️</span>
-      <span>Учусь уже:&nbsp;</span>
-      <span id="myStudyTimerDisplay">0ч 0м 0с</span>
+      <div class="timer-ring"></div>
+      <div class="timer-content">
+        <div class="timer-label">Учусь уже</div>
+        <div id="myStudyTimerDisplay">0ч 0м 0с</div>
+      </div>
     </div>
   </div>
 
@@ -263,7 +294,7 @@
   <div class="card">
     <div class="section-label">Монитор группы</div>
     <div id="groupList">
-      <div class="loading"><div class="loading-dots"><span></span><span></span><span></span></div>Собираем участников...</div>
+      <div class="loading"><div class="loading-dots"><span></span><span></span><span></span></div>Загружаем...</div>
     </div>
   </div>
 
@@ -273,7 +304,7 @@
       <div class="loading"><div class="loading-dots"><span></span><span></span><span></span></div>Загружаем сообщения...</div>
     </div>
     <div class="chat-input-row">
-      <input id="chatInput" type="text" placeholder="Сообщение..." maxlength="300" />
+      <input id="chatInput" type="text" placeholder="Сообщение..." />
       <button id="chatSendBtn">➤</button>
     </div>
   </div>
@@ -297,8 +328,11 @@
   }
 
   function formatSeconds(s) {
-    s = Math.floor(s);
-    return `${Math.floor(s/3600)}ч ${Math.floor((s%3600)/60)}м ${s%60}с`;
+    s = Math.floor(s || 0);
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    const sec = s % 60;
+    return `${h}ч ${m}м ${sec}с`;
   }
 
   function timeAgo(ts) {
@@ -307,39 +341,61 @@
     if (m < 60) return `${m} мин назад`;
     const h = Math.floor(m / 60);
     if (h < 24) return `${h} ч назад`;
-    return `${Math.floor(h/24)} дн назад`;
+    return `${Math.floor(h / 24)} дн назад`;
   }
 
   function escapeHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
   }
 
-  // Study timer
-  let studyStartedAt = null, studyBaseSeconds = 0, studyTimerInterval = null;
+  // ═══════════════════════════════════════
+  //  СЕКУНДОМЕР
+  //  Логика: храним study_seconds в БД.
+  //  При старте — читаем base из БД.
+  //  Каждую секунду показываем base + elapsed.
+  //  При остановке или закрытии — сохраняем total в БД.
+  // ═══════════════════════════════════════
+  let studyStartedAt   = null;  // timestamp когда начали
+  let studyBaseSeconds = 0;     // сколько уже накоплено в БД
+  let studyInterval    = null;  // setInterval id
 
-  function startStudyTimer(base) {
-    studyBaseSeconds = base || 0;
-    studyStartedAt = Date.now();
+  function startStudyTimer(baseSeconds) {
+    studyBaseSeconds = baseSeconds || 0;
+    studyStartedAt   = Date.now();
+
     document.getElementById('myStudyTimer').classList.add('active');
-    clearInterval(studyTimerInterval);
-    studyTimerInterval = setInterval(() => {
+
+    clearInterval(studyInterval);
+    studyInterval = setInterval(() => {
       const elapsed = (Date.now() - studyStartedAt) / 1000;
-      document.getElementById('myStudyTimerDisplay').textContent = formatSeconds(studyBaseSeconds + elapsed);
+      document.getElementById('myStudyTimerDisplay').textContent =
+        formatSeconds(studyBaseSeconds + elapsed);
     }, 1000);
   }
 
   function stopStudyTimer() {
-    clearInterval(studyTimerInterval);
-    studyTimerInterval = null;
+    clearInterval(studyInterval);
+    studyInterval  = null;
     studyStartedAt = null;
     document.getElementById('myStudyTimer').classList.remove('active');
+    document.getElementById('myStudyTimerDisplay').textContent = '0ч 0м 0с';
   }
 
-  async function flushStudy(uid) {
+  async function saveStudySeconds(uid) {
     if (!uid || studyStartedAt === null) return;
-    const total = Math.floor(studyBaseSeconds + (Date.now() - studyStartedAt) / 1000);
-    await supabase.from('profiles').update({ study_seconds: total }).eq('id', uid);
+    const elapsed = (Date.now() - studyStartedAt) / 1000;
+    const total   = Math.floor(studyBaseSeconds + elapsed);
+    const { error } = await supabase
+      .from('profiles')
+      .update({ study_seconds: total })
+      .eq('id', uid);
+    if (error) console.error('saveStudySeconds error:', error);
+    else studyBaseSeconds = total; // обновляем base чтобы не задвоить
   }
+  // ═══════════════════════════════════════
 
   function showToast(msg) {
     const t = document.getElementById('toast');
@@ -348,13 +404,18 @@
     setTimeout(() => t.classList.remove('show'), 2600);
   }
 
-  let currentUserId = null, currentUserName = '', currentUserAvatar = '', currentStatus = null;
-  let lastSeenInterval = null;
-  let chatMessages = [];
+  let currentUserId     = null;
+  let currentUserName   = '';
+  let currentUserAvatar = '';
+  let currentStatus     = null;
+  let lastSeenInterval  = null;
+  let chatMessages      = [];
 
   async function pingLastSeen() {
     if (!currentUserId) return;
-    await supabase.from('profiles').update({ last_seen: new Date().toISOString() }).eq('id', currentUserId);
+    await supabase.from('profiles')
+      .update({ last_seen: new Date().toISOString() })
+      .eq('id', currentUserId);
   }
 
   document.getElementById('googleLoginBtn').addEventListener('click', async () => {
@@ -372,12 +433,12 @@
     const btn = document.createElement('button');
     btn.id = 'logoutBtn'; btn.className = 'btn'; btn.innerHTML = '🚪 Выйти';
     Object.assign(btn.style, {
-      background: 'linear-gradient(135deg,#ffd0e4,#ffb3ce)', color: '#b5446e',
-      fontSize: '0.88rem', padding: '8px 16px', marginLeft: 'auto',
-      boxShadow: '0 2px 10px rgba(255,100,150,0.15)'
+      background: 'linear-gradient(135deg,#ffd0e4,#ffb3ce)',
+      color: '#b5446e', fontSize: '0.88rem', padding: '8px 16px',
+      marginLeft: 'auto', boxShadow: '0 2px 10px rgba(255,100,150,0.15)'
     });
     btn.addEventListener('click', async () => {
-      await flushStudy(currentUserId);
+      await saveStudySeconds(currentUserId);
       stopStudyTimer();
       clearInterval(lastSeenInterval);
       await supabase.auth.signOut();
@@ -388,19 +449,14 @@
 
   async function loadUserAndUI() {
     const { data: { user } } = await supabase.auth.getUser();
-    const els = {
-      auth: document.getElementById('authBlock'),
-      profile: document.getElementById('profileCard'),
-      status: document.getElementById('statusCard'),
-      chat: document.getElementById('chatBlock'),
-      myInfo: document.getElementById('myInfo'),
-    };
 
     if (!user) {
       currentUserId = null; currentStatus = null;
       stopStudyTimer(); clearInterval(lastSeenInterval);
-      els.auth.style.display = 'block';
-      els.profile.style.display = els.status.style.display = els.chat.style.display = 'none';
+      document.getElementById('authBlock').style.display   = 'block';
+      document.getElementById('profileCard').style.display = 'none';
+      document.getElementById('statusCard').style.display  = 'none';
+      document.getElementById('chatBlock').style.display   = 'none';
       fetchGroup(null);
       return;
     }
@@ -409,26 +465,42 @@
     currentUserName   = user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0];
     currentUserAvatar = user.user_metadata?.avatar_url || '';
 
-    els.auth.style.display = 'none';
-    els.profile.style.display = els.status.style.display = els.chat.style.display = 'block';
+    document.getElementById('authBlock').style.display   = 'none';
+    document.getElementById('profileCard').style.display = 'block';
+    document.getElementById('statusCard').style.display  = 'block';
+    document.getElementById('chatBlock').style.display   = 'block';
 
-    const { data: profiles } = await supabase.from('profiles')
-      .select('status, study_seconds').eq('id', user.id).limit(1);
-    currentStatus = profiles?.[0]?.status || null;
-    const savedStudy = profiles?.[0]?.study_seconds || 0;
+    // Читаем профиль из БД
+    const { data: profiles, error: pErr } = await supabase
+      .from('profiles')
+      .select('status, study_seconds')
+      .eq('id', user.id)
+      .limit(1);
 
-    await supabase.from('profiles').update({ last_seen: new Date().toISOString() }).eq('id', user.id);
+    if (pErr) console.error('Profile fetch error:', pErr);
+
+    currentStatus      = profiles?.[0]?.status || null;
+    const savedSeconds = profiles?.[0]?.study_seconds || 0;
+
+    // Ping last_seen
+    await supabase.from('profiles')
+      .update({ last_seen: new Date().toISOString() })
+      .eq('id', user.id);
     clearInterval(lastSeenInterval);
     lastSeenInterval = setInterval(pingLastSeen, 60_000);
 
-    if (currentStatus === 'Учусь') startStudyTimer(savedStudy);
-    else stopStudyTimer();
+    // Запускаем секундомер если уже в учёбе
+    if (currentStatus === 'Учусь') {
+      startStudyTimer(savedSeconds);
+    } else {
+      stopStudyTimer();
+    }
 
     const avatarEl = currentUserAvatar
       ? `<img src="${currentUserAvatar}" class="avatar" alt="Аватар">`
       : `<div class="avatar-placeholder">${currentUserName[0]?.toUpperCase() || '?'}</div>`;
 
-    els.myInfo.innerHTML = `
+    document.getElementById('myInfo').innerHTML = `
       ${avatarEl}
       <div class="info" style="flex:1">
         <div style="font-size:1.12rem;font-weight:700;color:var(--text)">${currentUserName} ✨</div>
@@ -436,50 +508,70 @@
           ${currentStatus ? `Сейчас: ${currentStatus}` : 'Статус не выбран'}
         </div>
       </div>`;
-    setupLogoutButton(els.myInfo);
+    setupLogoutButton(document.getElementById('myInfo'));
     highlightActiveBtn(currentStatus);
     fetchGroup(user.id);
     fetchMessages();
   }
 
   function highlightActiveBtn(status) {
-    document.querySelectorAll('.status-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.status === status);
-    });
+    document.querySelectorAll('.status-btn').forEach(btn =>
+      btn.classList.toggle('active', btn.dataset.status === status)
+    );
   }
 
   async function changeStatus(text, color) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) { showToast('Сначала войди 🌼'); return false; }
 
+    // Уходим из учёбы — сохраняем секунды
     if (currentStatus === 'Учусь' && text !== 'Учусь') {
-      await flushStudy(user.id);
+      await saveStudySeconds(user.id);
       stopStudyTimer();
     }
 
-    let studySec = 0;
-    if (text === 'Учусь') {
-      const { data: p } = await supabase.from('profiles').select('study_seconds').eq('id', user.id).limit(1);
+    // Текущие секунды для upsert
+    let studySec = studyBaseSeconds;
+    if (text === 'Учусь' && studyStartedAt === null) {
+      // Только что нажали "Учусь" — берём из БД
+      const { data: p } = await supabase
+        .from('profiles').select('study_seconds').eq('id', user.id).limit(1);
       studySec = p?.[0]?.study_seconds || 0;
     }
 
     const payload = {
-      id: user.id, username: currentUserName,
-      avatar_url: currentUserAvatar || null,
-      status: text, color,
-      last_seen: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
+      id:           user.id,
+      username:     currentUserName,
+      avatar_url:   currentUserAvatar || null,
+      status:       text,
+      color:        color,
+      last_seen:    new Date().toISOString(),
+      updated_at:   new Date().toISOString(),
+      study_seconds: studySec,
     };
-    if (text === 'Учусь') payload.study_seconds = studySec;
 
-    const { error } = await supabase.from('profiles').upsert(payload, { onConflict: 'id' });
-    if (error) { console.error('Upsert:', error); showToast('Ошибка: ' + error.message); return false; }
+    const { error } = await supabase
+      .from('profiles')
+      .upsert(payload, { onConflict: 'id' });
+
+    if (error) {
+      console.error('changeStatus upsert error:', error);
+      showToast('Ошибка: ' + error.message);
+      return false;
+    }
 
     currentStatus = text;
-    if (text === 'Учусь') startStudyTimer(studySec);
+
+    // Запускаем секундомер при выборе "Учусь"
+    if (text === 'Учусь') {
+      startStudyTimer(studySec);
+    }
 
     const sd = document.getElementById('statusDisplay');
-    if (sd) { sd.textContent = `Сейчас: ${text}`; sd.classList.remove('pop'); void sd.offsetWidth; sd.classList.add('pop'); }
+    if (sd) {
+      sd.textContent = `Сейчас: ${text}`;
+      sd.classList.remove('pop'); void sd.offsetWidth; sd.classList.add('pop');
+    }
     highlightActiveBtn(text);
     return true;
   }
@@ -490,32 +582,38 @@
       .select('id, username, status, color, avatar_url, last_seen, study_seconds')
       .order('username', { ascending: true });
 
-    if (error) { document.getElementById('groupList').innerHTML = '<div class="error-state">Ошибка загрузки 💔</div>'; return; }
-    if (!data?.length) { document.getElementById('groupList').innerHTML = '<div class="empty-state">Пока тихо... ☁️</div>'; return; }
+    if (error) {
+      document.getElementById('groupList').innerHTML = '<div class="error-state">Ошибка загрузки 💔</div>';
+      return;
+    }
+    if (!data?.length) {
+      document.getElementById('groupList').innerHTML = '<div class="empty-state">Пока тихо... ☁️</div>';
+      return;
+    }
 
     document.getElementById('groupList').innerHTML = data.map(u => {
       const online = isOnline(u.last_seen);
       const isMe   = u.id === userId;
       const av = u.avatar_url
         ? `<img src="${u.avatar_url}" class="avatar" alt="${u.username}">`
-        : `<div class="avatar-placeholder">${u.username?.[0]?.toUpperCase()||'?'}</div>`;
+        : `<div class="avatar-placeholder">${u.username?.[0]?.toUpperCase() || '?'}</div>`;
       const studyBadge = (u.status === 'Учусь' && u.study_seconds > 0)
         ? `<div class="study-badge">📚 ${formatSeconds(u.study_seconds)}</div>` : '';
       const onlineLbl = online
         ? `<span class="online-label-on">● онлайн</span>`
         : `<span class="online-label-off">○ оффлайн</span>`;
       return `
-        <div class="user-item" style="${isMe?'border-color:rgba(200,160,255,0.5);background:linear-gradient(135deg,#fdf5ff,#fff0fa);':''}">
+        <div class="user-item" style="${isMe ? 'border-color:rgba(200,160,255,0.5);background:linear-gradient(135deg,#fdf5ff,#fff0fa);' : ''}">
           <div class="online-indicator-wrap">
             ${av}
-            <div class="online-dot ${online?'is-online':''}"></div>
+            <div class="online-dot ${online ? 'is-online' : ''}"></div>
           </div>
           <div class="info">
-            <div class="username">${u.username}${isMe?' <span style="font-size:0.8em;color:#b070e0">это ты</span>':''}${onlineLbl}</div>
-            <div class="status-text">${u.status||'Без настроения'}</div>
+            <div class="username">${escapeHtml(u.username)}${isMe ? ' <span style="font-size:0.8em;color:#b070e0">это ты</span>' : ''}${onlineLbl}</div>
+            <div class="status-text">${escapeHtml(u.status || 'Без настроения')}</div>
             ${studyBadge}
           </div>
-          <div class="status-dot" style="--dot-color:${u.color||'#d0c0f0'}"></div>
+          <div class="status-dot" style="--dot-color:${u.color || '#d0c0f0'}"></div>
         </div>`;
     }).join('');
   }
@@ -526,7 +624,8 @@
       .select('id, user_id, username, avatar_url, text, created_at')
       .order('created_at', { ascending: true })
       .limit(80);
-    if (error) { console.error('Messages:', error); return; }
+
+    if (error) { console.error('fetchMessages error:', error); return; }
     chatMessages = data || [];
     renderMessages();
   }
@@ -541,12 +640,12 @@
       const mine = msg.user_id === currentUserId;
       const av = msg.avatar_url
         ? `<img src="${msg.avatar_url}" class="avatar-sm" alt="">`
-        : `<div class="avatar-sm-placeholder">${msg.username?.[0]?.toUpperCase()||'?'}</div>`;
+        : `<div class="avatar-sm-placeholder">${msg.username?.[0]?.toUpperCase() || '?'}</div>`;
       return `
-        <div class="chat-msg ${mine?'mine':''}">
+        <div class="chat-msg ${mine ? 'mine' : ''}">
           ${av}
-          <div style="flex:1;min-width:0;display:flex;flex-direction:column;${mine?'align-items:flex-end':''}">
-            <div class="chat-meta">${mine?'Ты':escapeHtml(msg.username)} · ${timeAgo(msg.created_at)}</div>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;${mine ? 'align-items:flex-end' : ''}">
+            <div class="chat-meta">${mine ? 'Ты' : escapeHtml(msg.username)} · ${timeAgo(msg.created_at)}</div>
             <div class="chat-bubble">${escapeHtml(msg.text)}</div>
           </div>
         </div>`;
@@ -557,14 +656,28 @@
   async function sendMessage() {
     const input = document.getElementById('chatInput');
     const text  = input.value.trim();
-    if (!text || !currentUserId) return;
+    if (!text) { showToast('Напиши что-нибудь 💬'); return; }
+    if (!currentUserId) { showToast('Сначала войди через Google 🌼'); return; }
+
     input.value = '';
+    input.disabled = true;
+
     const { error } = await supabase.from('messages').insert({
-      user_id: currentUserId, username: currentUserName,
-      avatar_url: currentUserAvatar || null, text,
-      created_at: new Date().toISOString()
+      user_id:    currentUserId,
+      username:   currentUserName,
+      avatar_url: currentUserAvatar || null,
+      text:       text,
+      created_at: new Date().toISOString(),
     });
-    if (error) { console.error('Send:', error); showToast('Не удалось отправить 😔'); return; }
+
+    input.disabled = false;
+    input.focus();
+
+    if (error) {
+      console.error('sendMessage error:', error);
+      showToast('Ошибка отправки: ' + error.message);
+      return;
+    }
     await fetchMessages();
   }
 
@@ -575,15 +688,15 @@
 
   document.querySelectorAll('.status-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
-      const { data: { user } } = await supabase.auth.getUser();
       if (await changeStatus(btn.dataset.status, btn.dataset.color)) {
         showToast(`${btn.dataset.emoji} Статус: ${btn.dataset.status}`);
+        const { data: { user } } = await supabase.auth.getUser();
         fetchGroup(user?.id);
       }
     });
   });
 
-  // Realtime новые сообщения
+  // Realtime — новые сообщения от других
   supabase.channel('messages-rt')
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
       if (payload.new.user_id !== currentUserId) {
@@ -596,14 +709,25 @@
   supabase.auth.onAuthStateChange(() => loadUserAndUI());
   loadUserAndUI();
 
+  // Обновляем группу каждые 6 секунд
   setInterval(async () => {
     const { data: { user } } = await supabase.auth.getUser();
     fetchGroup(user?.id || null);
   }, 6000);
 
+  // Сохраняем секунды при закрытии вкладки
   window.addEventListener('beforeunload', () => {
-    if (currentUserId && currentStatus === 'Учусь') flushStudy(currentUserId);
+    if (currentUserId && currentStatus === 'Учусь') {
+      saveStudySeconds(currentUserId);
+    }
   });
+
+  // Сохраняем секунды каждые 30 сек автоматически
+  setInterval(async () => {
+    if (currentUserId && currentStatus === 'Учусь') {
+      await saveStudySeconds(currentUserId);
+    }
+  }, 30_000);
 </script>
 </body>
 </html>
