@@ -86,7 +86,6 @@
     .tbtn:active{transform:scale(.96)}
     .tbtn.start{background:var(--trc,#9060c0);color:#fff;border-color:var(--trc,#9060c0)}
     .tbtn.start:hover{opacity:.85}
-    /* цвета по статусу */
     .tc1{--tbg:#e0f7fb;--tc:#7dd8e0;--trc:#00a8b5;--trm:#b2edf2;--ttx:#007a85}
     .tc2{--tbg:#fff4e2;--tc:#ffcc80;--trc:#e08000;--trm:#ffe0a0;--ttx:#c06200}
     .tc3{--tbg:#edf7ed;--tc:#90d494;--trc:#2a9a2e;--trm:#b8e8ba;--ttx:#1a6a1e}
@@ -111,6 +110,56 @@
     .onl{font-size:.75rem;font-weight:700;color:#2db860;background:#e8fff1;border-radius:999px;padding:2px 8px;margin-left:6px}
     .ofl{font-size:.75rem;font-weight:600;color:#aaa;background:#f3f3f3;border-radius:999px;padding:2px 8px;margin-left:6px}
     .sdot{width:14px;height:14px;border-radius:50%;background:var(--dc,#d0c0f0);box-shadow:0 0 0 3px rgba(255,255,255,.9);flex-shrink:0}
+
+    /* ══ ДОСТИЖЕНИЯ ══ */
+    .ach-grid{display:flex;flex-wrap:wrap;gap:10px}
+    .ach-badge{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 14px;
+      border-radius:18px;border:2px solid;min-width:90px;text-align:center;transition:all .3s;position:relative}
+    .ach-badge.locked{opacity:.35;filter:grayscale(1)}
+    .ach-badge.unlocked{animation:achPop .5s cubic-bezier(.34,1.56,.64,1) both}
+    @keyframes achPop{0%{transform:scale(.7);opacity:0}100%{transform:scale(1);opacity:1}}
+    .ach-icon{font-size:1.8rem;line-height:1}
+    .ach-name{font-size:.72rem;font-weight:800;letter-spacing:.03em;line-height:1.2}
+    .ach-desc{font-size:.65rem;font-weight:600;opacity:.7;line-height:1.2;margin-top:1px}
+    .ach-new{position:absolute;top:-6px;right:-6px;background:linear-gradient(135deg,#ff6b6b,#ff4757);
+      color:#fff;font-size:.6rem;font-weight:900;padding:2px 6px;border-radius:999px;
+      animation:bounce 1s ease infinite alternate;text-transform:uppercase;letter-spacing:.05em}
+    @keyframes bounce{from{transform:scale(1)}to{transform:scale(1.15)}}
+    .ach-a{border-color:#ffd700;background:linear-gradient(135deg,#fffbe6,#fff9d0);color:#8b6914}
+    .ach-b{border-color:#c9a8f0;background:linear-gradient(135deg,#f5eeff,#efe0ff);color:#7040b0}
+    .ach-c{border-color:#90d494;background:linear-gradient(135deg,#edf7ed,#d8f4d8);color:#1a6a1e}
+    .ach-d{border-color:#f0a0c0;background:linear-gradient(135deg,#fff0f5,#ffe0ed);color:#b03070}
+    .ach-e{border-color:#7dd8e0;background:linear-gradient(135deg,#e0f7fb,#c8f0f5);color:#007a85}
+    .ach-f{border-color:#ffcc80;background:linear-gradient(135deg,#fff4e2,#ffe8c0);color:#c06200}
+    .ach-g{border-color:#9098e8;background:linear-gradient(135deg,#eef0ff,#d8dcff);color:#3040a0}
+    .ach-h{border-color:#ff8a80;background:linear-gradient(135deg,#fff0ee,#ffe0dc);color:#c0302a}
+
+    /* ══ РЕЙТИНГ ══ */
+    #rankList{display:flex;flex-direction:column;gap:10px}
+    .rk{display:flex;align-items:center;gap:14px;padding:14px 18px;
+      border-radius:20px;border:1px solid var(--border);transition:all .22s;position:relative;overflow:hidden}
+    .rk::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--rbar,#c9a8f0)}
+    .rk:hover{transform:translateY(-2px);box-shadow:var(--sh-md)}
+    .rk-1{background:linear-gradient(135deg,#fffbe6,#fff8d0);--rbar:#ffd700}
+    .rk-2{background:linear-gradient(135deg,#f5f5f5,#ececec);--rbar:#aaa}
+    .rk-3{background:linear-gradient(135deg,#fff3ea,#ffe8d0);--rbar:#cd7f32}
+    .rk-n{background:linear-gradient(135deg,#fdfaff,#f8f4ff);--rbar:#c9a8f0}
+    .rk-pos{font-size:1.5rem;font-weight:900;width:36px;text-align:center;flex-shrink:0}
+    .rk-1 .rk-pos{color:#c9a000}
+    .rk-2 .rk-pos{color:#888}
+    .rk-3 .rk-pos{color:#b05a00}
+    .rk-n .rk-pos{color:#b090d0}
+    .rk-inf{flex:1;min-width:0}
+    .rk-name{font-weight:800;font-size:1rem;color:var(--text)}
+    .rk-pts{font-size:.88rem;color:var(--text-light);font-weight:700;margin-top:2px}
+    .rk-bar-wrap{height:6px;background:rgba(0,0,0,.06);border-radius:999px;margin-top:6px;overflow:hidden}
+    .rk-bar{height:100%;border-radius:999px;background:linear-gradient(90deg,#b87fff,#f06bba);
+      transition:width .8s cubic-bezier(.34,1.56,.64,1)}
+    .rk-achcount{font-size:.75rem;font-weight:800;background:rgba(184,127,255,.12);
+      color:#9060c0;border-radius:999px;padding:3px 10px;flex-shrink:0}
+    .rk-medal{font-size:1.4rem;flex-shrink:0}
+    .pts-badge{display:inline-flex;align-items:center;gap:4px;font-size:.78rem;font-weight:800;
+      color:#9060c0;background:rgba(201,175,245,.2);border-radius:999px;padding:2px 10px;margin-left:6px}
 
     /* чат */
     #msgs{display:flex;flex-direction:column;gap:10px;max-height:340px;overflow-y:auto;
@@ -141,6 +190,16 @@
       border-radius:999px;font-weight:700;font-size:.95rem;box-shadow:0 8px 28px rgba(130,60,180,.35);
       opacity:0;pointer-events:none;transition:all .35s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;z-index:1000}
     #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+    /* достижение-попап */
+    #achToast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(30px);
+      background:linear-gradient(135deg,#fff8d0,#fffbe6);color:#8b6914;
+      border:2px solid #ffd700;padding:14px 24px;border-radius:20px;font-weight:700;
+      font-size:1rem;box-shadow:0 8px 32px rgba(200,160,0,.25);
+      opacity:0;pointer-events:none;transition:all .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;z-index:999;
+      display:flex;align-items:center;gap:10px}
+    #achToast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
     .ld{display:flex;align-items:center;gap:10px;color:var(--text-light);font-weight:600;font-size:.97rem}
     .ld span{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);
       animation:bc 1.1s infinite ease;margin:0 2px}
@@ -150,6 +209,22 @@
     @keyframes bc{0%,80%,100%{transform:scale(.7);opacity:.5}40%{transform:scale(1.1);opacity:1}}
     @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
     .pop{animation:pop .35s ease}
+
+    /* tabs */
+    .tabs{display:flex;gap:8px;margin-bottom:18px}
+    .tab{padding:8px 18px;border-radius:999px;border:2px solid var(--border);
+      font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;cursor:pointer;
+      background:transparent;color:var(--text-light);transition:all .2s}
+    .tab.on{background:linear-gradient(135deg,#b87fff,#f06bba);color:#fff;border-color:transparent;
+      box-shadow:0 4px 14px rgba(184,127,255,.3)}
+    .tab-pane{display:none}.tab-pane.on{display:block}
+
+    /* user achievements inline */
+    .mini-achs{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+    .mini-ach{font-size:1rem;title-font-size:.7rem;cursor:default}
+    .mini-ach[title]:hover::after{content:attr(title);position:absolute;bottom:100%;left:50%;
+      transform:translateX(-50%);background:#333;color:#fff;font-size:.7rem;padding:4px 8px;
+      border-radius:8px;white-space:nowrap;z-index:10}
   </style>
 </head>
 <body>
@@ -192,6 +267,12 @@
         <button class="tbtn" id="tBtnReset">↺ Сброс</button>
       </div>
     </div>
+
+    <!-- МОИ ДОСТИЖЕНИЯ -->
+    <div id="myAchSection" style="display:none;margin-top:18px">
+      <div style="font-size:.85rem;font-weight:800;color:var(--text-light);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px">Мои достижения</div>
+      <div class="ach-grid" id="myAchGrid"></div>
+    </div>
   </div>
 
   <div class="card" id="statusCard" style="display:none">
@@ -206,9 +287,23 @@
     </div>
   </div>
 
+  <!-- МОНИТОР + РЕЙТИНГ в табах -->
   <div class="card">
-    <div class="lbl">Монитор группы</div>
-    <div id="gList"><div class="ld"><span></span><span></span><span></span>Загружаем...</div></div>
+    <div class="lbl">Группа</div>
+    <div class="tabs">
+      <button class="tab on" data-tab="monitor">👥 Монитор</button>
+      <button class="tab" data-tab="rating">🏆 Рейтинг</button>
+      <button class="tab" data-tab="achlist">🎖 Все значки</button>
+    </div>
+    <div class="tab-pane on" id="tab-monitor">
+      <div id="gList"><div class="ld"><span></span><span></span><span></span>Загружаем...</div></div>
+    </div>
+    <div class="tab-pane" id="tab-rating">
+      <div id="rankList"><div class="ld"><span></span><span></span><span></span>Загружаем...</div></div>
+    </div>
+    <div class="tab-pane" id="tab-achlist">
+      <div id="achListAll"></div>
+    </div>
   </div>
 
   <div class="card" id="chatCard">
@@ -221,6 +316,7 @@
   </div>
 </div>
 <div id="toast"></div>
+<div id="achToast"><span id="achToastIcon" style="font-size:1.6rem"></span><div><div id="achToastTitle" style="font-weight:900;font-size:1rem"></div><div id="achToastDesc" style="font-size:.82rem;opacity:.7;font-weight:600"></div></div></div>
 
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
@@ -229,6 +325,128 @@ const sb = createClient(
   'https://pxqmvgmicxxbkxcrthqz.supabase.co',
   'sb_publishable_B7yD6pvugtqb9g9EZWNo8A_qsWbkpQY'
 );
+
+// ══════════════════════════════════
+//  ОПРЕДЕЛЕНИЯ ДОСТИЖЕНИЙ
+// ══════════════════════════════════
+const ACHIEVEMENTS = [
+  {
+    id: 'early_bird',
+    icon: '🌅',
+    name: 'Ранняя пташка',
+    desc: 'Зашёл до 8:00 утра',
+    color: 'ach-f',
+    pts: 15,
+    check: (stats) => stats.earlyLogin,
+  },
+  {
+    id: 'marathon',
+    icon: '🏃',
+    name: 'Марафонец',
+    desc: 'Учился 2+ часа подряд',
+    color: 'ach-c',
+    pts: 30,
+    check: (stats) => stats.maxSessionSec >= 7200,
+  },
+  {
+    id: 'chatterbox',
+    icon: '💬',
+    name: 'Болтушка',
+    desc: '20+ сообщений в чате',
+    color: 'ach-d',
+    pts: 20,
+    check: (stats) => stats.msgCount >= 20,
+  },
+  {
+    id: 'first_msg',
+    icon: '✍️',
+    name: 'Первый голос',
+    desc: 'Отправил первое сообщение',
+    color: 'ach-b',
+    pts: 5,
+    check: (stats) => stats.msgCount >= 1,
+  },
+  {
+    id: 'night_owl',
+    icon: '🦉',
+    name: 'Сова',
+    desc: 'Зашёл после 23:00',
+    color: 'ach-g',
+    pts: 15,
+    check: (stats) => stats.nightLogin,
+  },
+  {
+    id: 'week_streak',
+    icon: '🔥',
+    name: 'Недельная серия',
+    desc: '7 дней подряд в системе',
+    color: 'ach-h',
+    pts: 50,
+    check: (stats) => stats.streak >= 7,
+  },
+  {
+    id: 'studious',
+    icon: '📖',
+    name: 'Прилежный',
+    desc: '10+ часов учёбы всего',
+    color: 'ach-a',
+    pts: 40,
+    check: (stats) => stats.totalStudySec >= 36000,
+  },
+  {
+    id: 'social',
+    icon: '🤝',
+    name: 'Душа компании',
+    desc: '50+ сообщений в чате',
+    color: 'ach-d',
+    pts: 35,
+    check: (stats) => stats.msgCount >= 50,
+  },
+  {
+    id: 'status_master',
+    icon: '🎭',
+    name: 'Мастер статусов',
+    desc: 'Использовал все 6 статусов',
+    color: 'ach-b',
+    pts: 25,
+    check: (stats) => stats.uniqueStatuses >= 6,
+  },
+  {
+    id: 'five_hours',
+    icon: '⏰',
+    name: 'Пятичасовой',
+    desc: '5+ часов учёбы за день',
+    color: 'ach-a',
+    pts: 45,
+    check: (stats) => stats.maxDaySec >= 18000,
+  },
+  {
+    id: 'coffee_lover',
+    icon: '☕',
+    name: 'Кофеман',
+    desc: 'Поставил "Кофе" 10+ раз',
+    color: 'ach-f',
+    pts: 10,
+    check: (stats) => stats.coffeeCount >= 10,
+  },
+  {
+    id: 'legend',
+    icon: '👑',
+    name: 'Легенда',
+    desc: 'Набрал 200+ очков',
+    color: 'ach-a',
+    pts: 0,
+    check: (stats) => stats.totalPts >= 200,
+  },
+];
+
+function calcPoints(unlockedIds) {
+  return ACHIEVEMENTS
+    .filter(a => unlockedIds.includes(a.id))
+    .reduce((sum, a) => sum + a.pts, 0);
+}
+
+// ══════════════════════════════════
 
 const ONLINE_MS = 3 * 60 * 1000;
 const isOnline = ts => !!ts && (Date.now() - new Date(ts).getTime()) < ONLINE_MS;
@@ -257,20 +475,28 @@ function toast(msg) {
   setTimeout(() => el.classList.remove('on'), 2600);
 }
 
-// ══════════════════════════════════
-//  ТАЙМЕР — старт / пауза / сброс
-//  tBase   = накопленные секунды до паузы
-//  tStart  = timestamp когда нажали старт
-//  tActive = идёт ли сейчас
-// ══════════════════════════════════
-let tBase = 0, tStart = null, tActive = false, tTick = null;
-let hasStatusSeconds = false; // флаг: есть ли колонка в БД
-
-function tFmt() {
-  const cur = tActive ? tBase + (Date.now() - tStart) / 1000 : tBase;
-  document.getElementById('tCur').textContent = fmtS(tActive ? (Date.now() - tStart) / 1000 : 0);
-  document.getElementById('tTot').textContent = fmtS(cur);
+function achToast(ach) {
+  const el = document.getElementById('achToast');
+  document.getElementById('achToastIcon').textContent = ach.icon;
+  document.getElementById('achToastTitle').textContent = '🎉 ' + ach.name;
+  document.getElementById('achToastDesc').textContent = ach.desc + ` +${ach.pts} очков`;
+  el.classList.add('on');
+  setTimeout(() => el.classList.remove('on'), 3500);
 }
+
+// Tabs
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+    document.querySelectorAll('.tab-pane').forEach(x => x.classList.remove('on'));
+    t.classList.add('on');
+    document.getElementById('tab-' + t.dataset.tab).classList.add('on');
+  });
+});
+
+// ══ ТАЙМЕР ══
+let tBase = 0, tStart = null, tActive = false, tTick = null;
+let hasStatusSeconds = false;
 
 function tTick_() {
   const elapsed = (Date.now() - tStart) / 1000;
@@ -282,7 +508,6 @@ function timerSetStatus(s, tcClass) {
   const box = document.getElementById('timerBox');
   box.className = 'show ' + (tcClass || 'tc4');
   document.getElementById('tName').textContent = s;
-  // сброс таймера при смене статуса
   tBase = 0; tStart = null; tActive = false;
   clearInterval(tTick);
   document.getElementById('tCur').textContent = '0:00:00';
@@ -298,7 +523,6 @@ function timerHide() {
   document.getElementById('tRing').classList.remove('spin');
 }
 
-// Старт / возобновить
 document.getElementById('tBtnStart').addEventListener('click', () => {
   if (tActive) return;
   tActive = true;
@@ -308,9 +532,10 @@ document.getElementById('tBtnStart').addEventListener('click', () => {
   clearInterval(tTick);
   tTick = setInterval(tTick_, 1000);
   saveTimer();
+  // Проверяем достижение «марафонец» по ходу
+  setTimeout(() => checkAndAwardAchs(), 7200000 + 1000);
 });
 
-// Пауза
 document.getElementById('tBtnStop').addEventListener('click', () => {
   if (!tActive) return;
   tBase  += (Date.now() - tStart) / 1000;
@@ -321,9 +546,9 @@ document.getElementById('tBtnStop').addEventListener('click', () => {
   document.getElementById('tCur').textContent = '0:00:00';
   document.getElementById('tTot').textContent = fmtS(tBase);
   saveTimer();
+  checkAndAwardAchs();
 });
 
-// Сброс
 document.getElementById('tBtnReset').addEventListener('click', () => {
   tBase = 0; tStart = null; tActive = false;
   clearInterval(tTick);
@@ -339,8 +564,108 @@ async function saveTimer() {
   const total = Math.floor(tBase + (tActive && tStart ? (Date.now() - tStart) / 1000 : 0));
   await sb.from('profiles').update({ status_seconds: total }).eq('id', uid);
 }
-// ══════════════════════════════════
 
+// ══ ДОСТИЖЕНИЯ: Проверка и выдача ══
+let myStats = {};
+let myAchs = [];
+
+async function loadMyStats() {
+  if (!uid) return;
+  // Считаем сообщения
+  const { count: msgCount } = await sb.from('messages')
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', uid);
+
+  // Время входа
+  const hour = new Date().getHours();
+  const earlyLogin = hour < 8;
+  const nightLogin = hour >= 23;
+
+  // Текущая сессия таймера
+  const curSec = tBase + (tActive && tStart ? (Date.now()-tStart)/1000 : 0);
+
+  myStats = {
+    msgCount: msgCount || 0,
+    earlyLogin,
+    nightLogin,
+    maxSessionSec: curSec,
+    totalStudySec: curSec,
+    maxDaySec: curSec,
+    streak: 1,
+    uniqueStatuses: ustatus ? 1 : 0,
+    coffeeCount: ustatus === 'Кофе' ? 1 : 0,
+    totalPts: calcPoints(myAchs),
+  };
+}
+
+async function checkAndAwardAchs() {
+  if (!uid) return;
+  await loadMyStats();
+
+  // Загружаем текущие достижения из БД
+  const { data: prof } = await sb.from('profiles').select('achievements').eq('id', uid).limit(1);
+  const existing = prof?.[0]?.achievements || [];
+  myAchs = existing;
+
+  const newOnes = [];
+  for (const ach of ACHIEVEMENTS) {
+    if (!existing.includes(ach.id) && ach.check(myStats)) {
+      newOnes.push(ach);
+    }
+  }
+
+  if (newOnes.length > 0) {
+    const updated = [...existing, ...newOnes.map(a => a.id)];
+    // Сохраняем в БД (колонка achievements text[])
+    try {
+      await sb.from('profiles').update({ achievements: updated }).eq('id', uid);
+    } catch(e) {
+      // Если колонки нет — игнорируем
+      console.warn('achievements column may not exist:', e.message);
+    }
+    myAchs = updated;
+
+    // Показываем уведомления поочерёдно
+    for (let i = 0; i < newOnes.length; i++) {
+      setTimeout(() => achToast(newOnes[i]), i * 4000);
+    }
+  }
+
+  renderMyAchs();
+}
+
+function renderMyAchs() {
+  const grid = document.getElementById('myAchGrid');
+  const section = document.getElementById('myAchSection');
+  if (!grid) return;
+
+  const newFromSession = []; // для пометки NEW (свежеполученных)
+  grid.innerHTML = ACHIEVEMENTS.map(a => {
+    const unlocked = myAchs.includes(a.id);
+    return `
+      <div class="ach-badge ${a.color} ${unlocked ? 'unlocked' : 'locked'}" title="${a.desc}">
+        <div class="ach-icon">${a.icon}</div>
+        <div class="ach-name">${a.name}</div>
+        <div class="ach-desc">${unlocked ? '+'+a.pts+' очк.' : '???'}</div>
+      </div>`;
+  }).join('');
+
+  section.style.display = 'block';
+}
+
+function renderAllAchs() {
+  const el = document.getElementById('achListAll');
+  el.innerHTML = `<div class="ach-grid">${ACHIEVEMENTS.map(a => `
+    <div class="ach-badge ${a.color}" style="opacity:1;filter:none" title="${a.desc}">
+      <div class="ach-icon">${a.icon}</div>
+      <div class="ach-name">${a.name}</div>
+      <div class="ach-desc">${a.desc}</div>
+      <div style="font-size:.65rem;font-weight:800;color:inherit;opacity:.6;margin-top:2px">+${a.pts} очк.</div>
+    </div>`).join('')}</div>`;
+}
+renderAllAchs();
+
+// ══ ГЛАВНЫЕ ПЕРЕМЕННЫЕ ══
 let uid = null, uname = '', uavatar = '', ustatus = null, lsInt = null, msgs = [];
 
 async function pingLS() {
@@ -398,39 +723,33 @@ async function load() {
   document.getElementById('statusCard').style.display  = 'block';
   document.getElementById('chatCard').style.display    = 'block';
 
-  // Пробуем загрузить профиль — проверяем есть ли status_seconds
   const { data: prof, error: pErr } = await sb
     .from('profiles')
-    .select('status, status_seconds, last_seen')
+    .select('status, status_seconds, last_seen, achievements')
     .eq('id', uid).limit(1);
 
   if (pErr) {
-    // Если ошибка — колонки нет, работаем без неё
-    console.warn('profiles fetch:', pErr.message);
     hasStatusSeconds = false;
-    const { data: prof2 } = await sb
-      .from('profiles')
-      .select('status')
-      .eq('id', uid).limit(1);
+    const { data: prof2 } = await sb.from('profiles').select('status').eq('id', uid).limit(1);
     ustatus = prof2?.[0]?.status || null;
+    myAchs = [];
   } else {
     hasStatusSeconds = true;
     ustatus = prof?.[0]?.status || null;
     const saved = prof?.[0]?.status_seconds || 0;
+    myAchs = prof?.[0]?.achievements || [];
     if (ustatus && saved > 0) {
       tBase = saved;
       document.getElementById('tTot').textContent = fmtS(saved);
     }
   }
 
-  // ping last_seen
   try {
     await sb.from('profiles').update({ last_seen: new Date().toISOString() }).eq('id', uid);
   } catch(e) {}
   clearInterval(lsInt);
   lsInt = setInterval(pingLS, 60_000);
 
-  // Показываем таймер если есть статус
   if (ustatus) {
     const btn = document.querySelector(`.sb[data-s="${ustatus}"]`);
     const tc  = btn?.dataset.tc || 'tc4';
@@ -440,6 +759,12 @@ async function load() {
     document.getElementById('tTot').textContent = fmtS(tBase);
   }
 
+  const pts = calcPoints(myAchs);
+  const achIcons = myAchs.slice(0,5).map(id => {
+    const a = ACHIEVEMENTS.find(x => x.id === id);
+    return a ? `<span class="mini-ach" title="${a.name}">${a.icon}</span>` : '';
+  }).join('');
+
   const avEl = uavatar
     ? `<img src="${uavatar}" class="av" alt="">`
     : `<div class="avp">${uname[0]?.toUpperCase()||'?'}</div>`;
@@ -447,15 +772,22 @@ async function load() {
   document.getElementById('myInfo').innerHTML = `
     ${avEl}
     <div style="flex:1;min-width:0">
-      <div style="font-size:1.12rem;font-weight:700;color:var(--text)">${esc(uname)} ✨</div>
+      <div style="font-size:1.12rem;font-weight:700;color:var(--text)">${esc(uname)} ✨
+        <span class="pts-badge">⭐ ${pts} очк.</span>
+      </div>
       <div id="sDis" style="font-size:.9rem;color:var(--text-light);font-weight:600;margin-top:4px">
         ${ustatus ? 'Сейчас: '+ustatus : 'Статус не выбран'}
       </div>
+      <div class="mini-achs">${achIcons}</div>
     </div>`;
   addLogout(document.getElementById('myInfo'));
   hlBtn(ustatus);
+  renderMyAchs();
   loadGroup(uid);
   loadMsgs();
+
+  // Проверяем достижения при входе (ранняя пташка / сова)
+  setTimeout(() => checkAndAwardAchs(), 1500);
 }
 
 function hlBtn(s) {
@@ -466,10 +798,8 @@ async function setStatus(s, color, tc) {
   const { data:{ user } } = await sb.auth.getUser();
   if (!user) { toast('Сначала войди 🌼'); return false; }
 
-  // Сохраняем таймер старого статуса и сбрасываем
   await saveTimer();
 
-  // Формируем payload — без status_seconds если колонки нет
   const payload = {
     id: user.id, username: uname,
     avatar_url: uavatar || null,
@@ -481,25 +811,22 @@ async function setStatus(s, color, tc) {
 
   const { error } = await sb.from('profiles').upsert(payload, { onConflict:'id' });
 
-  if (error) {
-    console.error('setStatus:', error);
-    toast('Ошибка: ' + error.message);
-    return false;
-  }
+  if (error) { toast('Ошибка: ' + error.message); return false; }
 
   ustatus = s;
-  timerSetStatus(s, tc); // сбрасываем таймер для нового статуса
+  timerSetStatus(s, tc);
 
   const sd = document.getElementById('sDis');
   if (sd) { sd.textContent = 'Сейчас: ' + s; sd.classList.remove('pop'); void sd.offsetWidth; sd.classList.add('pop'); }
   hlBtn(s);
+
+  // Проверяем достижения после смены статуса
+  setTimeout(() => checkAndAwardAchs(), 500);
   return true;
 }
 
 async function loadGroup(userId) {
-  const cols = hasStatusSeconds
-    ? 'id,username,status,color,avatar_url,last_seen,status_seconds'
-    : 'id,username,status,color,avatar_url,last_seen';
+  const cols = 'id,username,status,color,avatar_url,last_seen,status_seconds,achievements';
 
   const { data, error } = await sb.from('profiles')
     .select(cols)
@@ -508,20 +835,18 @@ async function loadGroup(userId) {
   const el = document.getElementById('gList');
 
   if (error) {
-    console.error('loadGroup:', error);
     el.innerHTML = '<div class="err">Ошибка загрузки 💔<br><small>'+esc(error.message)+'</small></div>';
     return;
   }
-  if (!data?.length) {
-    el.innerHTML = '<div class="empty">Пока тихо... ☁️</div>';
-    return;
-  }
+  if (!data?.length) { el.innerHTML = '<div class="empty">Пока тихо... ☁️</div>'; return; }
 
   el.innerHTML = data.map(u => {
     const online = isOnline(u.last_seen);
     const me     = u.id === userId;
     const btn    = document.querySelector(`.sb[data-s="${u.status}"]`);
     const tbCls  = btn?.dataset.tb || 'tb4';
+    const achs   = u.achievements || [];
+    const pts    = calcPoints(achs);
     const av = u.avatar_url
       ? `<img src="${u.avatar_url}" class="av" alt="${esc(u.username)}">`
       : `<div class="avp">${(u.username||'?')[0].toUpperCase()}</div>`;
@@ -530,15 +855,65 @@ async function loadGroup(userId) {
     const olbl = online
       ? `<span class="onl">● онлайн</span>`
       : `<span class="ofl">○ оффлайн</span>`;
+    const achRow = achs.length
+      ? `<div class="mini-achs">${achs.slice(0,6).map(id => {
+          const a = ACHIEVEMENTS.find(x => x.id === id);
+          return a ? `<span class="mini-ach" title="${a.name}">${a.icon}</span>` : '';
+        }).join('')}</div>`
+      : '';
     return `
       <div class="ui" style="${me?'border-color:rgba(200,160,255,.5);background:linear-gradient(135deg,#fdf5ff,#fff0fa);':''}">
         <div class="owrap">${av}<div class="odot ${online?'on':''}"></div></div>
         <div class="inf">
-          <div class="uname">${esc(u.username||'—')}${me?' <span style="font-size:.8em;color:#b070e0">это ты</span>':''}${olbl}</div>
+          <div class="uname">${esc(u.username||'—')}${me?' <span style="font-size:.8em;color:#b070e0">это ты</span>':''}${olbl}
+            ${pts > 0 ? `<span class="pts-badge">⭐ ${pts}</span>` : ''}
+          </div>
           <div class="ust">${esc(u.status||'Без настроения')}</div>
-          ${badge}
+          ${badge}${achRow}
         </div>
         <div class="sdot" style="--dc:${u.color||'#d0c0f0'}"></div>
+      </div>`;
+  }).join('');
+
+  // Рейтинг
+  renderRanking(data, userId);
+}
+
+function renderRanking(data, userId) {
+  const ranked = data
+    .map(u => ({
+      ...u,
+      pts: calcPoints(u.achievements || []),
+      achCount: (u.achievements || []).length,
+    }))
+    .sort((a,b) => b.pts - a.pts || b.achCount - a.achCount);
+
+  const maxPts = ranked[0]?.pts || 1;
+
+  const medals = ['🥇','🥈','🥉'];
+  const rkCls  = ['rk-1','rk-2','rk-3'];
+
+  const el = document.getElementById('rankList');
+  if (!ranked.length) { el.innerHTML = '<div class="empty">Нет данных 🌸</div>'; return; }
+
+  el.innerHTML = ranked.map((u,i) => {
+    const me = u.id === userId;
+    const pos = i+1;
+    const cls = i < 3 ? rkCls[i] : 'rk-n';
+    const medal = i < 3 ? medals[i] : `#${pos}`;
+    const pct = maxPts > 0 ? Math.round((u.pts / maxPts) * 100) : 0;
+    return `
+      <div class="rk ${cls}" style="${me?'outline:2px solid rgba(184,127,255,.5);':''}">
+        <div class="rk-pos">${medal}</div>
+        <div class="rk-inf">
+          <div class="rk-name">${esc(u.username||'—')}${me?' 👈':''}</div>
+          <div class="rk-pts">⭐ ${u.pts} очков · ${u.achCount} значков</div>
+          <div class="rk-bar-wrap"><div class="rk-bar" style="width:${pct}%"></div></div>
+        </div>
+        <div class="rk-achcount">${(u.achievements||[]).slice(0,4).map(id => {
+          const a = ACHIEVEMENTS.find(x => x.id === id);
+          return a ? a.icon : '';
+        }).join('')}</div>
       </div>`;
   }).join('');
 }
@@ -584,8 +959,10 @@ async function sendMsg() {
     created_at: new Date().toISOString()
   });
   inp.disabled = false; inp.focus();
-  if (error) { console.error('sendMsg:', error); toast('Ошибка: ' + error.message); return; }
+  if (error) { toast('Ошибка: ' + error.message); return; }
   await loadMsgs();
+  // Проверяем достижения за сообщения
+  setTimeout(() => checkAndAwardAchs(), 300);
 }
 
 document.getElementById('csb').addEventListener('click', sendMsg);
@@ -612,8 +989,6 @@ sb.auth.onAuthStateChange(() => load());
 load();
 
 setInterval(() => loadGroup(uid), 6000);
-
-// Автосохранение таймера каждые 30с
 setInterval(() => { if (uid && tActive) saveTimer(); }, 30_000);
 
 window.addEventListener('beforeunload', () => { if (uid) saveTimer(); });
