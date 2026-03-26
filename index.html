@@ -225,6 +225,10 @@
     .mini-ach[title]:hover::after{content:attr(title);position:absolute;bottom:100%;left:50%;
       transform:translateX(-50%);background:#333;color:#fff;font-size:.7rem;padding:4px 8px;
       border-radius:8px;white-space:nowrap;z-index:10}
+
+    /* streak badge */
+    .streak-badge{display:inline-flex;align-items:center;gap:4px;font-size:.78rem;font-weight:800;
+      color:#e06000;background:rgba(255,180,50,.15);border-radius:999px;padding:2px 10px;margin-left:6px}
   </style>
 </head>
 <body>
@@ -446,8 +450,6 @@ function calcPoints(unlockedIds) {
     .reduce((sum, a) => sum + a.pts, 0);
 }
 
-// ══════════════════════════════════
-
 const ONLINE_MS = 3 * 60 * 1000;
 const isOnline = ts => !!ts && (Date.now() - new Date(ts).getTime()) < ONLINE_MS;
 
@@ -532,11 +534,10 @@ document.getElementById('tBtnStart').addEventListener('click', () => {
   clearInterval(tTick);
   tTick = setInterval(tTick_, 1000);
   saveTimer();
-  // Проверяем достижение «марафонец» по ходу
   setTimeout(() => checkAndAwardAchs(), 7200000 + 1000);
 });
 
-document.getElementById('tBtnStop').addEventListener('click', () => {
+document.getElementById('tBtnStop').addEventListener('click', async () => {
   if (!tActive) return;
   tBase  += (Date.now() - tStart) / 1000;
   tActive = false; tStart = null;
@@ -546,6 +547,10 @@ document.getElementById('tBtnStop').addEventListener('click', () => {
   document.getElementById('tCur').textContent = '0:00:00';
   document.getElementById('tTot').textContent = fmtS(tBase);
   saveTimer();
+
+  // ✅ ФУНКЦИЯ 1: сохраняем время учёбы при паузе
+  await saveStudyTime();
+
   checkAndAwardAchs();
 });
 
@@ -565,36 +570,117 @@ async function saveTimer() {
   await sb.from('profiles').update({ status_seconds: total }).eq('id', uid);
 }
 
-// ══ ДОСТИЖЕНИЯ: Проверка и выдача ══
+// ══════════════════════════════════════════════════════
+//  ФУНКЦИЯ 1: Сохранение времени учёбы в study_seconds
+// ══════════════════════════════════════════════════════
+async function saveStudyTime() {
+  if (!uid) return;
+
+  // Считаем секунды текущей активной сессии
+  const activeSec = tActive && tStart
+    ? Math.floor((Date.now() - tStart) / 1000)
+    : 0;
+  const sessionTotal = Math.floor(tBase) + activeSec;
+
+  if (sessionTotal <= 0) return; // нечего сохранять
+
+  // Читаем уже сохранённое значение из БД
+  const { data } = await sb
+    .from('profiles')
+    .select('study_seconds')
+    .eq('id', uid)
+    .limit(1);
+
+  const saved = data?.[0]?.study_seconds || 0;
+
+  // Прибавляем новое время к уже сохранённому
+  const { error } = await sb
+    .from('profiles')
+    .update({ study_seconds: saved + sessionTotal })
+    .eq('id', uid);
+
+  if (error) {
+    console.warn('Ошибка сохранения времени учёбы:', error.message);
+  }
+}
+
+async function updateStreak() {
+  if (!uid) return;
+
+  const { data } = await sb
+    .from('profiles')
+    .select('last_seen, streak_days')
+    .eq('id', uid)
+    .limit(1);
+
+  const lastSeen   = data?.[0]?.last_seen;
+  const prevStreak = data?.[0]?.streak_days || 0;
+
+  const today     = new Date().toDateString(); 
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
+
+  let newStreak;
+
+  if (!lastSeen) {
+    newStreak = 1; 
+  } else {
+    const lastDate = new Date(lastSeen).toDateString();
+
+    if (lastDate === today) {
+      return; 
+    } else if (lastDate === yesterday) {
+      newStreak = prevStreak + 1; 
+    } else {
+      newStreak = 1; 
+    }
+  }
+
+  const { error } = await sb
+    .from('profiles')
+    .update({ streak_days: newStreak })
+    .eq('id', uid);
+
+  if (error) {
+    console.warn('Ошибка обновления streak:', error.message);
+  }
+}
+
 let myStats = {};
 let myAchs = [];
 
 async function loadMyStats() {
   if (!uid) return;
-  // Считаем сообщения
-  const { count: msgCount } = await sb.from('messages')
-    .select('id', { count: 'exact', head: true })
-    .eq('user_id', uid);
 
-  // Время входа
+  const [profResult, msgResult] = await Promise.all([
+    sb.from('profiles')
+      .select('status, status_seconds, study_seconds, last_seen, achievements, streak_days')
+      .eq('id', uid)
+      .limit(1),
+    sb.from('messages')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', uid),
+  ]);
+
+  const prof     = profResult.data?.[0] || {};
+  const msgCount = msgResult.count || 0;
+
+  const activeSec = tActive && tStart ? (Date.now() - tStart) / 1000 : 0;
+  const totalSec  = (prof.study_seconds || 0) + tBase + activeSec;
+  const maxSessS  = tBase + activeSec;
+
   const hour = new Date().getHours();
-  const earlyLogin = hour < 8;
-  const nightLogin = hour >= 23;
-
-  // Текущая сессия таймера
-  const curSec = tBase + (tActive && tStart ? (Date.now()-tStart)/1000 : 0);
 
   myStats = {
-    msgCount: msgCount || 0,
-    earlyLogin,
-    nightLogin,
-    maxSessionSec: curSec,
-    totalStudySec: curSec,
-    maxDaySec: curSec,
-    streak: 1,
+    msgCount,
+    earlyLogin:     hour < 8,
+    nightLogin:     hour >= 23,
+    maxSessionSec:  maxSessS,
+    totalStudySec:  totalSec,
+    maxDaySec:      totalSec,
+    streak:         prof.streak_days || 1,
     uniqueStatuses: ustatus ? 1 : 0,
-    coffeeCount: ustatus === 'Кофе' ? 1 : 0,
-    totalPts: calcPoints(myAchs),
+    coffeeCount:    ustatus === 'Кофе' ? 1 : 0,
+    totalPts:       calcPoints(myAchs),
   };
 }
 
@@ -602,32 +688,35 @@ async function checkAndAwardAchs() {
   if (!uid) return;
   await loadMyStats();
 
-  // Загружаем текущие достижения из БД
-  const { data: prof } = await sb.from('profiles').select('achievements').eq('id', uid).limit(1);
+  const { data: prof } = await sb
+    .from('profiles')
+    .select('achievements')
+    .eq('id', uid)
+    .limit(1);
+
   const existing = prof?.[0]?.achievements || [];
   myAchs = existing;
 
-  const newOnes = [];
-  for (const ach of ACHIEVEMENTS) {
-    if (!existing.includes(ach.id) && ach.check(myStats)) {
-      newOnes.push(ach);
-    }
-  }
+  const newOnes = ACHIEVEMENTS.filter(
+    ach => !existing.includes(ach.id) && ach.check(myStats)
+  );
 
   if (newOnes.length > 0) {
-    const updated = [...existing, ...newOnes.map(a => a.id)];
-    // Сохраняем в БД (колонка achievements text[])
-    try {
-      await sb.from('profiles').update({ achievements: updated }).eq('id', uid);
-    } catch(e) {
-      // Если колонки нет — игнорируем
-      console.warn('achievements column may not exist:', e.message);
-    }
-    myAchs = updated;
+    const updatedIds = [...existing, ...newOnes.map(a => a.id)];
 
-    // Показываем уведомления поочерёдно
-    for (let i = 0; i < newOnes.length; i++) {
-      setTimeout(() => achToast(newOnes[i]), i * 4000);
+    const { error } = await sb
+      .from('profiles')
+      .update({ achievements: updatedIds })
+      .eq('id', uid);
+
+    if (!error) {
+      myAchs = updatedIds;
+      // Показываем тосты с задержкой чтобы не накладывались
+      newOnes.forEach((ach, i) => {
+        setTimeout(() => achToast(ach), i * 4000);
+      });
+    } else {
+      console.warn('Ошибка сохранения достижений:', error.message);
     }
   }
 
@@ -635,11 +724,10 @@ async function checkAndAwardAchs() {
 }
 
 function renderMyAchs() {
-  const grid = document.getElementById('myAchGrid');
+  const grid    = document.getElementById('myAchGrid');
   const section = document.getElementById('myAchSection');
   if (!grid) return;
 
-  const newFromSession = []; // для пометки NEW (свежеполученных)
   grid.innerHTML = ACHIEVEMENTS.map(a => {
     const unlocked = myAchs.includes(a.id);
     return `
@@ -665,7 +753,6 @@ function renderAllAchs() {
 }
 renderAllAchs();
 
-// ══ ГЛАВНЫЕ ПЕРЕМЕННЫЕ ══
 let uid = null, uname = '', uavatar = '', ustatus = null, lsInt = null, msgs = [];
 
 async function pingLS() {
@@ -691,6 +778,7 @@ function addLogout(container) {
     fontSize:'.88rem', padding:'8px 16px', marginLeft:'auto'
   });
   b.onclick = async () => {
+    await saveStudyTime(); // ✅ сохраняем время при выходе
     await saveTimer();
     timerHide();
     clearInterval(lsInt);
@@ -725,7 +813,7 @@ async function load() {
 
   const { data: prof, error: pErr } = await sb
     .from('profiles')
-    .select('status, status_seconds, last_seen, achievements')
+    .select('status, status_seconds, last_seen, achievements, streak_days')
     .eq('id', uid).limit(1);
 
   if (pErr) {
@@ -747,8 +835,12 @@ async function load() {
   try {
     await sb.from('profiles').update({ last_seen: new Date().toISOString() }).eq('id', uid);
   } catch(e) {}
+
   clearInterval(lsInt);
   lsInt = setInterval(pingLS, 60_000);
+
+  
+  await updateStreak();
 
   if (ustatus) {
     const btn = document.querySelector(`.sb[data-s="${ustatus}"]`);
@@ -758,6 +850,13 @@ async function load() {
     document.getElementById('tName').textContent = ustatus;
     document.getElementById('tTot').textContent = fmtS(tBase);
   }
+
+  const { data: profStreak } = await sb
+    .from('profiles')
+    .select('streak_days')
+    .eq('id', uid)
+    .limit(1);
+  const streak = profStreak?.[0]?.streak_days || 1;
 
   const pts = calcPoints(myAchs);
   const achIcons = myAchs.slice(0,5).map(id => {
@@ -774,6 +873,7 @@ async function load() {
     <div style="flex:1;min-width:0">
       <div style="font-size:1.12rem;font-weight:700;color:var(--text)">${esc(uname)} ✨
         <span class="pts-badge">⭐ ${pts} очк.</span>
+        <span class="streak-badge">🔥 ${streak} дн.</span>
       </div>
       <div id="sDis" style="font-size:.9rem;color:var(--text-light);font-weight:600;margin-top:4px">
         ${ustatus ? 'Сейчас: '+ustatus : 'Статус не выбран'}
@@ -786,7 +886,6 @@ async function load() {
   loadGroup(uid);
   loadMsgs();
 
-  // Проверяем достижения при входе (ранняя пташка / сова)
   setTimeout(() => checkAndAwardAchs(), 1500);
 }
 
@@ -820,13 +919,12 @@ async function setStatus(s, color, tc) {
   if (sd) { sd.textContent = 'Сейчас: ' + s; sd.classList.remove('pop'); void sd.offsetWidth; sd.classList.add('pop'); }
   hlBtn(s);
 
-  // Проверяем достижения после смены статуса
   setTimeout(() => checkAndAwardAchs(), 500);
   return true;
 }
 
 async function loadGroup(userId) {
-  const cols = 'id,username,status,color,avatar_url,last_seen,status_seconds,achievements';
+  const cols = 'id,username,status,color,avatar_url,last_seen,status_seconds,achievements,streak_days';
 
   const { data, error } = await sb.from('profiles')
     .select(cols)
@@ -847,6 +945,7 @@ async function loadGroup(userId) {
     const tbCls  = btn?.dataset.tb || 'tb4';
     const achs   = u.achievements || [];
     const pts    = calcPoints(achs);
+    const streak = u.streak_days || 1;
     const av = u.avatar_url
       ? `<img src="${u.avatar_url}" class="av" alt="${esc(u.username)}">`
       : `<div class="avp">${(u.username||'?')[0].toUpperCase()}</div>`;
@@ -867,6 +966,7 @@ async function loadGroup(userId) {
         <div class="inf">
           <div class="uname">${esc(u.username||'—')}${me?' <span style="font-size:.8em;color:#b070e0">это ты</span>':''}${olbl}
             ${pts > 0 ? `<span class="pts-badge">⭐ ${pts}</span>` : ''}
+            ${streak > 1 ? `<span class="streak-badge">🔥 ${streak}</span>` : ''}
           </div>
           <div class="ust">${esc(u.status||'Без настроения')}</div>
           ${badge}${achRow}
@@ -875,7 +975,6 @@ async function loadGroup(userId) {
       </div>`;
   }).join('');
 
-  // Рейтинг
   renderRanking(data, userId);
 }
 
@@ -889,7 +988,6 @@ function renderRanking(data, userId) {
     .sort((a,b) => b.pts - a.pts || b.achCount - a.achCount);
 
   const maxPts = ranked[0]?.pts || 1;
-
   const medals = ['🥇','🥈','🥉'];
   const rkCls  = ['rk-1','rk-2','rk-3'];
 
@@ -897,7 +995,7 @@ function renderRanking(data, userId) {
   if (!ranked.length) { el.innerHTML = '<div class="empty">Нет данных 🌸</div>'; return; }
 
   el.innerHTML = ranked.map((u,i) => {
-    const me = u.id === userId;
+    const me  = u.id === userId;
     const pos = i+1;
     const cls = i < 3 ? rkCls[i] : 'rk-n';
     const medal = i < 3 ? medals[i] : `#${pos}`;
@@ -907,7 +1005,7 @@ function renderRanking(data, userId) {
         <div class="rk-pos">${medal}</div>
         <div class="rk-inf">
           <div class="rk-name">${esc(u.username||'—')}${me?' 👈':''}</div>
-          <div class="rk-pts">⭐ ${u.pts} очков · ${u.achCount} значков</div>
+          <div class="rk-pts">⭐ ${u.pts} очков · ${u.achCount} значков · 🔥 ${u.streak_days||1} дн.</div>
           <div class="rk-bar-wrap"><div class="rk-bar" style="width:${pct}%"></div></div>
         </div>
         <div class="rk-achcount">${(u.achievements||[]).slice(0,4).map(id => {
@@ -961,7 +1059,6 @@ async function sendMsg() {
   inp.disabled = false; inp.focus();
   if (error) { toast('Ошибка: ' + error.message); return; }
   await loadMsgs();
-  // Проверяем достижения за сообщения
   setTimeout(() => checkAndAwardAchs(), 300);
 }
 
@@ -991,7 +1088,12 @@ load();
 setInterval(() => loadGroup(uid), 6000);
 setInterval(() => { if (uid && tActive) saveTimer(); }, 30_000);
 
-window.addEventListener('beforeunload', () => { if (uid) saveTimer(); });
+window.addEventListener('beforeunload', () => {
+  if (uid) {
+    saveTimer();
+    saveStudyTime();
+  }
+});
 </script>
 </body>
 </html>
